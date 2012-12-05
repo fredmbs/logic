@@ -1,0 +1,274 @@
+import java_cup.runtime.*;
+import ast.*;
+
+action code {:
+ 
+:}
+
+parser code {:
+
+    // flag de debug mode
+    boolean debug = true;
+    // define o debug mode
+    public void setDebug(boolean has) { debug = has; };
+    public boolean getDebug() { return debug; };
+    // variável de contagem de erros SINTÁTICOS
+    Integer syntaxErrors = 0;
+    // verifica se existe erro
+    public boolean hasError() { return syntaxErrors > 0; };
+    // retorna o número de erros SINTÁTICOS encontrados até o momento
+    public Integer getNumErrors() { return syntaxErrors; };
+
+    protected LogicalSystem logicalSystem;
+    public void setLogicalSystem(LogicalSystem c) { logicalSystem = c; }; 
+
+    // mostra resultado final da análise léxica
+    public void showSummary() {
+        if (hasError()) {
+            System.err.println("----------------------------------------------------");
+            if (getNumErrors() == 1) {
+                System.err.println("!!! A expressão POSSUI 1 ERRO sintático !!!");
+            } else {
+                System.err.println("!!! A expressão POSSUI " + getNumErrors() + " ERROS SINTÁTICOS !!!");
+            }
+            System.err.println("----------------------------------------------------");
+        } else if (debug) {
+            System.out.println("----------------------------------------------------");
+            System.out.println(" A expressão passou sem erro sintático !!!");
+            System.out.println("----------------------------------------------------");
+        }
+    }
+    
+    public void syntax_error (java_cup.runtime.Symbol cur_token)
+    {
+        String s = "";
+        syntaxErrors++;
+        if (cur_token.value instanceof String) {
+            s = (String)cur_token.value;
+        };
+        report_error("!> Erro sintático @("+
+                String.valueOf(cur_token.left+1) + "," +
+                String.valueOf(cur_token.right+1) + ")" +
+                " Token #" + String.valueOf(cur_token.sym) + 
+                ": " + s,
+                null);
+    }
+:};
+
+
+terminal  AND;
+terminal  OR;
+terminal  NOT;
+terminal  IMPLIES, REV_IMPLIES;
+terminal  EQUIVALENT;
+/*terminal  TRUE, FALSE;*/
+terminal  IDENTIFIER;
+terminal  EXISTS, FORALL;
+terminal  PREDICATE;
+terminal  EQUALITY;
+terminal  ENTAILMENT;
+terminal  DERIVATION;
+terminal  LPAREN, RPAREN;
+terminal  COMMA;
+terminal COLON;
+/*terminal  SEMICOLON;*/
+
+/* Non_terminals */
+non terminal  LogicalSystem  Start, LogicalSystem;
+non terminal  FormulaList    FormulaList;
+non terminal  Formula        AtomicFormula, Formula;
+non terminal  Connective     Connective;
+non terminal  Predicate      Predicate;
+non terminal  Term           Term;
+non terminal  TermList       TermList;
+non terminal  Function       Function;
+non terminal  Variable       Variable;
+non terminal  Quantifier     Quantifier;
+/*non terminal  Constant     Constant;*/ 
+         
+
+/* Precedences */
+/* FONTE:  */
+precedence left ENTAILMENT;
+precedence left DERIVATION;
+precedence left EQUIVALENT;
+precedence left IMPLIES, REV_IMPLIES;
+precedence left OR;
+precedence left AND;
+precedence left NOT;
+precedence nonassoc EQUALITY;
+ 
+/* The grammar */
+Start           ::= LogicalSystem: ls
+                  {:
+                    RESULT = parser.logicalSystem;
+                  :}
+                  | error
+                    {:
+                        System.err.println("Fim inesperado do sistema lógico.");
+                    :}
+                  ;
+ 
+LogicalSystem   ::= FormulaList:left DERIVATION FormulaList:right
+                  {: 
+                      parser.logicalSystem.setDerivationSystem(left, right);
+                  :}
+                  |
+                    FormulaList:left ENTAILMENT FormulaList:right
+                  {: 
+                      parser.logicalSystem.setEntailmentSystem(left, right);
+                  :}
+                  | Formula:f
+                  {: 
+                     parser.logicalSystem.setFormulaSystem(f); 
+                  :}
+                  ;
+
+FormulaList     ::= FormulaList:fl COMMA Formula:f  
+                    {:
+                       fl.add(f);
+                       RESULT = fl;
+                    :}
+                  | Formula:f  
+                    {: 
+                       RESULT = new FormulaList();
+                       RESULT.add(f); 
+                    :}
+                  ;
+
+Formula        ::= AtomicFormula:f
+                    {: 
+                       RESULT = f; 
+                    :}
+                  | NOT Formula:f  
+                    {: 
+                       RESULT = new Not(f); 
+                    :} 
+                  | Connective:f 
+                    {: 
+                       RESULT = f;
+                    :}
+                  | Quantifier:q 
+                    {: 
+                       RESULT = q; 
+                    :}
+                  | LPAREN Formula:f RPAREN
+                    {: 
+                       RESULT = f; 
+                    :}
+                  ; 
+
+AtomicFormula   ::= Predicate:p
+                    {: 
+                       RESULT = p; 
+                    :} 
+                  | Term:left EQUALITY Term:right
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Uso de igualdade");
+                       RESULT = new Equality(left, right); 
+                    :} 
+                  ; 
+ 
+Predicate       ::=  PREDICATE:id
+                    {: 
+                       parser.logicalSystem.setPropositionalLogic("Predicado " + id + " sem argumentos representando proposição."); 
+                       RESULT = (Predicate)parser.logicalSystem.getSymbolTable().occurrence(Predicate.class, (String)id); 
+                    :}
+                   | PREDICATE:id LPAREN TermList:tl RPAREN
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Predicado " + id + " com argumentos.");
+                       Predicate p = (Predicate)parser.logicalSystem.getSymbolTable().occurrence(Predicate.class, (String)id);
+                       RESULT = new PredicateCall(p, tl); 
+                    :}
+                    ; 
+ 
+Function        ::= IDENTIFIER:id LPAREN TermList:tl RPAREN
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Função " + id + ".");
+                       Function f = (Function)parser.logicalSystem.getSymbolTable().occurrence(Function.class, (String)id); 
+                       RESULT = new FunctionCall(f, tl); 
+                    :} 
+                  | IDENTIFIER:id LPAREN RPAREN
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Função " + id + ".");
+                       RESULT = (Function)parser.logicalSystem.getSymbolTable().occurrence(Function.class, (String)id); 
+                    :} 
+                  ;
+
+Variable        ::= IDENTIFIER:id
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Variável " + id + "."); 
+                       RESULT = (Variable)parser.logicalSystem.getSymbolTable().occurrence(Variable.class, (String)id);
+                    :} 
+                  ;
+
+Term            ::= Function:t
+                    {: 
+                       RESULT = t; 
+                    :}
+                  | Variable:t
+                    {: 
+                       RESULT = t; 
+                    :}
+/*
+                  | Constant:t
+                    {: 
+                       RESULT = t; 
+                    :}
+*/
+                  ;
+/*
+Constant        ::= TRUE
+                  | FALSE
+                ;
+*/
+
+TermList        ::= TermList:tl COMMA Term: t
+                    {:
+                       tl.add(t);
+                       RESULT = tl;
+                    :}
+                  | Term:t  
+                    {: 
+                       RESULT = new TermList();
+                       RESULT.add(t); 
+                    :}
+                  ;
+
+Connective      ::= Formula:left AND Formula:right
+                    {: 
+                       RESULT = new And(left, right); 
+                    :}
+                  | Formula:left OR Formula:right
+                    {: 
+                       RESULT = new Or(left, right); 
+                    :}
+                  | Formula:left EQUIVALENT Formula:right
+                    {: 
+                       RESULT = new Equivalent(left, right); 
+                    :} 
+                  | Formula:left IMPLIES Formula:right
+                    {: 
+                       RESULT = new Implies(left, right); 
+                    :}  
+                  | Formula:left REV_IMPLIES Formula:right
+                    {: 
+                       RESULT = new Implies(right, left); 
+                    :}  
+                  | ENTAILMENT
+                  | DERIVATION
+                  ;
+
+Quantifier      ::= EXISTS COLON Variable:v Formula:f 
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Uso de quantificador existencial.");
+                       RESULT = new Exists(v, f); 
+                    :} 
+                  | FORALL COLON Variable:v Formula:f 
+                    {: 
+                       parser.logicalSystem.setPredicateLogic("Uso de quantificador universal."); 
+                       RESULT = new Forall(v, f); 
+                    :} 
+                  ;
+                
+                

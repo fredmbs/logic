@@ -1,0 +1,22 @@
+\exists x \forall y \exists z \forall w \exists a \forall b \exists c \forall d(R(x, y, z, w, a, b, c, d)) \to \forall x \exists y \forall z \exists w \forall a \exists b \forall c \exists d(R(x, y, z, w, a, b, c, d))
+
+\exists x \forall y (R(x,y) \leftrightarrow \neg \exists z(R(y,z) \land R(z,y)))
+
+Ex:y(R(x,y) -> ~Ex:z(R(y,z) ^ R(z,y)))
+
+(T) (P|(Q&R))->((P|Q)&(P|R))
+(T) ((P->(Q->R))->((P->Q)->(P->R)))
+(F) (P|Q)->(P&Q)
+(T) ((A->B)->A)->A
+(F) !(P|Q)|(P&!R)|(!Q&!R)
+(T) (A|B)&(A|!B)&(!A|C)&(!A|!C)
+
+(~A|B)|-(A->B)
+(A|B) -> (B|A)
+(A&B) <-> (B&A)
+P|-P
+
+(A|B),(A|!B),(!A|C),(!A|!C) |- T
+
+((~~P->(~~Q->R))->((P->~~Q)->(P->~~R)))|((A->(B->C))->((A->B)->(A->C)))|(M|(N&O))->((M|N)&(M|O))|((U->T)->U)->U|((~~P->(~~Q->R))->((P->~~Q)->(P->~~R)))|((A->(B->C))->((A->B)->(A->C)))|(M|(N&O))->((M|N)&(M|O))|((U->T)->U)->U|((~~P->(~~Q->R))->((P->~~Q)->(P->~~R)))|((A->(B->C))->((A->B)->(A->C)))|(M|(N&O))->((M|N)&(M|O))|((U->T)->U)->U
+((~~P->(~~Q->R))->((P->~~Q)->(P->~~R)))&((A->(B->C))->((A->B)->(A->C)))&(M|(N&O))->((M|N)&(M|O))&((U->T)->U)->U  ->  ((~~P1->(~~Q1->R1))->((P1->~~Q1)->(P1->~~R1)))&((A1->(B1->C1))->((A1->B1)->(A1->C1)))&(M1|(N1&O1))->((M1|N1)&(M1|O1))&((U1->T1)->U1)->U1

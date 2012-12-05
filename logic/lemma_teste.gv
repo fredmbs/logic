@@ -1,0 +1,26 @@
+digraph g {
+graph[nodesep=0.1, ranksep=0.2];
+node[shape=plaintext, fontname="Courier", fontsize=10];
+edge[arrowsize=0.5, arrowhead=vee,  penwidth=0.15];
+node1[label="(T) (AvB)\n(T) (Av~(B))\n(T) (~(A)vC)\n(T) (~(A)v~(C))\n(F) T"];
+node2[label="(T) A"];
+node3[label="(T) ~(A)\n(F) A\n-X-"];
+node2 -> node3;
+node4[label="(F) ~(A)\n(T) ~(C)\n(F) C"];
+node5[label="(T) ~(A)\n-X-"];
+node4 -> node5;
+node6[label="(F) ~(A)\n(T) C\n-X-"];
+node4 -> node6;
+node2 -> node4;
+node1 -> node2;
+node7[label="(F) A\n(T) B"];
+node8[label="(T) ~(A)"];
+node9[label="(T) A\n-X-"];
+node8 -> node9;
+node10[label="(F) A\n(T) ~(B)\n(F) B\n-X-"];
+node8 -> node10;
+node7 -> node8;
+node11[label="(F) ~(A)\n(T) ~(C)\n(T) A\n-X-"];
+node7 -> node11;
+node1 -> node7;
+}
