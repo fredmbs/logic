@@ -39,8 +39,9 @@ public class Tree {
     public Node searchEqual(Node leaf, Formula formula) {
         Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
-            if (searchNode.getFormula().equals(formula))
+            if (searchNode.getFormula().equals(formula)) {
                 return searchNode;
+            }
             searchNode = searchNode.getPrevious();
         }
         return null;
@@ -63,17 +64,33 @@ public class Tree {
         return count;
     }
 
+    public void numberingNodes() {
+        indetifyNodeByCount(this.getRoot(), 1);
+    }
+
     public int print() {
         return print(this.getRoot(), "| ", 1);
     }
     
     protected int print(Node n, String prefix, int count) {
         while (n != null) {
+            String col1 = String.format(
+                    "%6s %s%-30s",
+                    count++, prefix, n.toString());
             System.out.println(String.format(
-                    "%6s %s %s",
-                    count++, prefix, n.toString()));
+                    "%-45s %s", col1, n.getExplanation()));
             if (n.getBranch() != null) 
                 count = print(n.getBranch(), prefix + "| ", count);
+            n = n.getNext();
+        }
+        return count;
+    }
+
+    protected int indetifyNodeByCount(Node n, int count) {
+        while (n != null) {
+            n.setId(count++);
+            if (n.getBranch() != null) 
+                count = indetifyNodeByCount(n.getBranch(), count);
             n = n.getNext();
         }
         return count;

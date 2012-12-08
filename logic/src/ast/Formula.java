@@ -24,6 +24,7 @@ public abstract class Formula {
     abstract public boolean fullEvaluate();
     abstract public Formula clone(SymbolTable<? extends Symbol> st);
     abstract public void accept(FormulaVisitor visitor);
+    abstract public int getSize();
 
     public boolean getLastFullEvaluation() {
         return lastEval;

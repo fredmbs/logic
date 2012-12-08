@@ -27,7 +27,7 @@ implements NodeSelectorFactory<BranchEngine>
     }
 
     @Override
-    public NodeSelector newNodeSelector(NodeSelector from) {
+    public NodeSelector newNodeSelector(BranchEngine engine, NodeSelector from){
         if (from instanceof PriorityNodeSelector)
             return new PriorityNodeSelector((PriorityNodeSelector)from);
         return null;

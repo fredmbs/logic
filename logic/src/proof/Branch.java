@@ -35,19 +35,25 @@ public class Branch {
         return leaf;
     }
     
-    public void close() {
-        leaf.setNext(new Node("-X-")); 
+    public Node close() {
+        Node node = new Node("-X-");
+        leaf.setNext(node); 
         status = Status.CLOSED;
+        return node;
     }
 
-    public void exhaust() {
-        leaf.setNext(new Node("-O-")); 
+    public Node exhaust() {
+        Node node = new Node("-O-");
+        leaf.setNext(node); 
         status = Status.EXHAUSTED;
+        return node;
     }
 
-    public void abandon() {
-        leaf.setNext(new Node("!O!"));; 
+    public Node abandon() {
+        Node node = new Node("!O!");
+        leaf.setNext(node);; 
         status = Status.ABANDONED;
+        return node;
     }
     
     public void add(Node node) {
@@ -58,4 +64,14 @@ public class Branch {
         }
     }
     
+    public int printDebug() {
+        Node n = leaf; String prefix = "|"; int count = 0;
+        while (n != null) {
+            System.err.println(String.format(
+                    "%6s %s%s",
+                    count++, prefix, n.toString()));
+            n = n.getPrevious();
+        }
+        return count;
+    }
 }

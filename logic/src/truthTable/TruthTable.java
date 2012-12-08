@@ -24,10 +24,15 @@ public class TruthTable extends LogicalReasoning {
     
     public TruthTable(LogicalSystem lsys) throws Exception {
         super(lsys);
-        if (lsys.getLogicSystemType() == LogicalSystem.LogicalSystemType.DERIVATION) {
-            this.formula = new Implies(lsys.getBaseFormula(), lsys.getFormula());
+        if (lsys.getLogicSystemType() == LogicalSystem.LogicalSystemType.DERIVATION) { 
+            if (lsys.hasPremisse() && lsys.hasConclusion()) 
+                this.formula = new Implies(lsys.getPremisseFormula(), lsys.getConclusionFormula());
+            else if (lsys.hasPremisse()) 
+                this.formula = new Not(lsys.getPremisseFormula());
+            else if (lsys.hasConclusion())
+                this.formula = lsys.getConclusionFormula();
         } else {
-            this.formula = lsys.getFormula();
+            this.formula = lsys.getConclusionFormula();
         }
     }
 

@@ -3,6 +3,7 @@
  */
 package proof;
 
+import proof.explanation.Explanation;
 import ast.*;
 
 /**
@@ -13,7 +14,7 @@ public class Node implements Comparable<Node> {
 
     // ATENÇÃO: a ordem desse tipo pode definir a ordem de expanção dos nós 
     public enum Type { 
-        UNCLASSIFIED, PB, ATOMIC, ALFA, BETA, DELTA, GAMMA, MARK }; 
+        UNCLASSIFIED, MARK, ATOMIC, ALFA, BETA, DELTA, GAMMA }; 
     
     private Node previous, next, branch;
     private Formula formula;
@@ -21,6 +22,8 @@ public class Node implements Comparable<Node> {
     private Type type;
     private String strLabel;
     private int priority;
+    private Integer id = -1;
+    private Explanation explanation;
 
     public Node(Formula f) {
         this(f, true);
@@ -46,6 +49,26 @@ public class Node implements Comparable<Node> {
         this.type = Type.MARK;
     }
 
+    protected String getTypeName() {
+        switch(type) {
+        case UNCLASSIFIED:
+            return "UNCLASSIFIED";
+        case ATOMIC:
+            return "atomic";
+        case ALFA:
+            return "alfa";
+        case BETA:
+            return "beta";
+        case DELTA:
+            return "delta";
+        case GAMMA:
+            return "";
+        case MARK:
+            return "MARK";
+        }
+        return "";
+    }
+    
     protected void setPrevious(Node previous) {
         this.previous = previous;
     }
@@ -72,6 +95,22 @@ public class Node implements Comparable<Node> {
 
     public void setFormula(Formula formula) {
         this.formula = formula;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setExplanation(Explanation explanation) {
+        this.explanation = explanation;
+    }
+
+    public Explanation getExplanation() {
+        return explanation;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getPriority() {
@@ -106,14 +145,27 @@ public class Node implements Comparable<Node> {
         if (this.formula == null) {
             return strLabel;
         }
-        return (signT ? "(T) " : "(F) ") + formula.toString();
+        return id+(signT ? "(T)" : "(F)") + formula.toString();
+    }
+
+    public String getLabel2() {
+        String prefix = "", sufix = "";
+        if (id >= 0) 
+            prefix = this.id.toString() + " ";
+        if (explanation != null)
+            sufix = " " + this.explanation.toString();
+        if (this.formula == null) {
+            return prefix + strLabel + sufix;
+        }
+        return prefix + (signT ? "(T) " : "(F) ") + formula.toString() + sufix;
     }
 
     @Override
     public String toString() {
         if (formula == null)
             return strLabel;
-        return (signT?"(T) ":"(F) ") + formula.toString();
+        else 
+            return (signT?"(T) ":"(F) ") + formula.toString();
     }
 
     @Override

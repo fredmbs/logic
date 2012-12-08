@@ -1,26 +1,18 @@
 digraph g {
 graph[nodesep=0.1, ranksep=0.2];
 node[shape=plaintext, fontname="Courier", fontsize=10];
-edge[arrowsize=0.5, arrowhead=vee,  penwidth=0.15];
-node1[label="(T) (AvB)\n(T) (Av~(B))\n(T) (~(A)vC)\n(T) (~(A)v~(C))\n(F) T"];
-node2[label="(T) A"];
-node3[label="(T) ~(A)\n(F) A\n-X-"];
+edge[arrowsize=0.0, arrowhead=none,  penwidth=0.75];
+node1[label="1 (F) ((Pv(Q^R))->((PvQ)^(PvR))) {H}\l2 (T) (Pv(Q^R)) {1 F->:l}\l3 (F) ((PvQ)^(PvR)) {1 F->:r}\l"];
+node2[label="13 (F) (PvQ) {3 F^:l}\l14 (T) (PvR) {lema}\l15 (F) P {13 Fv:l}\l16 (F) Q {13 Fv:r}\l"];
+node3[label="20 (T) P {2 Tv:l}\l21 -X- {20,15 closure}\l"];
 node2 -> node3;
-node4[label="(F) ~(A)\n(T) ~(C)\n(F) C"];
-node5[label="(T) ~(A)\n-X-"];
-node4 -> node5;
-node6[label="(F) ~(A)\n(T) C\n-X-"];
-node4 -> node6;
+node4[label="17 (T) (Q^R) {2 Tv:r}\l18 (T) Q {17 T^:l}\l19 -X- {18,16 closure}\l"];
 node2 -> node4;
 node1 -> node2;
-node7[label="(F) A\n(T) B"];
-node8[label="(T) ~(A)"];
-node9[label="(T) A\n-X-"];
-node8 -> node9;
-node10[label="(F) A\n(T) ~(B)\n(F) B\n-X-"];
-node8 -> node10;
-node7 -> node8;
-node11[label="(F) ~(A)\n(T) ~(C)\n(T) A\n-X-"];
-node7 -> node11;
-node1 -> node7;
+node5[label="4 (F) (PvR) {3 F^:r}\l5 (F) P {4 Fv:l}\l6 (F) R {4 Fv:r}\l"];
+node6[label="11 (T) P {2 Tv:l}\l12 -X- {11,5 closure}\l"];
+node5 -> node6;
+node7[label="7 (T) (Q^R) {2 Tv:r}\l8 (T) Q {7 T^:l}\l9 (T) R {7 T^:r}\l10 -X- {9,6 closure}\l"];
+node5 -> node7;
+node1 -> node5;
 }

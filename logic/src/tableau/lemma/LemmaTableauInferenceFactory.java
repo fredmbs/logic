@@ -14,8 +14,14 @@ implements InferenceFactory<BranchEngine>
     }
 
     @Override
+    public Inference newInference(BranchEngine branchEngine, 
+            BranchEngine from) {
+        return new LemmaTableauInference(branchEngine, from);
+    }
+
+    @Override
     public String toString() {
         return "Lemma Tableau";
     }
-    
+
 }

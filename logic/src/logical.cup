@@ -113,17 +113,20 @@ LogicalSystem   ::= FormulaList:left DERIVATION FormulaList:right
                   {: 
                       parser.logicalSystem.setDerivationSystem(left, right);
                   :}
-                  |
-                    FormulaList:left ENTAILMENT FormulaList:right
+                  | DERIVATION FormulaList:fl
                   {: 
-                      parser.logicalSystem.setEntailmentSystem(left, right);
+                      parser.logicalSystem.setDerivationSystem(null, fl);
+                  :}
+                  | FormulaList:fl DERIVATION 
+                  {: 
+                      parser.logicalSystem.setDerivationSystem(fl, null);
                   :}
                   | Formula:f
                   {: 
                      parser.logicalSystem.setFormulaSystem(f); 
                   :}
                   ;
-
+ 
 FormulaList     ::= FormulaList:fl COMMA Formula:f  
                     {:
                        fl.add(f);
@@ -255,8 +258,6 @@ Connective      ::= Formula:left AND Formula:right
                     {: 
                        RESULT = new Implies(right, left); 
                     :}  
-                  | ENTAILMENT
-                  | DERIVATION
                   ;
 
 Quantifier      ::= EXISTS COLON Variable:v Formula:f 

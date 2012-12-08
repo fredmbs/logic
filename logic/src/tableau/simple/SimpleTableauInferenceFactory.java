@@ -17,5 +17,10 @@ implements InferenceFactory<BranchEngine>
     public String toString() {
         return "Smullyan’s Tableau";
     }
+
+    @Override
+    public Inference newInference(BranchEngine branchEngine, BranchEngine from){
+        return new SimpleTableauInference(branchEngine);
+    }
     
 }

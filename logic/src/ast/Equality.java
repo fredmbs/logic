@@ -26,6 +26,11 @@ public class Equality extends Formula {
         this.right = right;
     }
     
+    @Override
+    public int getSize() {
+        return 1; 
+    };
+
     public String getSymbol() { return "="; }
 
     public Term getLeft() {

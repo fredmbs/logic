@@ -23,6 +23,11 @@ public class Not extends Formula {
     }
 
     @Override
+    public int getSize() {
+        return 1 + formula.getSize(); 
+    };
+
+    @Override
     public boolean evaluate() {
         return !formula.evaluate(); 
     };

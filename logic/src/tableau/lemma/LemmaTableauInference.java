@@ -3,8 +3,12 @@
  */
 package tableau.lemma;
 
+import java.util.HashSet;
+
 import proof.Inference;
 import proof.Node;
+import proof.explanation.ExplanationSelf;
+import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
 import tableau.TreeEngine;
 import ast.*;
@@ -26,6 +30,10 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
         this.treeEngine = engine.getTreeEngine();
     }
     
+    protected LemmaTableauInference(BranchEngine engine, BranchEngine from) {
+        this(engine);
+    }
+    
     public boolean infer(Node n) {
         this.expanded = false;
         this.node = n;
@@ -35,18 +43,35 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
         return expanded;
     }
 
-    private void lemmaBranching(Formula fL, boolean sL, Formula fR, boolean sR){
-        BranchEngine newBE = treeEngine.add(engine, fL, sL, fL, !sL);
-        newBE.add(fR, sR);
+    private void lemmaBranching(Formula fL, boolean sL, 
+            Formula fR, boolean sR, String explanation){
+        BranchEngine newBE = treeEngine.add(engine, 
+                fL, sL, new ExplanationSingle(node, explanation + ":l"),
+                fR, sR, new ExplanationSingle(node, explanation + ":r"));
+        // Dica: verificar qual é a menor fómrula e usá-la como lemma
+        if (fL.getSize() > fR.getSize()) {
+            Node lemma = new Node(fL, !sL);
+            lemma.setExplanation(new ExplanationSelf("lema"));
+            lemma.setType(Node.Type.ATOMIC);
+            newBE.add(lemma);
+        } else {
+            Node lemma = new Node(fR, !sR);
+            lemma.setExplanation(new ExplanationSelf("lema"));
+            lemma.setType(Node.Type.ATOMIC);
+            engine.add(lemma);
+        }
+        //lemmaNodes.add(newBE.add(fL, !sL));
     }
 
     @Override
     public void visit(And and) {
         if(node.isSignT()) {
-            engine.add(and.getLeft(), true);
-            engine.add(and.getRight(), true);
+            engine.add(and.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:l"));
+            engine.add(and.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:r"));;
         } else {
-            lemmaBranching(and.getLeft(), false,and.getRight(), false);
+            lemmaBranching(and.getLeft(), false,and.getRight(), false, "F^");
             
         }
         expanded = true;
@@ -55,10 +80,12 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Or or) {
         if(node.isSignT()) {
-            lemmaBranching(or.getLeft(), true, or.getRight(), true);
+            lemmaBranching(or.getLeft(), true, or.getRight(), true, "Tv");
         } else {
-            engine.add(or.getLeft(), false);
-            engine.add(or.getRight(), false);
+            engine.add(or.getLeft(), false)
+                .setExplanation(new ExplanationSingle(node, "Fv:l"));
+            engine.add(or.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "Fv:r"));
         }
         expanded = true;
     }
@@ -66,9 +93,11 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Not not) {
         if(node.isSignT()) {
-            engine.add(not.getFormula(), false);
+            engine.add(not.getFormula(), false)
+                .setExplanation(new ExplanationSingle(node, "T~"));
         } else {
-            engine.add(not.getFormula(), true);
+            engine.add(not.getFormula(), true)
+                .setExplanation(new ExplanationSingle(node, "F~"));
         }
         expanded = true;
     }
@@ -76,10 +105,12 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Implies imp) {
         if(node.isSignT()) {
-            lemmaBranching(imp.getLeft(), false, imp.getRight(), true);
+            lemmaBranching(imp.getLeft(), false, imp.getRight(), true, "T->");
         } else {
-            engine.add(imp.getLeft(), true);
-            engine.add(imp.getRight(), false);
+            engine.add(imp.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "F->:l"));
+            engine.add(imp.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "F->:r"));
         }
         expanded = true;
     }
@@ -88,14 +119,20 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
     public void visit(Equivalent equ) {
         if(node.isSignT()) {
             BranchEngine newEngine = treeEngine.add(engine,
-                    equ.getLeft(), true, equ.getLeft(), false);
-            engine.add(equ.getRight(), true);
-            newEngine.add(equ.getRight(), false);
+                equ.getLeft(), true, new ExplanationSingle(node, "T<->:l1"), 
+                equ.getLeft(), false, new ExplanationSingle(node, "T<->:l2"));
+            engine.add(equ.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T<->:r1"));
+            newEngine.add(equ.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "T<->:r2"));
         } else {
             BranchEngine newEngine = treeEngine.add(engine,
-                    equ.getLeft(), true, equ.getLeft(), false);
-            engine.add(equ.getRight(), false);
-            newEngine.add(equ.getRight(), true);
+                equ.getLeft(), true, new ExplanationSingle(node, "F<->:l1"), 
+                equ.getLeft(), false, new ExplanationSingle(node, "F<->:l2"));
+            engine.add(equ.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "T<->:r1"));
+            newEngine.add(equ.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T<->:r2"));
         }
         expanded = true;
     }

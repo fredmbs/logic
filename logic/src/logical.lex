@@ -93,7 +93,7 @@ upper_letter    = [A-Z]
 letter          = [a-zA-Z]
 digit           = [0-9]
 identifier      = {lower_letter}({lower_letter}|{digit}|"_")*
-predicate       = {upper_letter}({letter}|{digit}|"_")*
+predicate       = {upper_letter}({upper_letter}|{digit}|"_")*
 comment_content = [^{]
 comment         = {comment_content}* | {nulos}*
 
@@ -121,11 +121,11 @@ comment         = {comment_content}* | {nulos}*
 "˅"                { return symbol(LogicalSym.OR); }
 "+"                { return symbol(LogicalSym.OR); }
 "|"                { return symbol(LogicalSym.OR); }
-"||"               { return symbol(LogicalSym.OR); }
 "or"               { return symbol(LogicalSym.OR); }
 
 "not"              { return symbol(LogicalSym.NOT); }
 "!"                { return symbol(LogicalSym.NOT); }
+"-"                { return symbol(LogicalSym.NOT); }
 "~"                { return symbol(LogicalSym.NOT); }
 
 "->"               { return symbol(LogicalSym.IMPLIES); }
@@ -140,8 +140,9 @@ comment         = {comment_content}* | {nulos}*
 "<->"              { return symbol(LogicalSym.EQUIVALENT); }
 "<=>"              { return symbol(LogicalSym.EQUIVALENT); }
 "↔"                { return symbol(LogicalSym.EQUIVALENT); }
-
+/*
 "|="               { return symbol(LogicalSym.ENTAILMENT); }
+*/
 "|-"               { return symbol(LogicalSym.DERIVATION); }
  
 /*

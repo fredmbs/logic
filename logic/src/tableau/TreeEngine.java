@@ -3,7 +3,9 @@ package tableau;
 import java.util.Stack;
 import ast.Formula;
 import proof.Branch;
+import proof.Node;
 import proof.Tree;
+import proof.explanation.Explanation;
 
 public class TreeEngine {
 
@@ -53,14 +55,34 @@ public class TreeEngine {
     }
 
     public BranchEngine add(BranchEngine from, 
-            Formula formulaLeft, boolean signTLeft,
-            Formula formulaRight, boolean signTRight) 
+            Formula formulaLeft, boolean signTLeft, Explanation explLeft,
+            Formula formulaRight, boolean signTRight, Explanation explRight) 
     {
-        BranchEngine newBE = new BranchEngine(from, formulaRight, signTRight);
+        BranchEngine newBE = new BranchEngine(from, 
+                formulaRight, signTRight, explRight);
         branchesCount++;
         if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
             activeBranches.add(newBE);
-        from.add(formulaLeft, signTLeft);
+        from.add(formulaLeft, signTLeft, explLeft);
+        return newBE;
+    }
+
+    public BranchEngine add(BranchEngine from, 
+            Formula formulaLeft, boolean signTLeft,
+            Formula formulaRight, boolean signTRight) 
+    {
+        return this.add(from, 
+                formulaLeft, signTLeft, null, 
+                formulaRight, signTRight, null);
+    }
+
+    public BranchEngine add(BranchEngine from, Node left, Node right) 
+    {
+        BranchEngine newBE = new BranchEngine(from, right);
+        branchesCount++;
+        if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
+            activeBranches.add(newBE);
+        from.add(left);
         return newBE;
     }
 

@@ -10,5 +10,5 @@ package proof.patterns;
  */
 public interface NodeSelectorFactory<T> {
     public NodeSelector newNodeSelector(T engine);
-    public NodeSelector newNodeSelector(NodeSelector from);
+    public NodeSelector newNodeSelector(T engine, NodeSelector from);
 }

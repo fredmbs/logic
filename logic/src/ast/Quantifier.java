@@ -17,6 +17,11 @@ public abstract class Quantifier extends Formula {
         this.variable = v;
     }
     
+    @Override
+    public int getSize() {
+        return 1 + formula.getSize(); 
+    };
+
     public void setSymbol(String sym) {
     }
 

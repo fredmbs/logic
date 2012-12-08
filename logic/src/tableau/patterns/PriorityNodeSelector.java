@@ -24,7 +24,7 @@ public class PriorityNodeSelector implements NodeSelector {
     }
 
     public void add(Node node) {
-        if (node.getType() != Node.Type.ATOMIC)
+        if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal())
             unexpandedNodes.add(node);
     }
 
@@ -34,8 +34,7 @@ public class PriorityNodeSelector implements NodeSelector {
 
     @Override
     public void regress(Node node) {
-        if (node.getType() != Node.Type.ATOMIC)
-            unexpandedNodes.add(node);
+        this.add(node);
     }
 
 }

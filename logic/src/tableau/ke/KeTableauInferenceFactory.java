@@ -18,4 +18,9 @@ implements InferenceFactory<BranchEngine>
         return "KE Tableau";
     }
 
+    @Override
+    public Inference newInference(BranchEngine branchEngine, BranchEngine from){
+        return new KeTableauInference(branchEngine);
+    }
+
 }

@@ -6,6 +6,7 @@ package tableau;
 import ast.Formula;
 import ast.LogicalSystem;
 import proof.LogicalReasoning;
+import proof.explanation.ExplanationSelf;
 import proof.patterns.InferenceFactory;
 import proof.patterns.NodeClassifierFactory;
 import proof.patterns.NodeSelectorFactory;
@@ -40,13 +41,14 @@ extends LogicalReasoning
         this.nodeSelectorFactory = nodeSelectorFactory;
         this.engine = new TreeEngine(this);
         if (lsys.getLogicSystemType() == LogicalSystem.LogicalSystemType.DERIVATION) {
-            for (Formula f: lsys.getLeft())
-                engine.getStart().add(f, true);
-            for (Formula f: lsys.getRight())
-                engine.getStart().add(f, false);
-        } else {
-            engine.getStart().add(lsys.getFormula(), false);
+            if (lsys.hasPremisse())
+                for (Formula f: lsys.getPremisse())
+                    engine.getStart().add(f, true)
+                    .setExplanation(new ExplanationSelf("H"));
         }
+        if (lsys.hasConclusion())
+            engine.getStart().add(lsys.getConclusionFormula(), false)
+            .setExplanation(new ExplanationSelf("H"));
     }
     
 
@@ -82,6 +84,7 @@ extends LogicalReasoning
         setResult(TruthType.UNKNOWN);
         
         while (engine.expand());
+        engine.getTree().numberingNodes();
         
         if (isTautology())
             setResult(TruthType.TAUTOLOGY);

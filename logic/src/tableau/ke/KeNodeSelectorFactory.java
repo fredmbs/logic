@@ -21,10 +21,14 @@ implements NodeSelectorFactory<BranchEngine>
     }
 
     @Override
-    public NodeSelector newNodeSelector(NodeSelector from) {
+    public NodeSelector newNodeSelector(BranchEngine engine, NodeSelector from){
         if (from instanceof KeNodeSelector)
-            return new KeNodeSelector((KeNodeSelector)from);
+            return new KeNodeSelector(engine, (KeNodeSelector)from);
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "KE Tableau";
+    }
 }

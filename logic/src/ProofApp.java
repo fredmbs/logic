@@ -11,7 +11,7 @@ import truthTable.TruthTable;
 import ast.*;
 import gnu.getopt.Getopt;
 
-class Prover {
+class ProofApp {
 
     static boolean do_debug_parse = false;
 
@@ -33,7 +33,7 @@ class Prover {
     Yylex scanner;
     LogicalCup parser_obj;
 
-    public Prover(String argv[]) {
+    public ProofApp(String argv[]) {
         this.argv = argv;
     }
 
@@ -92,9 +92,9 @@ class Prover {
                 dotFile = getOpt.getOptarg();
                 break;
             case 'h':
-                System.out.println("Prover");
+                System.out.println("ProofApp");
                 System.out.println("");
-                System.out.println("USO: prover [opcoes] [arquivos com a formula]");
+                System.out.println("USO: ProofApp [opcoes] [arquivos com a formula]");
                 System.out.println("");
                 System.out.println("Opções da linha de comando:");
                 System.out.println("  -s  = Debug da analise sintática");
@@ -174,17 +174,17 @@ class Prover {
 
         long spentTime;
         String fileName;
-        Prover prover = new Prover(argv);
-        prover.processCommands();
+        ProofApp proofApp = new ProofApp(argv);
+        proofApp.processCommands();
         
-        if (!prover.hasFileName()) {
+        if (!proofApp.hasFileName()) {
             System.err.println("Não foi informado um arquivo com a fórmula.");
             return;
         }
         
-        while (prover.hasFileName()) {
-            fileName = prover.getNextFileName();
-            LogicalSystem logicalSystem = prover.compile(fileName); 
+        while (proofApp.hasFileName()) {
+            fileName = proofApp.getNextFileName();
+            LogicalSystem logicalSystem = proofApp.compile(fileName); 
             if (logicalSystem == null) {
                 System.err.println("Falha na compilação.");
                 return;
@@ -227,7 +227,7 @@ class Prover {
 
                 }
 
-                if (prover.isShowSymTable()) 
+                if (proofApp.isShowSymTable()) 
                 {
                     logicalSystem.getSymbolTable().print();
                 }
@@ -249,11 +249,11 @@ class Prover {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                if (prover.isShowSymTable()) 
+                if (proofApp.isShowSymTable()) 
                 {
                     sys.getSymbolTable().print();
                 }
-
+               
                 System.out.println("-------------------------------------");
                 System.out.println("Segunda cópia do sistema lógico:");
                 LogicalSystem sys2 = logicalSystem.clone();
@@ -269,7 +269,8 @@ class Prover {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
+               
+                
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t;
@@ -278,15 +279,17 @@ class Prover {
                     spentTime = t.solve();
                     System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo simple_" + prover.getDotFile());
-                    t.toDot("simple_" + prover.getDotFile());
+                    System.out.println("Salvando a árvore de solução do Tableau no arquivo simple_" + proofApp.getDotFile());
+                    t.toDot("simple_" + proofApp.getDotFile());
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                
+
+                /*
+                 */
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t2;
@@ -298,15 +301,15 @@ class Prover {
                     spentTime = t2.solve();
                     System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t2.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo lemma_" + prover.getDotFile());
-                    t2.toDot("lemma_" + prover.getDotFile());
+                    System.out.println("Salvando a árvore de solução do Tableau no arquivo lemma_" + proofApp.getDotFile());
+                    t2.toDot("lemma_" + proofApp.getDotFile());
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                
+
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t3;
@@ -318,8 +321,8 @@ class Prover {
                     spentTime = t3.solve();
                     System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t3.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo ke_" + prover.getDotFile());
-                    t3.toDot("ke_" + prover.getDotFile());
+                    System.out.println("Salvando a árvore de solução do Tableau no arquivo ke_" + proofApp.getDotFile());
+                    t3.toDot("ke_" + proofApp.getDotFile());
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {

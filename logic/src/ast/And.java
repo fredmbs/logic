@@ -19,7 +19,7 @@ public class And extends Commutative {
         super(left, right);
     }
 
-    @Override
+@Override
     public boolean evaluate() {
         return left.evaluate() && right.evaluate(); 
     };

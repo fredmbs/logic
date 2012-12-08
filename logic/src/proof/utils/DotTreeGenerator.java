@@ -32,7 +32,7 @@ public class DotTreeGenerator {
             writer.newLine();
             writer.write("node[shape=plaintext, fontname=\"Courier\", fontsize=10];");
             writer.newLine();
-            writer.write("edge[arrowsize=0.5, arrowhead=vee,  penwidth=0.15];");
+            writer.write("edge[arrowsize=0.0, arrowhead=none,  penwidth=0.75];");
             writer.newLine();
             this.toDot(writer, tree.getRoot());
             writer.write("}");
@@ -53,15 +53,15 @@ public class DotTreeGenerator {
             String nodeName = "node" + count; 
             writer.write(nodeName);
             writer.write("[label=\"");
-            writer.write(node.getLabel());
+            writer.write(node.getLabel2());
             while (node.getBranch() == null) {
                 node = node.getNext();
                 if (node == null)
                     break;
-                writer.write("\\n");
-                writer.write(node.getLabel());
+                writer.write("\\l");
+                writer.write(node.getLabel2());
             }
-            writer.write("\"];");
+            writer.write("\\l\"];");
             writer.newLine();
             if (node != null) {
                 if (node.getNext() != null) {

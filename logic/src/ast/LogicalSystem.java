@@ -23,8 +23,8 @@ public class LogicalSystem {
     private LogicalSystemType logicSystemType = LogicalSystemType.UNKNOWN; 
     private LogicalType logicType = LogicalType.UNKNOWN; 
     private StringBuilder logicalTypeReason = new StringBuilder();
-    private FormulaList aFormula  = new FormulaList(); 
-    private FormulaList aBaseFormula = new FormulaList(); 
+    private FormulaList conclusion  = new FormulaList(); 
+    private FormulaList premisse = new FormulaList(); 
     
     // estrutura de dados da tabela de símbolos
     private SymbolTable<Symbol> symbolTable = new SymbolTable<Symbol>();
@@ -38,12 +38,14 @@ public class LogicalSystem {
         LogicalSystem newLogicalSystem = new LogicalSystem();
         SymbolTable<Symbol> newST = newLogicalSystem.getSymbolTable();
         newLogicalSystem.symbolTable = newST;
-        for (Formula f: aFormula)
-            if (f != null)
-                newLogicalSystem.aFormula.add(f.clone(newST));
-        for (Formula f: aBaseFormula)
-            if (f != null)
-                newLogicalSystem.aBaseFormula.add(f.clone(newST));
+        if (conclusion != null)
+            for (Formula f: conclusion)
+                if (f != null)
+                    newLogicalSystem.conclusion.add(f.clone(newST));
+        if (premisse != null)
+            for (Formula f: premisse)
+                if (f != null)
+                    newLogicalSystem.premisse.add(f.clone(newST));
         newLogicalSystem.logicSystemType = this.logicSystemType; 
         newLogicalSystem.logicType = this.logicType; 
         newLogicalSystem.logicalTypeReason = new StringBuilder(this.logicalTypeReason);
@@ -51,27 +53,35 @@ public class LogicalSystem {
     }
 
     public void addLeft(Formula formula) {
-        aBaseFormula.add(formula);
+        premisse.add(formula);
     }
     
     public void addRight(Formula formula) {
-        aFormula.add(formula);
+        conclusion.add(formula);
     }
     
-    public Formula getFormula() {
-        return aFormula.generateFormula();
+    public Formula getConclusionFormula() {
+        return conclusion.generateFormula();
     }
 
-    public Formula getBaseFormula() {
-        return aBaseFormula.generateFormula();
+    public Formula getPremisseFormula() {
+        return premisse.generateFormula();
     }
 
-    public FormulaList getLeft() {
-        return aBaseFormula;
+    public FormulaList getPremisse() {
+        return premisse;
     }
 
-    public FormulaList getRight() {
-        return aFormula;
+    public boolean hasPremisse() {
+        return premisse.size() > 0;
+    }
+
+    public FormulaList getConclusion() {
+        return conclusion;
+    }
+
+    public boolean hasConclusion() {
+        return conclusion.size() > 0;
     }
 
     public LogicalType getLogicType() {
@@ -85,7 +95,7 @@ public class LogicalSystem {
     public void setFormulaSystem(Formula f) throws Exception {
         if (logicSystemType == LogicalSystemType.UNKNOWN) {
             logicSystemType = LogicalSystemType.FORMULA;
-            aFormula.add(f);
+            conclusion.add(f);
         } else
             throw new Exception("Nesta versão, o software aceita penas um tipo de verificação lógica.");
     }
@@ -93,8 +103,10 @@ public class LogicalSystem {
     public void setDerivationSystem(FormulaList left, FormulaList right) throws Exception {
         if (logicSystemType == LogicalSystemType.UNKNOWN) {
             logicSystemType = LogicalSystemType.DERIVATION;
-            aBaseFormula = left;
-            aFormula = right;
+            if (left != null)
+                premisse = left;
+            if (right != null)
+                conclusion = right;
         } else
             throw new Exception("Nesta versão, o software aceita penas um tipo de verificação lógica.");
     }
@@ -129,11 +141,11 @@ public class LogicalSystem {
         case UNKNOWN:
             return "?";
         case FORMULA:
-            return aFormula.toString();
+            return conclusion.toString();
         case DERIVATION:
-            return aBaseFormula + " |- " + aFormula;
+            return premisse + " |- " + conclusion;
         case ENTAILMENT:
-            return aBaseFormula + " |= " + aFormula;
+            return premisse + " |= " + conclusion;
         default:
         }
         return "";

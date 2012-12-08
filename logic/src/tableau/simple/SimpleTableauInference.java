@@ -5,6 +5,7 @@ package tableau.simple;
 
 import proof.Inference;
 import proof.Node;
+import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
 import tableau.TreeEngine;
 import ast.*;
@@ -38,10 +39,14 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(And and) {
         if(node.isSignT()) {
-            engine.add(and.getLeft(), true);
-            engine.add(and.getRight(), true);
+            engine.add(and.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:l"));
+            engine.add(and.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:r"));;
         } else {
-            treeEngine.add(engine, and.getLeft(), false,and.getRight(), false);
+            treeEngine.add(engine, 
+                and.getLeft(), false, new ExplanationSingle(node, "F^:l"),
+                and.getRight(), false, new ExplanationSingle(node, "F^:r"));
         }
         expanded = true;
     }
@@ -49,10 +54,14 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Or or) {
         if(node.isSignT()) {
-            treeEngine.add(engine, or.getLeft(), true, or.getRight(), true);
+            treeEngine.add(engine, 
+                or.getLeft(), true, new ExplanationSingle(node, "Tv:l"), 
+                or.getRight(), true, new ExplanationSingle(node, "Tv:r"));
         } else {
-            engine.add(or.getLeft(), false);
-            engine.add(or.getRight(), false);
+            engine.add(or.getLeft(), false)
+                .setExplanation(new ExplanationSingle(node, "Fv:l"));
+            engine.add(or.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "Fv:r"));
         }
         expanded = true;
     }
@@ -60,9 +69,11 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Not not) {
         if(node.isSignT()) {
-            engine.add(not.getFormula(), false);
+            engine.add(not.getFormula(), false)
+                .setExplanation(new ExplanationSingle(node, "T~"));
         } else {
-            engine.add(not.getFormula(), true);
+            engine.add(not.getFormula(), true)
+                .setExplanation(new ExplanationSingle(node, "F~"));
         }
         expanded = true;
     }
@@ -70,10 +81,14 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Implies imp) {
         if(node.isSignT()) {
-            treeEngine.add(engine, imp.getLeft(), false, imp.getRight(), true);
+            treeEngine.add(engine, 
+                imp.getLeft(), false, new ExplanationSingle(node, "T->:l"),
+                imp.getRight(), true, new ExplanationSingle(node, "T->:r"));
         } else {
-            engine.add(imp.getLeft(), true);
-            engine.add(imp.getRight(), false);
+            engine.add(imp.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "F->:l"));
+            engine.add(imp.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "F->:r"));
         }
         expanded = true;
     }
@@ -82,14 +97,20 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
     public void visit(Equivalent equ) {
         if(node.isSignT()) {
             BranchEngine newEngine = treeEngine.add(engine,
-                    equ.getLeft(), true, equ.getLeft(), false);
-            engine.add(equ.getRight(), true);
-            newEngine.add(equ.getRight(), false);
+                equ.getLeft(), true, new ExplanationSingle(node, "T<->:l1"), 
+                equ.getLeft(), false, new ExplanationSingle(node, "T<->:l2"));
+            engine.add(equ.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T<->:r1"));
+            newEngine.add(equ.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "T<->:r2"));
         } else {
             BranchEngine newEngine = treeEngine.add(engine,
-                    equ.getLeft(), true, equ.getLeft(), false);
-            engine.add(equ.getRight(), false);
-            newEngine.add(equ.getRight(), true);
+                equ.getLeft(), true, new ExplanationSingle(node, "F<->:l1"), 
+                equ.getLeft(), false, new ExplanationSingle(node, "F<->:l2"));
+            engine.add(equ.getRight(), false)
+                .setExplanation(new ExplanationSingle(node, "T<->:r1"));
+            newEngine.add(equ.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T<->:r2"));
         }
         expanded = true;
     }

@@ -30,6 +30,11 @@ public abstract class Connective extends Formula implements Symbol {
         this.right = right;
     }
     
+    @Override
+    public int getSize() {
+        return 1 + left.getSize() + right.getSize(); 
+    };
+
     public Formula getLeft() {
         return left;
     }

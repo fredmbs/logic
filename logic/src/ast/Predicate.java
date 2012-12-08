@@ -22,6 +22,11 @@ public class Predicate extends Formula implements NonLogicalSymbol {
     }
 
     @Override
+    public int getSize() {
+        return 1; 
+    };
+
+    @Override
     public String getLexeme() {
         return lexSymbol;
     }
