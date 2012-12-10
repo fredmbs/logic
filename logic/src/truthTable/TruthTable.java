@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import proof.LogicalReasoning;
-import utils.StringUtils;
 import ast.*;
 import ast.utils.SymbolTable;
 

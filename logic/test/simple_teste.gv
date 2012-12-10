@@ -1,0 +1,18 @@
+digraph g {
+graph[nodesep=0.1, ranksep=0.2];
+node[shape=plaintext, fontname="Courier", fontsize=10];
+edge[arrowsize=0.0, arrowhead=none,  penwidth=0.75];
+node1[label="1 (F) ((P->(Q->R))->((P->Q)->(P->R))) {H}\l2 (T) (P->(Q->R)) {1 F->:l}\l3 (F) ((P->Q)->(P->R)) {1 F->:r}\l4 (T) (P->Q) {3 F->:l}\l5 (F) (P->R) {3 F->:r}\l6 (T) P {5 F->:l}\l7 (F) R {5 F->:r}\l"];
+node2[label="16 (F) P {2 T->:l}\l17 -X- {16,6 closure}\l"];
+node1 -> node2;
+node3[label="8 (T) (Q->R) {2 T->:r}\l"];
+node4[label="14 (F) P {4 T->:l}\l15 -X- {14,6 closure}\l"];
+node3 -> node4;
+node5[label="9 (T) Q {4 T->:r}\l"];
+node6[label="12 (F) Q {8 T->:l}\l13 -X- {12,9 closure}\l"];
+node5 -> node6;
+node7[label="10 (T) R {8 T->:r}\l11 -X- {10,7 closure}\l"];
+node5 -> node7;
+node3 -> node5;
+node1 -> node3;
+}

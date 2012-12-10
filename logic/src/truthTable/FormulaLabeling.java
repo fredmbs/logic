@@ -3,7 +3,6 @@
  */
 package truthTable;
 
-import utils.StringUtils;
 import ast.*;
 import ast.patterns.FormulaVisitor;
 /**
