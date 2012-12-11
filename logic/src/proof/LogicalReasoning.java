@@ -34,4 +34,18 @@ public abstract class LogicalReasoning {
         return symbolTable;
     }
     
+    public String getResultName() {
+        switch(result) {
+        case UNKNOWN:
+            return "UNKNOWN";
+        case TAUTOLOGY:
+            return "TAUTOLOGY";
+        case SATISFIABLE:
+            return "SATISFIABLE";
+        case CONTRADICTION:
+            return "CONTRADICTION";
+        }
+        return "";
+    }
+    
 }

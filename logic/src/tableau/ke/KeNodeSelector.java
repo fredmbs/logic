@@ -67,7 +67,6 @@ public class KeNodeSelector extends PriorityNodeSelector {
                 SelectPB selector = new SelectPB(openBetas, engine);
                 if (selector.select()) {
                     node = selector.getSelectedPB();
-                    openBetas.set(selector.getSelectedOpenBetaIndex(), null);
                     //System.err.println("Encontrou PB");
                     if (node != null) 
                         regressOpenBetas();

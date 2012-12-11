@@ -44,11 +44,14 @@ extends LogicalReasoning
             if (lsys.hasPremisse())
                 for (Formula f: lsys.getPremisse())
                     engine.getStart().add(f, true)
-                    .setExplanation(new ExplanationSelf("H"));
+                    .setExplanation(new ExplanationSelf("H:l"));
         }
         if (lsys.hasConclusion())
-            engine.getStart().add(lsys.getConclusionFormula(), false)
-            .setExplanation(new ExplanationSelf("H"));
+//            engine.getStart().add(lsys.getConclusionFormula(), false)
+//            .setExplanation(new ExplanationSelf("H"));
+            for (Formula f: lsys.getConclusion())
+                engine.getStart().add(f, false)
+                .setExplanation(new ExplanationSelf("H:r"));
     }
     
 

@@ -231,7 +231,6 @@ class ProofApp {
                 {
                     logicalSystem.getSymbolTable().print();
                 }
-                
                 System.out.println("-------------------------------------");
                 System.out.println("Cópia (clone) do sistema lógico:");
                 LogicalSystem sys = logicalSystem.clone();
@@ -241,7 +240,8 @@ class ProofApp {
                 try {
                     ttt = new TruthTable(sys);
                     spentTime = ttt.solve();
-                    ttt.print();
+                    //ttt.print();
+                    System.out.println("Solução = " + ttt.getResultName());
                     System.out.println("Solução por Tabela Verdade (com shortCut)' em " + spentTime + " ms");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
@@ -249,11 +249,7 @@ class ProofApp {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                if (proofApp.isShowSymTable()) 
-                {
-                    sys.getSymbolTable().print();
-                }
-               
+
                 System.out.println("-------------------------------------");
                 System.out.println("Segunda cópia do sistema lógico:");
                 LogicalSystem sys2 = logicalSystem.clone();
@@ -262,6 +258,7 @@ class ProofApp {
                 try {
                     ttt2 = new TruthTable(sys2);
                     spentTime = ttt2.solve2();
+                    System.out.println("Solução = " + ttt2.getResultName());
                     System.out.println("Solução por Tabela Verdade (sem otimização)' em " + spentTime + " ms");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
@@ -288,8 +285,6 @@ class ProofApp {
                     e.printStackTrace();
                 }
 
-                /*
-                 */
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t2;
