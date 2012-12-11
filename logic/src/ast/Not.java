@@ -91,4 +91,37 @@ public class Not extends Formula {
         return true;
     }
 
+    /*
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Not other = (Not) obj;
+        if (formula == null) {
+            if (other.formula != null)
+                return false;
+        } 
+        boolean sThisObj = false;
+        boolean sOther = false;
+        Not thisObj = this;
+        while (thisObj.formula instanceof Not) {
+            thisObj = (Not)thisObj.formula;
+            sThisObj = !sThisObj; 
+        }
+        
+        while (other.formula instanceof Not) {
+            other = (Not)other.formula;
+            sOther = !sOther; 
+        }
+        
+        if (sOther = sThisObj)
+            return (thisObj.formula.equals(other.formula));
+        
+        return false;
+    }
+    */
+    
 }

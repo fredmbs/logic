@@ -239,6 +239,8 @@ class ProofApp {
                 TruthTable ttt;
                 try {
                     ttt = new TruthTable(sys);
+                    System.out.print("Fórmula da tabela verdade:");
+                    System.out.println(ttt.getFormula());
                     spentTime = ttt.solve();
                     //ttt.print();
                     System.out.println("Solução = " + ttt.getResultName());
@@ -257,6 +259,8 @@ class ProofApp {
                 TruthTable ttt2;
                 try {
                     ttt2 = new TruthTable(sys2);
+                    System.out.print("Fórmula da tabela verdade:");
+                    System.out.println(ttt2.getFormula());
                     spentTime = ttt2.solve2();
                     System.out.println("Solução = " + ttt2.getResultName());
                     System.out.println("Solução por Tabela Verdade (sem otimização)' em " + spentTime + " ms");

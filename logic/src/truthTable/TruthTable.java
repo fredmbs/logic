@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import proof.LogicalReasoning;
+import proof.utils.LogicalSystemException;
 import ast.*;
 import ast.utils.SymbolTable;
 
@@ -23,16 +24,18 @@ public class TruthTable extends LogicalReasoning {
     
     public TruthTable(LogicalSystem lsys) throws Exception {
         super(lsys);
-        if (lsys.getLogicSystemType() == LogicalSystem.LogicalSystemType.DERIVATION) { 
-            if (lsys.hasPremisse() && lsys.hasConclusion()) 
-                this.formula = new Implies(lsys.getPremisseFormula(), lsys.getConclusionFormula());
-            else if (lsys.hasPremisse()) 
-                this.formula = new Not(lsys.getPremisseFormula());
-            else if (lsys.hasConclusion())
-                this.formula = lsys.getConclusionFormula();
+        if (lsys.getLogicSystemType() != LogicalSystem.LogicalSystemType.FORMULA) {
+            throw new LogicalSystemException("A versão atual da tabela verdade lida apenas com fórmula.");
         } else {
             this.formula = lsys.getConclusionFormula();
         }
+    }
+
+    /**
+     * @return the formula
+     */
+    public Formula getFormula() {
+        return formula;
     }
 
     private void init() {

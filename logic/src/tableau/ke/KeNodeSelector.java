@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 import ast.Connective;
 import ast.Formula;
+import ast.Not;
 import proof.Node;
 import proof.Tree;
 import proof.explanation.ExplanationSingle;
@@ -102,8 +103,8 @@ public class KeNodeSelector extends PriorityNodeSelector {
         Formula selectedFormula = null;
         int selectedOpenBetaIndex = -1;
         Node selectedPB = null;
-        //int minFormulaSize = Integer.MAX_VALUE;
-        int maxFormulaSize = Integer.MIN_VALUE;
+        int minFormulaSize = Integer.MAX_VALUE;
+        //int maxFormulaSize = Integer.MIN_VALUE;
         
         SelectPB(ArrayList<Node> openBetas, BranchEngine engine) {
             this.disconsider = new HashSet<Formula>();
@@ -123,38 +124,52 @@ public class KeNodeSelector extends PriorityNodeSelector {
             return this.selectedOpenBetaIndex;
         }
         
-        private void consider(int index, Formula formula) {
-            //System.err.println("... Considerando fórmula " + formula + " " + formula.hashCode());
-            if (disconsider.contains(formula)) { 
-                //System.err.println("... Fórmula desconsiderada " + formula + " " + formula.hashCode());
-                return;
+        private Formula removeNot(Formula f) {
+            while (f instanceof Not) {
+                f = ((Not)f).getFormula();
             }
+            return f;
+        }
+        
+        private boolean isFulfilled(Connective formula) {
+            //System.err.println("... Considerando fórmula " + formula + " " + formula.hashCode());
+            if (disconsider.contains(formula.getLeft()) || 
+                    disconsider.contains(formula.getRight())) { 
+                //System.err.println("... Fórmula desconsiderada " + formula + " " + formula.hashCode());
+                return true;
+            }
+            Node nodeB1 = tree.searchEqual(leaf, removeNot(formula.getLeft()));
+            Node nodeB2 = tree.searchEqual(leaf, removeNot(formula.getRight()));
+            boolean fulfilled = false;
+            if (nodeB1 != null) {
+                disconsider.add(formula.getLeft());
+                fulfilled = true;
+            }
+            if (nodeB2 != null) {
+                disconsider.add(formula.getRight());
+                fulfilled = true;
+            }
+            return fulfilled;
+        }
+        private void consider(int index, Formula formula) {
             Integer count = countMap.get(formula);
             if (count == null) {
-                //System.err.println("... Nova contabilidade da fórmula " + formula + " " + formula.hashCode());
-                Node node = tree.searchEqual(leaf, formula);
-                if (node != null) {
-                    //System.err.println("... Fórmula ja existe na árvore " + formula + " " + formula.hashCode());
-                    disconsider.add(formula);
-                    return;
-                }
                 count = 1;
             } else {
                 count++;
-                //System.err.println("... Fórmula " + formula + " ocorre " + count + " vezes"  + " " + formula.hashCode());
             }
             countMap.put(formula, count);
-            int fSize = formula.toString().length();
-            //if (fSize < minFormulaSize) {
-            if (fSize > maxFormulaSize) {
+            int fSize = formula.getSize();//.toString().length();
+            if (fSize < minFormulaSize) {
+            //if (fSize > maxFormulaSize) {
                 //System.err.println("... Fórmula mínima " + formula + " ocorre mais vezes até o momento"  + " " + formula.hashCode());
-                //minFormulaSize = fSize;
-                maxFormulaSize = fSize;
+                minFormulaSize = fSize;
+                //maxFormulaSize = fSize;
                 maxCount = count;
                 selectedFormula = formula;
                 selectedOpenBetaIndex = index;
-            //} else if (fSize == minFormulaSize ){
-            } else if (fSize == maxFormulaSize ){
+            } else if (fSize == minFormulaSize ){
+            //} else if (fSize == maxFormulaSize ){
                 if (count > maxCount) {
                     //System.err.println("... Fórmula mínima" + formula + " ocorre mais vezes até o momento"  + " " + formula.hashCode());
                     maxCount = count;
@@ -177,8 +192,10 @@ public class KeNodeSelector extends PriorityNodeSelector {
                     formula = openBeta.getFormula();
                     if (formula instanceof Connective){
                         connective = (Connective)formula;
-                        consider(i, connective.getLeft());
-                        consider(i, connective.getRight());
+                        if (!isFulfilled(connective)) {
+                            consider(i, connective.getLeft());
+                            consider(i, connective.getRight());
+                        }
                     }
                 }
             }
