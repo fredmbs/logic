@@ -83,12 +83,9 @@ public class Not extends Formula {
         if (getClass() != obj.getClass())
             return false;
         Not other = (Not) obj;
-        if (formula == null) {
-            if (other.formula != null)
-                return false;
-        } else if (!formula.equals(other.formula))
-            return false;
-        return true;
+        if (formula != null) 
+            return formula.equals(other.formula);
+        return false;
     }
 
     /*

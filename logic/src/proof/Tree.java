@@ -26,17 +26,27 @@ public class Tree {
         return head.getNext();
     }
     
-    public Node searchEqual(Node node) {
-        Node searchNode = node;
+    public Node searchFormula(Node leaf) {
+        Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
             searchNode = searchNode.getPrevious();
-            if (searchNode.equals(node))
+            if (searchNode.formulaEquals(leaf.getFormula()))
                 return searchNode;
         }
         return null;
     }
 
-    public Node searchEqual(Node leaf, Formula formula) {
+    public Node searchEqual(Node leaf, Node node) {
+        Node searchNode = leaf;
+        while(searchNode.getPrevious() != null) {
+            if (searchNode.equals(node))
+                return searchNode;
+            searchNode = searchNode.getPrevious();
+        }
+        return null;
+    }
+
+    public Node searchFormula(Node leaf, Formula formula) {
         Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
             if (searchNode.getFormula().equals(formula)) {

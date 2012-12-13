@@ -124,28 +124,35 @@ public class KeNodeSelector extends PriorityNodeSelector {
             return this.selectedOpenBetaIndex;
         }
         
-        private Formula removeNot(Formula f) {
+        private Node removeNot(Formula f) {
+            boolean sign = true;
             while (f instanceof Not) {
                 f = ((Not)f).getFormula();
+                sign = !sign;
             }
-            return f;
+            return new Node(f, sign);
         }
         
-        private boolean isFulfilled(Connective formula) {
+        private boolean isFulfilled(Node openBeta) {
+            Connective formula = (Connective)openBeta.getFormula();
             //System.err.println("... Considerando fórmula " + formula + " " + formula.hashCode());
             if (disconsider.contains(formula.getLeft()) || 
                     disconsider.contains(formula.getRight())) { 
                 //System.err.println("... Fórmula desconsiderada " + formula + " " + formula.hashCode());
                 return true;
             }
-            Node nodeB1 = tree.searchEqual(leaf, removeNot(formula.getLeft()));
-            Node nodeB2 = tree.searchEqual(leaf, removeNot(formula.getRight()));
+            Node nodeSearchBl = removeNot(formula.getLeft());
+            Node nodeSearchBr = removeNot(formula.getRight());
+            Node nodeBl = tree.searchEqual(leaf, nodeSearchBl);
+            Node nodeBr = tree.searchEqual(leaf, nodeSearchBr);
+            //Node nodeB1 = tree.searchEqual(leaf, (formula.getLeft()));
+            //Node nodeB2 = tree.searchEqual(leaf, (formula.getRight()));
             boolean fulfilled = false;
-            if (nodeB1 != null) {
+            if (nodeBl != null && nodeBl.isSignT() == nodeSearchBl.isSignT()) {
                 disconsider.add(formula.getLeft());
                 fulfilled = true;
             }
-            if (nodeB2 != null) {
+            if (nodeBr != null && nodeBr.isSignT() == nodeSearchBr.isSignT()) {
                 disconsider.add(formula.getRight());
                 fulfilled = true;
             }
@@ -184,18 +191,14 @@ public class KeNodeSelector extends PriorityNodeSelector {
             //    return false;
             int numOpenBetas = openBetas.size();
             Node openBeta;
-            Formula formula;
             Connective connective;
             for (int i = 0; i < numOpenBetas; i++) {
                 openBeta = openBetas.get(i);
                 if (openBeta != null) {
-                    formula = openBeta.getFormula();
-                    if (formula instanceof Connective){
-                        connective = (Connective)formula;
-                        if (!isFulfilled(connective)) {
-                            consider(i, connective.getLeft());
-                            consider(i, connective.getRight());
-                        }
+                    if (!isFulfilled(openBeta)) {
+                        connective = (Connective)openBeta.getFormula();
+                        consider(i, connective.getLeft());
+                        consider(i, connective.getRight());
                     }
                 }
             }

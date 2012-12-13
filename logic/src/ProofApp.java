@@ -242,7 +242,7 @@ class ProofApp {
                     System.out.print("Fórmula da tabela verdade:");
                     System.out.println(ttt.getFormula());
                     spentTime = ttt.solve();
-                    //ttt.print();
+                    ttt.print();
                     System.out.println("Solução = " + ttt.getResultName());
                     System.out.println("Solução por Tabela Verdade (com shortCut)' em " + spentTime + " ms");
                 } catch (LogicalSystemException e1) {

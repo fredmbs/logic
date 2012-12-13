@@ -120,7 +120,7 @@ public class BranchEngine {
 
     public void add(Node node) {
         // INICIO otimização opcional: não inserir nó duplicado no branch
-        Node searchNode = treeEngine.getTree().searchEqual(branch.getLeaf(), 
+        Node searchNode = treeEngine.getTree().searchFormula(branch.getLeaf(), 
                 node.getFormula());
         if (searchNode != null && searchNode.isSignT() == node.isSignT())
             return;
@@ -147,7 +147,7 @@ public class BranchEngine {
     }
 
     private void verifyClosure(Node node) {
-        Node searchNode = this.treeEngine.getTree().searchEqual(node);
+        Node searchNode = this.treeEngine.getTree().searchFormula(node);
         if (searchNode != null) {
             if (node.isSignT() != searchNode.isSignT()) {
                 this.branch.close()

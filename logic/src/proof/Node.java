@@ -3,8 +3,8 @@
  */
 package proof;
 
+import ast.Formula;
 import proof.explanation.Explanation;
-import ast.*;
 
 /**
  * @author dev
@@ -85,9 +85,9 @@ public class Node implements Comparable<Node> {
         this.priority = priority;
     }
 
-    protected void setSignT(boolean signT) {
-        this.signT = signT;
-    }
+    //protected void setSignT(boolean signT) {
+    //    this.signT = signT;
+    //}
 
     public void setType(Type type) {
         this.type = type;
@@ -185,12 +185,18 @@ public class Node implements Comparable<Node> {
         if (getClass() != obj.getClass())
             return false;
         Node other = (Node) obj;
-        if (formula == null) {
-            if (other.formula != null)
-                return false;
-        } else if (!formula.equals(other.formula))
+        if (formula != null) 
+            if (formula.equals(other.formula))
+                return (this.signT == other.signT);
+        return false;
+    }
+
+    public boolean formulaEquals(Formula f) {
+        if (f == null)
             return false;
-        return true;
+        if (formula != null)
+            return (formula.equals(f));
+        return false;
     }
 
     @Override

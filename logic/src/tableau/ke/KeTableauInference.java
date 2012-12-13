@@ -52,7 +52,7 @@ public class KeTableauInference implements Inference, FormulaVisitor {
             treeEngine.add(engine, 
                     n.getFormula(), true, new ExplanationSingle(from, "PB-T"),
                     n.getFormula(), false, new ExplanationSingle(from, "PB-F"));
-            return false;
+            return true;
         }
         // senão, tenta uma eliminação
         this.expanded = false;
@@ -64,20 +64,30 @@ public class KeTableauInference implements Inference, FormulaVisitor {
         return expanded;
     }
     
+    private Node removeNot(Formula f, boolean sign) {
+        
+        while (f instanceof Not) {
+            f = ((Not)f).getFormula();
+            sign = !sign;
+        }
+        return new Node(f, sign);
+    }
+    
     private Node searchFormula(Formula subBeta, boolean signT) {
         Node leaf = engine.getBranch().getLeaf();
-        Node nodeSearch = treeEngine.getTree().searchEqual(leaf, subBeta);
+        Node equivalentNode = removeNot(subBeta, signT);
+        Node nodeSearch = treeEngine.getTree().searchEqual(leaf, equivalentNode);
         //System.err.println("?? Tentando encontrar nó com a fórmula (" + signT + ")" + subBeta);
-        if (nodeSearch != null) {
+        //if (nodeSearch != null) {
             //System.err.println("!! Encontrada a fórmula no nó " + nodeSearch);
-            if (nodeSearch.isSignT() == signT) {
+            //if (nodeSearch.isSignT() == signT) {
                 return nodeSearch;
-            }
+            //}
             //System.err.println("-- Os nós possuem sinais diferentes:" + node + " " + nodeSearch);
-            return null;
-        }
+            //return null;
+        //}
         //System.err.println(".. Nó não encontrado");
-        return null;
+        //return null;
     }
     
     private boolean betaCut(Formula formula, boolean signT, 
