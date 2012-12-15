@@ -27,27 +27,6 @@ public class KeTableauInference implements Inference, FormulaVisitor {
     public boolean infer(Node n) {
         // se o nó é um princípio de bivalência, ramifica a árvore
         if (n.getType() == Node.Type.UNCLASSIFIED) {
-            /*
-            boolean sign = true;
-            Formula f = n.getFormula();
-
-            Node PB1 = new Node(f, sign);
-            Node PB2 = new Node(f, !sign);
-            PB1.setType(Node.Type.ATOMIC);
-            PB2.setType(Node.Type.ATOMIC);
-            BranchEngine newEngine = treeEngine.add(engine, PB1, PB2);
-
-            while (f instanceof Not) {
-                f = ((Not)f).getFormula();
-                sign = !sign;
-                PB1 = new Node(f, sign);
-                PB2 = new Node(f, !sign);
-                PB1.setType(Node.Type.ATOMIC);
-                PB2.setType(Node.Type.ATOMIC);
-                engine.add(PB1);
-                newEngine.add(PB2);
-            }
-            */
             Node from = ((ExplanationSingle)n.getExplanation()).getFrom();
             treeEngine.add(engine, 
                     n.getFormula(), true, new ExplanationSingle(from, "PB-T"),

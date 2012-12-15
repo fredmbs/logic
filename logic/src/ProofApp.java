@@ -278,10 +278,10 @@ class ProofApp {
                 try {
                     t = new Tableau(logicalSystem);
                     spentTime = t.solve();
-                    System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo simple_" + proofApp.getDotFile());
-                    t.toDot("simple_" + proofApp.getDotFile());
+                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_simple.gv");
+                    t.toDot(proofApp.getDotFile() + "_simple.gv");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {
@@ -298,10 +298,10 @@ class ProofApp {
                             new TableauNodeClassifierFactory(),
                             new PriorityNodeSelectorFactory());
                     spentTime = t2.solve();
-                    System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t2.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo lemma_" + proofApp.getDotFile());
-                    t2.toDot("lemma_" + proofApp.getDotFile());
+                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_lemma.gv");
+                    t2.toDot(proofApp.getDotFile() + "_lemma.gv");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {
@@ -318,10 +318,10 @@ class ProofApp {
                             new KeTableauNodeClassifierFactory(),
                             new KeNodeSelectorFactory());
                     spentTime = t3.solve();
-                    System.out.println("Solução por Tableau Semântico ' em " + spentTime + " ms");
                     t3.print();
-                    System.out.println("Salvando a árvore de solução do Tableau no arquivo ke_" + proofApp.getDotFile());
-                    t3.toDot("ke_" + proofApp.getDotFile());
+                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_ke.gv");
+                    t3.toDot(proofApp.getDotFile() + "_ke.gv");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e) {
