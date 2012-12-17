@@ -28,7 +28,7 @@ public  class SymbolTable<T extends Symbol>  {
     
     // cria e/ou retorna um objeto Symbol (usando Reflection) 
     // de acordo com o identificador especificado
-    // adicionado, se não existir, a variável na tabela de símbolos
+    // adicionado, se não existir, o elemento na tabela de símbolos
     @SuppressWarnings("unchecked")
     public T occurrence(Class<? extends Symbol> tClass, String id) 
             throws Exception {
