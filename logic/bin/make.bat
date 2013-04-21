@@ -1,11 +1,11 @@
 @echo off
-REM POC - Ci�ncia da Computa��o - UNI-BH 
-REM Gerador de compilador de f�rmula em "fisrt-order logic"
+REM POC - Ciência da Computação - UNI-BH 
+REM Gerador de compilador de fórmula em "fisrt-order logic"
 REM Aluno: Frederico Martins Biber Sampaio
 REM 01/12/2012
 cls
 
-@REM Ajuste o caminho para o Java SDK do computador espec�fico
+@REM Ajuste o caminho para o Java SDK do computador específico
 set JAVA_HOME="C:\Program Files\Java\jdk1.7.0_01"
 
 cd ..
@@ -15,7 +15,7 @@ set GETOPT_LIB="%CD%\lib\java-getopt-1.0.9.jar"
 @REM set CLASSPATH=%JFLEX_LIB%;%CUP_LIB%;%GETOPT_LIB%
 cd src
 
-set LANG_NAME="FolFormula"
+set LANG_NAME="logical"
 set COMP_LEX="Yylex"
 set COMP_SYM="LogicalSym"
 set COMP_SEM="LogicalCup"
