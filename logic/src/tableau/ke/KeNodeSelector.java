@@ -120,10 +120,6 @@ public class KeNodeSelector extends PriorityNodeSelector {
             return this.selectedPB;
         }
         
-        public int getSelectedOpenBetaIndex() {
-            return this.selectedOpenBetaIndex;
-        }
-        
         private Node removeNot(Formula f) {
             boolean sign = true;
             while (f instanceof Not) {

@@ -5,7 +5,6 @@ import ast.patterns.FormulaVisitor;
 import proof.Inference;
 import proof.Node;
 import proof.explanation.ExplanationDual;
-import proof.explanation.ExplanationSelf;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
 import tableau.TreeEngine;

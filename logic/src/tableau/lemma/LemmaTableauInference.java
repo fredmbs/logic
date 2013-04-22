@@ -3,8 +3,6 @@
  */
 package tableau.lemma;
 
-import java.util.HashSet;
-
 import proof.Inference;
 import proof.Node;
 import proof.explanation.ExplanationSelf;

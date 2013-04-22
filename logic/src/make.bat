@@ -6,7 +6,7 @@ REM 01/12/2012
 cls
 
 @REM Ajuste o caminho para o Java SDK do computador específico
-set JAVA_HOME="C:\Program Files\Java\jdk1.7.0_01"
+set JAVA_HOME="C:\Program Files\Java\jdk1.7.0_21"
 
 cd ..
 set CUP_LIB="%CD%\lib\java-cup-11a.jar"

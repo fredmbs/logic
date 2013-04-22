@@ -55,7 +55,8 @@ public class BranchEngine {
         this.branch = new Branch(from.branch.getLeaf(), leaf);
         this.newNode(leaf);
     }
-        public BranchEngine(BranchEngine from, Node leaf) {
+    
+    public BranchEngine(BranchEngine from, Node leaf) {
         this.treeEngine = from.treeEngine;
         this.treeEngine.getTree();
         Tableau tableau = this.treeEngine.getTableau();
@@ -80,12 +81,8 @@ public class BranchEngine {
         return rules;
     }
 
-    static int test = 0;
     public Branch.Status expand() {
-        //if (BranchEngine.test++ > 50) System.exit(1);
         if (branch.getStatus() == Branch.Status.OPEN) {
-            //System.err.println("=== BRANCH ENGINE " + this);
-            //this.branch.printDebug();
             Node node = nodeSelector.select();
             if (node == null) {
                 this.branch.exhaust()
@@ -131,7 +128,6 @@ public class BranchEngine {
     }
 
     protected void newNode(Node node) {
-        //System.err.println("+++ BRANCH ENGINE " + this);
         nodeSelector.add(node);
         Node.Type type = node.getType();
         if (type == Node.Type.ATOMIC || closureOnAllNodes) 
@@ -140,7 +136,6 @@ public class BranchEngine {
     
     protected void fullVerification(Node node) {
         if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) {
-            //System.err.println("+++ BRANCH ENGINE " + this);
             nodeSelector.add(node);
         };
         verifyClosure(node);
