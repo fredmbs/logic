@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import ast.And;
 import ast.Connective;
 import ast.Formula;
+import ast.Implies;
 import ast.Not;
+import ast.Or;
 import proof.Node;
 import proof.Tree;
 import proof.explanation.ExplanationSingle;
@@ -45,8 +48,10 @@ public class KeNodeSelector extends PriorityNodeSelector {
             Node returned;
             for (int i = 0; i < numOpenBetas; i++) {
                 returned = openBetas.get(i);
-                if (returned != null)
+                if (returned != null) {
+                    //System.err.println("Regressando nó betas abertos:" + returned);
                     super.add(returned);
+                }
             }
             openBetas.clear();
         }
@@ -58,6 +63,7 @@ public class KeNodeSelector extends PriorityNodeSelector {
         // adiciona o nó na fila de prioridade
         super.add(node);
     }
+
     @Override
     public Node select() {
         //System.err.println("--- Selecionando nó");
@@ -68,7 +74,7 @@ public class KeNodeSelector extends PriorityNodeSelector {
                 SelectPB selector = new SelectPB(openBetas, engine);
                 if (selector.select()) {
                     node = selector.getSelectedPB();
-                    //System.err.println("Encontrou PB");
+                    //System.err.println("Encontrou PB:" + node);
                     if (node != null) 
                         regressOpenBetas();
                 }
@@ -139,21 +145,46 @@ public class KeNodeSelector extends PriorityNodeSelector {
             }
             Node nodeSearchBl = removeNot(formula.getLeft());
             Node nodeSearchBr = removeNot(formula.getRight());
-            Node nodeBl = tree.searchEqual(leaf, nodeSearchBl);
-            Node nodeBr = tree.searchEqual(leaf, nodeSearchBr);
+            Node nodeBl = tree.searchFormula(leaf, nodeSearchBl.getFormula());
+            Node nodeBr = tree.searchFormula(leaf, nodeSearchBr.getFormula());
             //Node nodeB1 = tree.searchEqual(leaf, (formula.getLeft()));
             //Node nodeB2 = tree.searchEqual(leaf, (formula.getRight()));
             boolean fulfilled = false;
-            if (nodeBl != null && nodeBl.isSignT() == nodeSearchBl.isSignT()) {
-                disconsider.add(formula.getLeft());
-                fulfilled = true;
-            }
-            if (nodeBr != null && nodeBr.isSignT() == nodeSearchBr.isSignT()) {
-                disconsider.add(formula.getRight());
-                fulfilled = true;
+            if (formula instanceof Or && openBeta.isSignT()) { 
+            	if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
+            		disconsider.add(formula.getLeft());
+            		fulfilled = true;
+            	}
+            	if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+            		disconsider.add(formula.getRight());
+            		fulfilled = true;
+            	}
+            } else if (formula instanceof And && !openBeta.isSignT()) {
+            	if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+            		disconsider.add(formula.getLeft());
+            		fulfilled = true;
+            	}
+            	if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
+            		disconsider.add(formula.getRight());
+            		fulfilled = true;
+            	}
+            } else if (formula instanceof Implies && openBeta.isSignT()) {
+            	if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+            		disconsider.add(formula.getLeft());
+            		fulfilled = true;
+            	}
+            	if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+            		disconsider.add(formula.getRight());
+            		fulfilled = true;
+            	}
+            } else {
+            	System.err.println("Falha grave: Node não é do tipo tipo beta = " + openBeta);
+            	new Exception().getStackTrace();
+            	System.exit(1);
             }
             return fulfilled;
         }
+        
         private void consider(int index, Formula formula) {
             Integer count = countMap.get(formula);
             if (count == null) {

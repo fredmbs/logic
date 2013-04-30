@@ -1,4 +1,6 @@
 
+import java.io.FileNotFoundException;
+
 import proof.utils.LogicalSystemException;
 import tableau.Tableau;
 import tableau.ke.KeNodeSelectorFactory;
@@ -122,14 +124,15 @@ class ProofApp {
         defaultOptionsIndex = getOpt.getOptind(); 
     }
 
-    public LogicalSystem compile(String fileName) {
+    public LogicalSystem compile(java.io.InputStream input) {
         try {
             // Cria o analisador léxico 
-            scanner = new Yylex( new java.io.FileReader(fileName));
+            scanner = new Yylex(input);
             scanner.setDebug(debugLex);
             if (!doSyntactic) {
                 // só faz a análise léxica
-                while ( !scanner.isEOF() ) scanner.next_token();
+                while(!scanner.isEOF()) 
+                	scanner.next_token();
                 return null;
             } 
             /* cria um sistema lógico */
@@ -153,7 +156,6 @@ class ProofApp {
             if (!parser_obj.hasError() && astRootNode.value instanceof LogicalSystem) {
                 return logicalSystem;
             }
-
         }     
         catch (java.io.FileNotFoundException e) {
             System.err.println("Arquivo não encontrado : \""+fileName+"\"");
@@ -184,7 +186,13 @@ class ProofApp {
         
         while (proofApp.hasFileName()) {
             fileName = proofApp.getNextFileName();
-            LogicalSystem logicalSystem = proofApp.compile(fileName); 
+            LogicalSystem logicalSystem = null;
+			try {
+				logicalSystem = proofApp.compile(new java.io.FileInputStream(fileName));
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+	            System.err.println("Arquivo não encontrado : \""+fileName+"\"");
+			} 
             if (logicalSystem == null) {
                 System.err.println("Falha na compilação.");
                 return;
@@ -279,7 +287,7 @@ class ProofApp {
                     t = new Tableau(logicalSystem);
                     spentTime = t.solve();
                     t.print();
-                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Solução do Tableau de Smullyan em " + spentTime + " ms");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_simple.gv");
                     t.toDot(proofApp.getDotFile() + "_simple.gv");
                 } catch (LogicalSystemException e1) {
@@ -299,7 +307,7 @@ class ProofApp {
                             new PriorityNodeSelectorFactory());
                     spentTime = t2.solve();
                     t2.print();
-                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Solução do Tableau com Lema em " + spentTime + " ms");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_lemma.gv");
                     t2.toDot(proofApp.getDotFile() + "_lemma.gv");
                 } catch (LogicalSystemException e1) {
@@ -319,7 +327,7 @@ class ProofApp {
                             new KeNodeSelectorFactory());
                     spentTime = t3.solve();
                     t3.print();
-                    System.out.println("Solução em " + spentTime + " ms");
+                    System.out.println("Solução do Tableau KE em " + spentTime + " ms");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_ke.gv");
                     t3.toDot(proofApp.getDotFile() + "_ke.gv");
                 } catch (LogicalSystemException e1) {

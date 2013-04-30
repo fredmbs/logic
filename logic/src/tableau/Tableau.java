@@ -81,12 +81,34 @@ extends LogicalReasoning
         return (engine.getClosedBranchesCount() > 0);
     }
     
+    public int getOpenBranchesCount() {
+        return engine.getOpenBranchesCount();
+    }
+    
+    public int getClosedBranchesCount() {
+        return engine.getClosedBranchesCount();
+    }
+    
+    public int getAbandonedBranches() {
+        return engine.getAbandonedBranches();
+    }
+    
+    public int getBranchesCount() {
+        return engine.getBranchesCount();
+    }
+
+    public int getNodesCount() {
+        return engine.getTree().countNodes();
+    }
+    
     @Override
     public long solve() {
-        long start = System.currentTimeMillis();
         setResult(TruthType.UNKNOWN);
         
+        long time = System.nanoTime();
         while (engine.expand());
+        time = System.nanoTime() - time;
+
         engine.getTree().numberingNodes();
         
         if (isTautology())
@@ -96,7 +118,7 @@ extends LogicalReasoning
         else
             setResult(TruthType.CONTRADICTION);
         
-        return System.currentTimeMillis() - start;
+        return time;
     }
     
     public void print() {

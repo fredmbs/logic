@@ -111,8 +111,8 @@ public class TruthTable extends LogicalReasoning {
     }
 
     private void setResult(boolean tautology, int trueCount) {
-        if (tautology)
-            System.out.println("A fórmula representa uma tautologia.");
+        //if (tautology)
+        //    System.out.println("A fórmula representa uma tautologia.");
         if (tautology)
             setResult(TruthType.TAUTOLOGY);
         else if (trueCount > 0)
@@ -122,7 +122,7 @@ public class TruthTable extends LogicalReasoning {
     }
     
     public long print() {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         int trueCount = 0;
         init();
         initPredicates();
@@ -139,12 +139,12 @@ public class TruthTable extends LogicalReasoning {
         } while (hasNextInterpretation());
         printSeparator('\\', '-', '/');
         setResult(tautology, trueCount);
-        return System.currentTimeMillis() - start;
+        return System.nanoTime() - start;
     }
 
     @Override
     public long solve() {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         int trueCount = 0;
         init();
         initPredicates();
@@ -157,11 +157,11 @@ public class TruthTable extends LogicalReasoning {
             }
         } while (hasNextInterpretation());
         setResult(tautology, trueCount);
-        return System.currentTimeMillis() - start;
+        return System.nanoTime() - start;
     }
 
     public long solve2() {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         int trueCount = 0;
         init();
         initPredicates();
@@ -174,6 +174,6 @@ public class TruthTable extends LogicalReasoning {
             }
         } while (hasNextInterpretation());
         setResult(tautology, trueCount);
-        return System.currentTimeMillis() - start;
+        return System.nanoTime() - start;
     }
 }
