@@ -7,8 +7,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import proof.Node;
-import proof.Tree;
+import tableau.Node;
+import tableau.Tree;
 
 /**
  * @author dev

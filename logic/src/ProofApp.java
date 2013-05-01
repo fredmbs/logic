@@ -6,6 +6,7 @@ import tableau.Tableau;
 import tableau.ke.KeNodeSelectorFactory;
 import tableau.ke.KeTableauInferenceFactory;
 import tableau.ke.KeTableauNodeClassifierFactory;
+import tableau.lemma.LemmaNodeSelectorFactory;
 import tableau.lemma.LemmaTableauInferenceFactory;
 import tableau.patterns.PriorityNodeSelectorFactory;
 import tableau.patterns.TableauNodeClassifierFactory;
@@ -239,7 +240,7 @@ class ProofApp {
                     t2 = new Tableau(logicalSystem, 
                             new LemmaTableauInferenceFactory(),
                             new TableauNodeClassifierFactory(),
-                            new PriorityNodeSelectorFactory());
+                            new LemmaNodeSelectorFactory());
                     spentTime = t2.solve();
                     t2.print();
                     System.out.println("Solução = " + t2.getResultName());

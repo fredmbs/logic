@@ -4,9 +4,9 @@
 package tableau.simple;
 
 import proof.Inference;
-import proof.Node;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
+import tableau.Node;
 import tableau.TreeEngine;
 import ast.*;
 import ast.patterns.FormulaVisitor;
@@ -27,6 +27,7 @@ public class SimpleTableauInference implements Inference, FormulaVisitor {
         this.treeEngine = engine.getTreeEngine();
     }
 
+    @Override
     public boolean infer(Node n) {
         this.expanded = false;
         this.node = n;

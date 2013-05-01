@@ -1,6 +1,6 @@
 package proof.explanation;
 
-import proof.Node;
+import tableau.Node;
 
 public class ExplanationDual implements Explanation {
 

@@ -4,10 +4,10 @@
 package tableau.lemma;
 
 import proof.Inference;
-import proof.Node;
 import proof.explanation.ExplanationSelf;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
+import tableau.Node;
 import tableau.TreeEngine;
 import ast.*;
 import ast.patterns.FormulaVisitor;
@@ -32,6 +32,7 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
         this(engine);
     }
     
+    @Override
     public boolean infer(Node n) {
         this.expanded = false;
         this.node = n;
@@ -51,13 +52,13 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
             if (fL.getSize() < fR.getSize()) {
                 //Node lemma = new Node(fL, !sL);
                 Node lemma = Node.removeNot(fL, !sL);
-                lemma.setExplanation(new ExplanationSelf("lema"));
+                lemma.setExplanation(new ExplanationSelf("lemma"));
                 lemma.setType(Node.Type.ATOMIC);
                 newBE.add(lemma);
             } else {
                 //Node lemma = new Node(fR, !sR);
                 Node lemma = Node.removeNot(fR, !sR);
-                lemma.setExplanation(new ExplanationSelf("lema"));
+                lemma.setExplanation(new ExplanationSelf("lemma"));
                 lemma.setType(Node.Type.ATOMIC);
                 engine.add(lemma);
             }
@@ -66,27 +67,37 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
 
     @Override
     public void visit(And and) {
-        if(node.isSignT()) {
-            engine.add(and.getLeft(), true)
-                .setExplanation(new ExplanationSingle(node, "T^:l"));
-            engine.add(and.getRight(), true)
-                .setExplanation(new ExplanationSingle(node, "T^:r"));;
+        if (and.getLeft().equals(and.getRight())) {
+            engine.add(and.getLeft(), node.isSignT())
+            .setExplanation(new ExplanationSingle(node, "Ident."));
         } else {
-            lemmaBranching(and.getLeft(), false,and.getRight(), false, "F^");
-            
+            if(node.isSignT()) {
+                engine.add(and.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:l"));
+                engine.add(and.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:r"));;
+            } else {
+                lemmaBranching(and.getLeft(), false,and.getRight(), false, "F^");
+                
+            }
         }
         expanded = true;
     }
 
     @Override
     public void visit(Or or) {
-        if(node.isSignT()) {
-            lemmaBranching(or.getLeft(), true, or.getRight(), true, "Tv");
-        } else {
-            engine.add(or.getLeft(), false)
+        if (or.getLeft().equals(or.getRight())) {
+            engine.add(or.getLeft(), node.isSignT())
+            .setExplanation(new ExplanationSingle(node, "Ident."));
+        } else { 
+            if(node.isSignT()) {
+                lemmaBranching(or.getLeft(), true, or.getRight(), true, "Tv");
+            } else {
+                engine.add(or.getLeft(), false)
                 .setExplanation(new ExplanationSingle(node, "Fv:l"));
-            engine.add(or.getRight(), false)
+                engine.add(or.getRight(), false)
                 .setExplanation(new ExplanationSingle(node, "Fv:r"));
+            }
         }
         expanded = true;
     }

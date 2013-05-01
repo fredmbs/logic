@@ -2,9 +2,6 @@ package tableau;
 
 import java.util.Stack;
 import ast.Formula;
-import proof.Branch;
-import proof.Node;
-import proof.Tree;
 import proof.explanation.Explanation;
 
 public class TreeEngine {

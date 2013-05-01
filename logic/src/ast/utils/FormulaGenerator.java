@@ -61,8 +61,8 @@ public class FormulaGenerator {
         return hasFormula;
     }
     
-    public double getNumFormulas() {
-        return ((predicates*2)^terms)*4^(terms-1);
+    public long getNumFormulas() {
+        return  (long)(Math.pow((predicates*2),terms)* Math.pow(4,(terms-1)));
     }
     
     public StringBuffer nextFormula() {

@@ -4,8 +4,8 @@
 package tableau.ke;
 
 import java.util.ArrayList;
-import proof.Node;
 import tableau.BranchEngine;
+import tableau.Node;
 import tableau.patterns.PriorityNodeSelector;
 
 /**
@@ -46,6 +46,7 @@ public class KeNodeSelector extends PriorityNodeSelector {
         }
     }
     
+    @Override
     public void add(Node node) {
         //System.err.println("Adicionando nó:" + node);
         regressOpenBetas();

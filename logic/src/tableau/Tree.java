@@ -1,7 +1,7 @@
 /**
  * 
  */
-package proof;
+package tableau;
 
 import ast.Formula;
 

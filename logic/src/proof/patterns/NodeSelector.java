@@ -1,6 +1,6 @@
 package proof.patterns;
 
-import proof.Node;
+import tableau.Node;
 
 public interface NodeSelector {
     public void add(Node node);

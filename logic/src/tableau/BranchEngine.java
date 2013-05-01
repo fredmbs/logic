@@ -3,10 +3,7 @@
  */
 package tableau;
 
-import proof.Branch;
 import proof.Inference;
-import proof.Node;
-import proof.Tree;
 import proof.explanation.Explanation;
 import proof.explanation.ExplanationDual;
 import proof.explanation.ExplanationSelf;
@@ -35,10 +32,6 @@ public class BranchEngine {
         nodeSelector = tableau.getNodeSelectorFactory().newNodeSelector(this);
         rules = tableau.getInferenceFactory().newInference(this);
         this.branch = new Branch(this.treeEngine.getTree().getHead());
-    }
-
-    public BranchEngine(BranchEngine from, Formula formula, boolean signT) {
-        this(from, formula, signT, null);
     }
 
     public BranchEngine(BranchEngine from, 
@@ -116,8 +109,10 @@ public class BranchEngine {
         return node;
     }
 
+    
+    
     public void add(Node node) {
-        // INICIO otimização opcional: não inserir nó duplicado no branch
+        // --INICIO otimização de regularidade: não inserir nó duplicado
         Node searchNode = Tree.searchFormula(branch.getLeaf(), node.getFormula());
         if (searchNode != null && searchNode.isSignT() == node.isSignT())
             return;
@@ -127,19 +122,19 @@ public class BranchEngine {
         return;
     }
 
-    protected void newNode(Node node) {
-        nodeSelector.add(node);
-        Node.Type type = node.getType();
-        if (type == Node.Type.ATOMIC || closureOnAllNodes) 
+    private void newNode(Node node) {
+        if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) 
+            nodeSelector.add(node);
+        if (node.getType() == Node.Type.ATOMIC || closureOnAllNodes) 
             verifyClosure(node);
     }
     
-    protected void fullVerification(Node node) {
-        if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) {
-            nodeSelector.add(node);
-        };
-        verifyClosure(node);
-    }
+    //protected void fullVerification(Node node) {
+    //    if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) {
+    //        nodeSelector.add(node);
+    //    };
+    //    verifyClosure(node);
+    //}
 
     private void verifyClosure(Node node) {
         Node searchNode = Tree.searchFormula(node);

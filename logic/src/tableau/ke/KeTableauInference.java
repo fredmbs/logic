@@ -3,11 +3,11 @@ package tableau.ke;
 import ast.*;
 import ast.patterns.FormulaVisitor;
 import proof.Inference;
-import proof.Node;
-import proof.Tree;
 import proof.explanation.ExplanationDual;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
+import tableau.Node;
+import tableau.Tree;
 import tableau.TreeEngine;
 
 public class KeTableauInference implements Inference, FormulaVisitor {

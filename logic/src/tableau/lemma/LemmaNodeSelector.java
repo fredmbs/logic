@@ -1,7 +1,7 @@
 /**
  * 
  */
-package tableau.patterns;
+package tableau.lemma;
 
 import java.util.PriorityQueue;
 import proof.patterns.NodeSelector;
@@ -12,17 +12,17 @@ import tableau.Node;
  * @author dev
  *
  */
-public class PriorityNodeSelector implements NodeSelector {
+public class LemmaNodeSelector implements NodeSelector {
 
     private PriorityQueue<Node> unexpandedNodes;
     private BranchEngine engine;
     
-    public PriorityNodeSelector(BranchEngine engine) {
+    public LemmaNodeSelector(BranchEngine engine) {
         this.engine = engine;
         this.unexpandedNodes = new PriorityQueue<Node>();
     }
 
-    public PriorityNodeSelector(BranchEngine engine, PriorityNodeSelector from) {
+    public LemmaNodeSelector(BranchEngine engine, LemmaNodeSelector from) {
         this.engine = engine;
         this.unexpandedNodes = new PriorityQueue<Node>(from.unexpandedNodes);
     }
@@ -41,11 +41,22 @@ public class PriorityNodeSelector implements NodeSelector {
     @Override
     public Node select() {
         Node node;
+        Node[] fulfill = new Node[2];
         // Otimização de regularidade: não expande nós realizado (fulfilled)
         do {
             node = unexpandedNodes.poll();
-        } while (node != null && engine.getBranch().isFulfilled(node));
-        return node;
+            if (node == null)
+                return null;
+            fulfill = engine.getBranch().searchtFulfillNodes(node);
+            if (fulfill[0] != null) {
+                if (fulfill[0].getExplanation().toString().equals("{lemma}"))
+                    return node;
+            }
+            if (fulfill[1] != null) {
+                if (fulfill[1].getExplanation().toString().equals("{lemma}"))
+                    return node;
+            }
+        } while (true);
     }
 
     @Override

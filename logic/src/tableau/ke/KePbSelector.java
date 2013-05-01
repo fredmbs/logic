@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import proof.Node;
-import proof.Tree;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
+import tableau.Node;
+import tableau.Tree;
 import ast.And;
 import ast.Connective;
 import ast.Formula;

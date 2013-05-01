@@ -1,14 +1,10 @@
 /**
  * 
  */
-package proof;
+package tableau;
 
-import ast.And;
-import ast.Connective;
 import ast.Formula;
-import ast.Implies;
 import ast.Not;
-import ast.Or;
 import proof.explanation.Explanation;
 
 /**

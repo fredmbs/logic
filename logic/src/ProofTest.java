@@ -200,7 +200,7 @@ public class ProofTest {
         System.err.println("Configurações:");
         System.err.println("Número de termos      = " + numTermos);
         System.err.println("Número de proposições = " + numProposicoes);
-        System.err.println("Número de fórmulas      = " + this.amostragem.getNumFormulas());
+        System.err.println("Número de fórmulas    = " + this.amostragem.getNumFormulas());
         System.err.println("Saída de dados        = " + filename);
     }
     
@@ -232,8 +232,8 @@ public class ProofTest {
     }
     
     public void execute() {
-        showConfig();
         amostragem = new FormulaGenerator(numTermos, numProposicoes);
+        showConfig();
         while (amostragem.hasFormula()) {
             verify(amostragem.nextFormula().toString());
         }

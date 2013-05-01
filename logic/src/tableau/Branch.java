@@ -1,7 +1,7 @@
 /**
  * 
  */
-package proof;
+package tableau;
 
 import ast.And;
 import ast.Connective;
@@ -79,10 +79,8 @@ public class Branch {
         }
         return count;
     }
+    
     public boolean isFulfilled(Node node) {
-        if (this.leaf == null) {
-            return false;
-        }
         if (!(node.getFormula() instanceof Connective)) {
             return false;
         }
@@ -115,5 +113,43 @@ public class Branch {
             }
         } 
         return fulfilled;
+    }
+
+    public Node[] searchtFulfillNodes(Node node) {
+        if (!(node.getFormula() instanceof Connective)) {
+            return null;
+        }
+        Connective conective = (Connective)node.getFormula();
+        Node nodeSearchBl = Node.removeNot(conective.getLeft());
+        Node nodeSearchBr = Node.removeNot(conective.getRight());
+        Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
+        Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
+        Node[] fulfillBy = new Node[2];
+        fulfillBy[0] = null;
+        fulfillBy[1] = null;
+        boolean signT = node.isSignT(); 
+        if (signT && conective instanceof Or) { 
+            if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
+                fulfillBy[0] = nodeBl;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+                fulfillBy[1] = nodeBr;
+            }
+        } else if (!signT && conective instanceof And) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                fulfillBy[0] = nodeBl;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
+                fulfillBy[1] = nodeBr;
+            }
+        } else if (signT && conective instanceof Implies) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                fulfillBy[0] = nodeBl;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+                fulfillBy[1] = nodeBr;
+            }
+        } 
+        return fulfillBy;
     }
 }

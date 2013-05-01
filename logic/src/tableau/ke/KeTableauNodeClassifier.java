@@ -1,7 +1,7 @@
 package tableau.ke;
 
-import proof.Node;
 import proof.patterns.NodeClassifier;
+import tableau.Node;
 import ast.*;
 import ast.patterns.FormulaVisitor;
 
