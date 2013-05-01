@@ -3,7 +3,12 @@
  */
 package proof;
 
+import ast.And;
+import ast.Connective;
 import ast.Formula;
+import ast.Implies;
+import ast.Not;
+import ast.Or;
 import proof.explanation.Explanation;
 
 /**
@@ -202,6 +207,15 @@ public class Node implements Comparable<Node> {
     @Override
     public int compareTo(Node other) {
         return other.priority - this.priority;
+    }
+
+    static public Node removeNot(Formula f) {
+        boolean sign = true;
+        while (f instanceof Not) {
+            f = ((Not)f).getFormula();
+            sign = !sign;
+        }
+        return new Node(f, sign);
     }
 
 }

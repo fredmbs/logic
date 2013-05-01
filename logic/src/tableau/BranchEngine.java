@@ -6,6 +6,7 @@ package tableau;
 import proof.Branch;
 import proof.Inference;
 import proof.Node;
+import proof.Tree;
 import proof.explanation.Explanation;
 import proof.explanation.ExplanationDual;
 import proof.explanation.ExplanationSelf;
@@ -117,8 +118,7 @@ public class BranchEngine {
 
     public void add(Node node) {
         // INICIO otimização opcional: não inserir nó duplicado no branch
-        Node searchNode = treeEngine.getTree().searchFormula(branch.getLeaf(), 
-                node.getFormula());
+        Node searchNode = Tree.searchFormula(branch.getLeaf(), node.getFormula());
         if (searchNode != null && searchNode.isSignT() == node.isSignT())
             return;
         // -- FIM Otimização */
@@ -142,7 +142,7 @@ public class BranchEngine {
     }
 
     private void verifyClosure(Node node) {
-        Node searchNode = this.treeEngine.getTree().searchFormula(node);
+        Node searchNode = Tree.searchFormula(node);
         if (searchNode != null) {
             if (node.isSignT() != searchNode.isSignT()) {
                 this.branch.close()

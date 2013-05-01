@@ -11,22 +11,22 @@ import ast.utils.SymbolTable;
  *
  */
 public class Not extends Formula {
-	
-	private Formula formula;
-	
-	public Not(Formula f){
-		formula = f;
-	}
-
+    
+    private Formula formula;
+    
+    public Not(Formula f){
+        formula = f;
+    }
+    
     public Formula getFormula() {
         return formula;
     }
-
+    
     @Override
     public int getSize() {
         return 1 + formula.getSize(); 
     };
-
+    
     @Override
     public boolean evaluate() {
         return !formula.evaluate(); 
@@ -42,24 +42,24 @@ public class Not extends Formula {
     public String toString() {
         return "~(" + formula + ")";
     }
-
+    
     @Override
     public String toPrefix() {
         return "~" + formula.toPrefix();
     }
-
+    
     @Override
     public Not clone(SymbolTable<? extends Symbol> st) {
         Not clonedObj = new Not(this.formula.clone(st));
         return clonedObj;
     }
-
-
+    
+    
     @Override
     public void accept(FormulaVisitor visitor) {
         visitor.visit(this);
     }
-
+    
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -70,7 +70,7 @@ public class Not extends Formula {
         result = prime * result + ((formula == null) ? 0 : formula.hashCode());
         return result;
     }
-
+    
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -87,7 +87,7 @@ public class Not extends Formula {
             return formula.equals(other.formula);
         return false;
     }
-
+    
     /*
     public boolean equals(Object obj) {
         if (this == obj)
@@ -119,6 +119,6 @@ public class Not extends Formula {
         
         return false;
     }
-    */
+     */
     
 }

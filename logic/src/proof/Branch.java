@@ -3,6 +3,11 @@
  */
 package proof;
 
+import ast.And;
+import ast.Connective;
+import ast.Implies;
+import ast.Or;
+
 
 /**
  * @author dev
@@ -73,5 +78,42 @@ public class Branch {
             n = n.getPrevious();
         }
         return count;
+    }
+    public boolean isFulfilled(Node node) {
+        if (this.leaf == null) {
+            return false;
+        }
+        if (!(node.getFormula() instanceof Connective)) {
+            return false;
+        }
+        Connective conective = (Connective)node.getFormula();
+        Node nodeSearchBl = Node.removeNot(conective.getLeft());
+        Node nodeSearchBr = Node.removeNot(conective.getRight());
+        Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
+        Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
+        boolean fulfilled = false, signT = node.isSignT(); 
+        if (signT && conective instanceof Or) { 
+            if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
+                fulfilled = true;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+                fulfilled = true;
+            }
+        } else if (!signT && conective instanceof And) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                fulfilled = true;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
+                fulfilled = true;
+            }
+        } else if (signT && conective instanceof Implies) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                fulfilled = true;
+            }
+            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
+                fulfilled = true;
+            }
+        } 
+        return fulfilled;
     }
 }

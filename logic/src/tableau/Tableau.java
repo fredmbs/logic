@@ -116,7 +116,7 @@ extends LogicalReasoning
         else if (isSatisfiable())
             setResult(TruthType.SATISFIABLE);
         else
-            setResult(TruthType.CONTRADICTION);
+            setResult(TruthType.NOT_TAUTOLOGY);
         
         return time;
     }

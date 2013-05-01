@@ -4,6 +4,7 @@ import ast.*;
 import ast.patterns.FormulaVisitor;
 import proof.Inference;
 import proof.Node;
+import proof.Tree;
 import proof.explanation.ExplanationDual;
 import proof.explanation.ExplanationSingle;
 import tableau.BranchEngine;
@@ -54,7 +55,7 @@ public class KeTableauInference implements Inference, FormulaVisitor {
     private Node searchFormula(Formula subBeta, boolean signT) {
         Node leaf = engine.getBranch().getLeaf();
         Node equivalentNode = removeNot(subBeta, signT);
-        Node nodeSearch = treeEngine.getTree().searchEqual(leaf, equivalentNode);
+        Node nodeSearch = Tree.searchEqual(leaf, equivalentNode);
         //System.err.println("?? Tentando encontrar nó com a fórmula (" + signT + ")" + subBeta);
         //if (nodeSearch != null) {
             //System.err.println("!! Encontrada a fórmula no nó " + nodeSearch);

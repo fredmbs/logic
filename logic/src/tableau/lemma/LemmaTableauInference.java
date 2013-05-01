@@ -46,19 +46,20 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
         BranchEngine newBE = treeEngine.add(engine, 
                 fL, sL, new ExplanationSingle(node, explanation + ":l"),
                 fR, sR, new ExplanationSingle(node, explanation + ":r"));
-        // Dica: verificar qual é a menor fómrula e usá-la como lemma
-        if (fL.getSize() > fR.getSize()) {
-            Node lemma = new Node(fL, !sL);
-            lemma.setExplanation(new ExplanationSelf("lema"));
-            lemma.setType(Node.Type.ATOMIC);
-            newBE.add(lemma);
-        } else {
-            Node lemma = new Node(fR, !sR);
-            lemma.setExplanation(new ExplanationSelf("lema"));
-            lemma.setType(Node.Type.ATOMIC);
-            engine.add(lemma);
+        if (newBE != null) {
+            // Dica: verificar qual é a menor fómrula e usá-la como lemma
+            if (fL.getSize() > fR.getSize()) {
+                Node lemma = new Node(fL, !sL);
+                lemma.setExplanation(new ExplanationSelf("lema"));
+                lemma.setType(Node.Type.ATOMIC);
+                newBE.add(lemma);
+            } else {
+                Node lemma = new Node(fR, !sR);
+                lemma.setExplanation(new ExplanationSelf("lema"));
+                lemma.setType(Node.Type.ATOMIC);
+                engine.add(lemma);
+            }
         }
-        //lemmaNodes.add(newBE.add(fL, !sL));
     }
 
     @Override

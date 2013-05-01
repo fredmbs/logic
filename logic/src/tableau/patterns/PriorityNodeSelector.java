@@ -6,6 +6,7 @@ package tableau.patterns;
 import java.util.PriorityQueue;
 import proof.Node;
 import proof.patterns.NodeSelector;
+import tableau.BranchEngine;
 
 /**
  * @author dev
@@ -14,12 +15,15 @@ import proof.patterns.NodeSelector;
 public class PriorityNodeSelector implements NodeSelector {
 
     private PriorityQueue<Node> unexpandedNodes;
+    private BranchEngine engine;
     
-    public PriorityNodeSelector() {
+    public PriorityNodeSelector(BranchEngine engine) {
+        this.engine = engine;
         this.unexpandedNodes = new PriorityQueue<Node>();
     }
 
-    public PriorityNodeSelector(PriorityNodeSelector from) {
+    public PriorityNodeSelector(BranchEngine engine, PriorityNodeSelector from) {
+        this.engine = engine;
         this.unexpandedNodes = new PriorityQueue<Node>(from.unexpandedNodes);
     }
 
@@ -29,6 +33,14 @@ public class PriorityNodeSelector implements NodeSelector {
     }
 
     public Node select() {
+        Node node;
+        do {
+            node = unexpandedNodes.poll();
+        } while (node != null && engine.getBranch().isFulfilled(node));
+        return node;
+    }
+
+    public Node select2() {
         return unexpandedNodes.poll();
     }
 

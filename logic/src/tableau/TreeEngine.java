@@ -58,11 +58,14 @@ public class TreeEngine {
             Formula formulaLeft, boolean signTLeft, Explanation explLeft,
             Formula formulaRight, boolean signTRight, Explanation explRight) 
     {
-        BranchEngine newBE = new BranchEngine(from, 
+        BranchEngine newBE = null;
+        if (!(signTLeft ==  signTRight && formulaLeft.equals(formulaRight))) {
+            newBE = new BranchEngine(from, 
                 formulaRight, signTRight, explRight);
-        branchesCount++;
-        if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
-            activeBranches.add(newBE);
+            branchesCount++;
+            if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
+                activeBranches.add(newBE);
+        }
         from.add(formulaLeft, signTLeft, explLeft);
         return newBE;
     }
@@ -78,10 +81,13 @@ public class TreeEngine {
 
     public BranchEngine add(BranchEngine from, Node left, Node right) 
     {
-        BranchEngine newBE = new BranchEngine(from, right);
-        branchesCount++;
-        if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
-            activeBranches.add(newBE);
+        BranchEngine newBE = null;
+        if (!left.equals(right)) {
+            newBE = new BranchEngine(from, right);
+            branchesCount++;
+            if (newBE.getBranch().getStatus() == Branch.Status.OPEN)
+                activeBranches.add(newBE);
+        }
         from.add(left);
         return newBE;
     }

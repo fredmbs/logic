@@ -26,7 +26,7 @@ public class Tree {
         return head.getNext();
     }
     
-    public Node searchFormula(Node leaf) {
+    static public Node searchFormula(Node leaf) {
         Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
             searchNode = searchNode.getPrevious();
@@ -36,7 +36,7 @@ public class Tree {
         return null;
     }
 
-    public Node searchEqual(Node leaf, Node node) {
+    static public Node searchEqual(Node leaf, Node node) {
         Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
             if (searchNode.equals(node))
@@ -46,7 +46,7 @@ public class Tree {
         return null;
     }
 
-    public Node searchFormula(Node leaf, Formula formula) {
+    static public Node searchFormula(Node leaf, Formula formula) {
         Node searchNode = leaf;
         while(searchNode.getPrevious() != null) {
             if (searchNode.getFormula().equals(formula)) {

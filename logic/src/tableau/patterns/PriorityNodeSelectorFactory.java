@@ -23,13 +23,13 @@ implements NodeSelectorFactory<BranchEngine>
 
     @Override
     public NodeSelector newNodeSelector(BranchEngine engine) {
-        return new PriorityNodeSelector();
+        return new PriorityNodeSelector(engine);
     }
 
     @Override
     public NodeSelector newNodeSelector(BranchEngine engine, NodeSelector from){
         if (from instanceof PriorityNodeSelector)
-            return new PriorityNodeSelector((PriorityNodeSelector)from);
+            return new PriorityNodeSelector(engine, (PriorityNodeSelector)from);
         return null;
     }
 

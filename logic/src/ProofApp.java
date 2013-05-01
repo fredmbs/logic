@@ -14,61 +14,43 @@ import ast.*;
 import gnu.getopt.Getopt;
 
 class ProofApp {
-
+    
     static boolean do_debug_parse = false;
-
-    // opções de linha de comandos do programa
-    boolean debugSyn = false;
-    boolean debugLex = false;
-    boolean doSyntactic = true;
+    
     boolean showSymTable = false;
     String fileName = "";
     String dotFile = "";
-
+    
     // controle de opções de linha de comando
     Getopt getOpt;
     int defaultOptionsIndex = 0;
     String argv[];
-
+    
     // compilador
-    LogicalSystem logicalSystem;
-    Yylex scanner;
-    LogicalCup parser_obj;
-
+    FormulaCompiler compiler = new FormulaCompiler();
+    
     public ProofApp(String argv[]) {
         this.argv = argv;
     }
-
+    
     public boolean hasFileName() {
         return defaultOptionsIndex < argv.length;
     }
-
+    
     public String getNextFileName() {
         return argv[defaultOptionsIndex++];
     }
-
-    public boolean isDebugSyn() {
-        return debugSyn;
-    }
-
-    public boolean isDebugLex() {
-        return debugLex;
-    }
-
-    public boolean isDoSyntactic() {
-        return doSyntactic;
-    }
-
+    
     public boolean isShowSymTable() {
         return showSymTable;
     }
-
+    
     public String getDotFile() {
         return dotFile;
     }
-
+    
     private void processCommands() {
-
+        
         // tratador das opções da linha de comando
         getOpt = new Getopt("prover", argv, ":nsltho:");
         getOpt.setOpterr(false);
@@ -79,16 +61,16 @@ class ProofApp {
             switch(c)
             {
             case 's':
-                debugSyn = true;
+                compiler.setDebugSyn(true);
                 break;
             case 'l':
-                debugLex = true;
+                compiler.setDebugLex(true);
                 break;
             case 't':
                 showSymTable = true;
                 break;
             case 'n':
-                doSyntactic = false;
+                compiler.setDoSyntactic(false);
                 break;
             case 'o':
                 dotFile = getOpt.getOptarg();
@@ -123,57 +105,9 @@ class ProofApp {
         // opções default (listagem de nomes de arquivos)
         defaultOptionsIndex = getOpt.getOptind(); 
     }
-
-    public LogicalSystem compile(java.io.InputStream input) {
-        try {
-            // Cria o analisador léxico 
-            scanner = new Yylex(input);
-            scanner.setDebug(debugLex);
-            if (!doSyntactic) {
-                // só faz a análise léxica
-                while(!scanner.isEOF()) 
-                	scanner.next_token();
-                return null;
-            } 
-            /* cria um sistema lógico */
-            logicalSystem = new LogicalSystem();
-
-            /* cria um analisador sintático */
-            parser_obj = new LogicalCup(scanner);
-            parser_obj.setDebug(debugSyn || debugLex);
-            parser_obj.setLogicalSystem(logicalSystem);
-            /* cria um objeto de símbolo para o nó raiz da árvore sintática */
-            java_cup.runtime.Symbol astRootNode;
-
-            if (debugSyn) 
-                // faz a análise sintática com debug
-                astRootNode = parser_obj.debug_parse();
-            else
-                // faz a análise sintática SEM debug
-                astRootNode = parser_obj.parse();
-            //parser_obj.showSummary();
-
-            if (!parser_obj.hasError() && astRootNode.value instanceof LogicalSystem) {
-                return logicalSystem;
-            }
-        }     
-        catch (java.io.FileNotFoundException e) {
-            System.err.println("Arquivo não encontrado : \""+fileName+"\"");
-        }
-        catch (java.io.IOException e) {
-            System.err.println("Erro de IO no analisador léxico. Arquivo \""+fileName+"\"");
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            System.err.println("Erro desconhecido:");
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
+    
     public static void main(String argv[]) {
-
+        
         long spentTime;
         String fileName;
         ProofApp proofApp = new ProofApp(argv);
@@ -187,19 +121,19 @@ class ProofApp {
         while (proofApp.hasFileName()) {
             fileName = proofApp.getNextFileName();
             LogicalSystem logicalSystem = null;
-			try {
-				logicalSystem = proofApp.compile(new java.io.FileInputStream(fileName));
-			} catch (FileNotFoundException e2) {
-				// TODO Auto-generated catch block
-	            System.err.println("Arquivo não encontrado : \""+fileName+"\"");
-			} 
+            try {
+                logicalSystem = proofApp.compiler.compile(new java.io.FileInputStream(fileName));
+            } catch (FileNotFoundException e2) {
+                // TODO Auto-generated catch block
+                System.err.println("Arquivo não encontrado : \""+fileName+"\"");
+            } 
             if (logicalSystem == null) {
                 System.err.println("Falha na compilação.");
                 return;
-           } else {
+            } else {
                 System.out.print("Sistema:");
                 System.out.println(logicalSystem);
-
+                
                 switch(logicalSystem.getLogicType()) {
                 case UNKNOWN:
                     System.out.println("==> Lógica desconhecida");
@@ -213,9 +147,9 @@ class ProofApp {
                 default:
                     System.out.println("==> Falha na definição do tipo de lógica");
                     break;
-
+                    
                 }
-
+                
                 switch(logicalSystem.getLogicSystemType()) {
                 case UNKNOWN:
                     System.out.println("==> Sistema lógico desconhecido");
@@ -232,9 +166,9 @@ class ProofApp {
                 default:
                     System.out.println("==> Falha na definição do tipo de sistema lógico");
                     break;
-
+                    
                 }
-
+                
                 if (proofApp.isShowSymTable()) 
                 {
                     logicalSystem.getSymbolTable().print();
@@ -259,7 +193,7 @@ class ProofApp {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
+                
                 System.out.println("-------------------------------------");
                 System.out.println("Segunda cópia do sistema lógico:");
                 LogicalSystem sys2 = logicalSystem.clone();
@@ -278,7 +212,7 @@ class ProofApp {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-               
+                
                 
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
@@ -296,7 +230,7 @@ class ProofApp {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
+                
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t2;
@@ -316,7 +250,7 @@ class ProofApp {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
+                
                 System.out.println("-------------------------------------");
                 System.out.println("Tableau:");
                 Tableau t3;
@@ -339,6 +273,6 @@ class ProofApp {
                 
             }
         }
-}
-
+    }
+    
 }

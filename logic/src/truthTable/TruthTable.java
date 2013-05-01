@@ -71,7 +71,7 @@ public class TruthTable extends LogicalReasoning {
         for (int i = 0; i < predicate.size(); i++) {
             System.out.print(predicate.get(i).toString()+"|");
         }
-        System.out.print( formulaStr + "|");
+        System.out.print(formulaStr + "|");
         System.out.println("");
     }
     
