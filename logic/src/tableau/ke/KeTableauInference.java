@@ -43,30 +43,11 @@ public class KeTableauInference implements Inference, FormulaVisitor {
         return expanded;
     }
     
-    private Node removeNot(Formula f, boolean sign) {
-        
-        while (f instanceof Not) {
-            f = ((Not)f).getFormula();
-            sign = !sign;
-        }
-        return new Node(f, sign);
-    }
-    
     private Node searchFormula(Formula subBeta, boolean signT) {
         Node leaf = engine.getBranch().getLeaf();
-        Node equivalentNode = removeNot(subBeta, signT);
+        Node equivalentNode = Node.removeNot(subBeta, signT);
         Node nodeSearch = Tree.searchEqual(leaf, equivalentNode);
-        //System.err.println("?? Tentando encontrar nó com a fórmula (" + signT + ")" + subBeta);
-        //if (nodeSearch != null) {
-            //System.err.println("!! Encontrada a fórmula no nó " + nodeSearch);
-            //if (nodeSearch.isSignT() == signT) {
-                return nodeSearch;
-            //}
-            //System.err.println("-- Os nós possuem sinais diferentes:" + node + " " + nodeSearch);
-            //return null;
-        //}
-        //System.err.println(".. Nó não encontrado");
-        //return null;
+        return nodeSearch;
     }
     
     private boolean betaCut(Formula formula, boolean signT, 
@@ -76,7 +57,7 @@ public class KeTableauInference implements Inference, FormulaVisitor {
         if (nodeCut != null) {
             //System.err.println("!!!! Encontrado nó " + nodeCut);
             engine.add(newFormula, newSignT)
-                .setExplanation(new ExplanationDual(node, nodeCut, explain));
+            .setExplanation(new ExplanationDual(node, nodeCut, explain));
             return true;
         }
         //System.err.println(".... Não encontrado nó");
@@ -85,15 +66,20 @@ public class KeTableauInference implements Inference, FormulaVisitor {
     
     @Override
     public void visit(And and) {
-        if(node.isSignT()) {
-            engine.add(and.getLeft(), true)
-                .setExplanation(new ExplanationSingle(node, "T^:l"));
-            engine.add(and.getRight(), true)
-                .setExplanation(new ExplanationSingle(node, "T^:r"));
+        if (and.getLeft().equals(and.getRight())) {
+            engine.add(and.getLeft(), node.isSignT())
+            .setExplanation(new ExplanationSingle(node, "Ident."));
         } else {
-            if (!betaCut(and.getLeft(), true, and.getRight(), false, "F^-cut:l")) {
-                if(!betaCut(and.getRight(), true, and.getLeft(), false, "F^-cut:r"))
-                    return;
+            if(node.isSignT()) {
+                engine.add(and.getLeft(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:l"));
+                engine.add(and.getRight(), true)
+                .setExplanation(new ExplanationSingle(node, "T^:r"));
+            } else {
+                if (!betaCut(and.getLeft(), true, and.getRight(), false, "F^-cut:l")) {
+                    if(!betaCut(and.getRight(), true, and.getLeft(), false, "F^-cut:r"))
+                        return;
+                }
             }
         }
         expanded = true;
@@ -101,15 +87,20 @@ public class KeTableauInference implements Inference, FormulaVisitor {
 
     @Override
     public void visit(Or or) {
-        if(node.isSignT()) {
-            if (!betaCut(or.getLeft(), false, or.getRight(), true, "Tv-cut:l"))
-                if(!betaCut(or.getRight(), false, or.getLeft(), true, "Tv-cut:r"))
-                    return;
+        if (or.getLeft().equals(or.getRight())) {
+            engine.add(or.getLeft(), node.isSignT())
+            .setExplanation(new ExplanationSingle(node, "Ident."));
         } else {
-            engine.add(or.getLeft(), false)
+            if(node.isSignT()) {
+                if (!betaCut(or.getLeft(), false, or.getRight(), true, "Tv-cut:l"))
+                    if(!betaCut(or.getRight(), false, or.getLeft(), true, "Tv-cut:r"))
+                        return;
+            } else {
+                engine.add(or.getLeft(), false)
                 .setExplanation(new ExplanationSingle(node, "Fv:l"));
-            engine.add(or.getRight(), false)
+                engine.add(or.getRight(), false)
                 .setExplanation(new ExplanationSingle(node, "Fv:r"));
+            }
         }
         expanded = true;
     }
@@ -134,9 +125,9 @@ public class KeTableauInference implements Inference, FormulaVisitor {
                     return;
         } else {
             engine.add(imp.getLeft(), true)
-                .setExplanation(new ExplanationSingle(node, "F->:l"));
+            .setExplanation(new ExplanationSingle(node, "F->:l"));
             engine.add(imp.getRight(), false)
-                .setExplanation(new ExplanationSingle(node, "F->:r"));
+            .setExplanation(new ExplanationSingle(node, "F->:r"));
         }
         expanded = true;
     }
@@ -144,15 +135,13 @@ public class KeTableauInference implements Inference, FormulaVisitor {
     @Override
     public void visit(Equivalent equ) {
         if(node.isSignT()) {
-            engine.add(new Implies(equ.getLeft(), equ.getRight()), true)
-                .setExplanation(new ExplanationSingle(node, "T<->:l"));
-            engine.add(new Implies(equ.getRight(), equ.getLeft()), true)
-                .setExplanation(new ExplanationSingle(node, "T<->:r"));
+            engine.add(new And(new Implies(equ.getLeft(), equ.getRight()), 
+                    new Implies(equ.getRight(), equ.getLeft())),true)
+                    .setExplanation(new ExplanationSingle(node, "T<->"));
         } else {
-            engine.add(new Implies(equ.getLeft(), equ.getRight()), false)
-                .setExplanation(new ExplanationSingle(node, "F<->:l"));
-            engine.add(new Implies(equ.getRight(), equ.getLeft()), false)
-                .setExplanation(new ExplanationSingle(node, "F<->:r"));
+            engine.add(new And(new Implies(equ.getLeft(), equ.getRight()), 
+                    new Implies(equ.getRight(), equ.getLeft())),false)
+                    .setExplanation(new ExplanationSingle(node, "F<->"));
         }
         expanded = true;
     }

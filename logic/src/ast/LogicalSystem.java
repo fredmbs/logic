@@ -52,6 +52,24 @@ public class LogicalSystem {
         return newLogicalSystem;
     }
 
+    public LogicalSystem cloneInverted() {
+        LogicalSystem newLogicalSystem = new LogicalSystem();
+        SymbolTable<Symbol> newST = newLogicalSystem.getSymbolTable();
+        newLogicalSystem.symbolTable = newST;
+        if (conclusion != null)
+            for (Formula f: conclusion)
+                if (f != null)
+                    newLogicalSystem.premisse.add(f.clone(newST));
+        if (premisse != null)
+            for (Formula f: premisse)
+                if (f != null)
+                    newLogicalSystem.conclusion.add(f.clone(newST));
+        newLogicalSystem.logicSystemType = LogicalSystem.LogicalSystemType.DERIVATION; 
+        newLogicalSystem.logicType = this.logicType; 
+        newLogicalSystem.logicalTypeReason = new StringBuilder(this.logicalTypeReason);
+        return newLogicalSystem;
+    }
+
     public void addLeft(Formula formula) {
         premisse.add(formula);
     }

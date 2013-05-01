@@ -186,7 +186,7 @@ class ProofApp {
                     spentTime = ttt.solve();
                     ttt.print();
                     System.out.println("Solução = " + ttt.getResultName());
-                    System.out.println("Solução por Tabela Verdade (com shortCut)' em " + spentTime + " ms");
+                    System.out.println("Solução por Tabela Verdade (com shortCut)' em " + spentTime + " ns");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e1) {
@@ -205,7 +205,7 @@ class ProofApp {
                     System.out.println(ttt2.getFormula());
                     spentTime = ttt2.solve2();
                     System.out.println("Solução = " + ttt2.getResultName());
-                    System.out.println("Solução por Tabela Verdade (sem otimização)' em " + spentTime + " ms");
+                    System.out.println("Solução por Tabela Verdade (sem otimização)' em " + spentTime + " ns");
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                 } catch (Exception e1) {
@@ -221,7 +221,8 @@ class ProofApp {
                     t = new Tableau(logicalSystem);
                     spentTime = t.solve();
                     t.print();
-                    System.out.println("Solução do Tableau de Smullyan em " + spentTime + " ms");
+                    System.out.println("Solução = " + t.getResultName());
+                    System.out.println("Solução do Tableau de Smullyan em " + spentTime + " ns");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_simple.gv");
                     t.toDot(proofApp.getDotFile() + "_simple.gv");
                 } catch (LogicalSystemException e1) {
@@ -241,7 +242,8 @@ class ProofApp {
                             new PriorityNodeSelectorFactory());
                     spentTime = t2.solve();
                     t2.print();
-                    System.out.println("Solução do Tableau com Lema em " + spentTime + " ms");
+                    System.out.println("Solução = " + t2.getResultName());
+                    System.out.println("Solução do Tableau com Lema em " + spentTime + " ns");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_lemma.gv");
                     t2.toDot(proofApp.getDotFile() + "_lemma.gv");
                 } catch (LogicalSystemException e1) {
@@ -261,7 +263,8 @@ class ProofApp {
                             new KeNodeSelectorFactory());
                     spentTime = t3.solve();
                     t3.print();
-                    System.out.println("Solução do Tableau KE em " + spentTime + " ms");
+                    System.out.println("Solução = " + t3.getResultName());
+                    System.out.println("Solução do Tableau KE em " + spentTime + " ns");
                     System.out.println("Salvando o arquivo " + proofApp.getDotFile() + "_ke.gv");
                     t3.toDot(proofApp.getDotFile() + "_ke.gv");
                 } catch (LogicalSystemException e1) {

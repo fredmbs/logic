@@ -15,7 +15,7 @@ public class TreeEngine {
     private BranchEngine start;
     private int openBranchesCount = 0;
     private int closedBranchesCount = 0;
-    private int branchesCount = 0;
+    private int branchesCount = 1;
     private int abandonedBranches = 0;
 
     public TreeEngine(Tableau tableau) {

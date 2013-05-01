@@ -11,6 +11,7 @@ public abstract class LogicalReasoning {
         SATISFIABLE, CONTRADICTION, NOT_CONTRADICTION };
         
         private TruthType result = TruthType.UNKNOWN;
+        private LogicalSystem logicalSystem;
         private SymbolTable<Symbol> symbolTable;
         
         public LogicalReasoning(LogicalSystem lsys) throws Exception {
@@ -18,6 +19,7 @@ public abstract class LogicalReasoning {
                 throw new LogicalSystemException("A versão atual do software " +
                         "soluciona apenas fórmula em lógica proposicional.");
             };
+            this.logicalSystem = lsys;
             this.symbolTable = lsys.getSymbolTable();
         }
         
@@ -31,6 +33,10 @@ public abstract class LogicalReasoning {
             result = r;
         }
         
+        public LogicalSystem getLogicalSystem() {
+            return logicalSystem;
+        }
+
         public SymbolTable<Symbol> getSymbolTable() {
             return symbolTable;
         }

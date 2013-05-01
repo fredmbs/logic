@@ -218,4 +218,12 @@ public class Node implements Comparable<Node> {
         return new Node(f, sign);
     }
 
+    static public Node removeNot(Formula f, boolean sign) {
+        while (f instanceof Not) {
+            f = ((Not)f).getFormula();
+            sign = !sign;
+        }
+        return new Node(f, sign);
+    }
+    
 }

@@ -28,6 +28,7 @@ extends LogicalReasoning
     private InferenceFactory<BranchEngine> inferenceFactory;
     private NodeSelectorFactory<BranchEngine> nodeSelectorFactory;
     private NodeClassifierFactory nodeClassifierFactory;
+    private boolean checkContradiction = true;
     
     public Tableau(LogicalSystem lsys, 
             InferenceFactory<BranchEngine> inferFactory,
@@ -61,6 +62,14 @@ extends LogicalReasoning
                    new PriorityNodeSelectorFactory());
     }
     
+    public boolean isCheckContradiction() {
+        return checkContradiction;
+    }
+
+    public void setCheckContradiction(boolean checkContradiction) {
+        this.checkContradiction = checkContradiction;
+    }
+
     public InferenceFactory<BranchEngine> getInferenceFactory() {
         return inferenceFactory;
     }
@@ -75,10 +84,6 @@ extends LogicalReasoning
 
     public boolean isTautology() {
         return (engine.getOpenBranchesCount() == 0);
-    }
-    
-    public boolean isSatisfiable() {
-        return (engine.getClosedBranchesCount() > 0);
     }
     
     public int getOpenBranchesCount() {
@@ -113,10 +118,32 @@ extends LogicalReasoning
         
         if (isTautology())
             setResult(TruthType.TAUTOLOGY);
-        else if (isSatisfiable())
-            setResult(TruthType.SATISFIABLE);
-        else
+        else {
             setResult(TruthType.NOT_TAUTOLOGY);
+            if (checkContradiction) {// && 
+                    //engine.getOpenBranchesCount() == engine.getBranchesCount()) {
+                
+                Tableau t; 
+                try {
+                    t = new Tableau(this.getLogicalSystem().cloneInverted(), 
+                            this.inferenceFactory,
+                            this.nodeClassifierFactory,
+                            this.nodeSelectorFactory);
+                    t.setCheckContradiction(false);
+                    time += t.solve();
+                    //System.out.println("###################################");
+                    //t.print();
+                    //System.out.println("Solução da verificação = " + t.getResultName());
+                    //System.out.println("###################################");
+                    if (t.isTautology()) 
+                        setResult(TruthType.CONTRADICTION);
+                    else
+                        setResult(TruthType.SATISFIABLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         
         return time;
     }
@@ -127,10 +154,6 @@ extends LogicalReasoning
         engine.getTree().print();
         System.out.println("Total de vertices = " + 
                 engine.getTree().countNodes());
-        if (isTautology())
-            System.out.println("TAUTOLOGY!");
-        else if (isSatisfiable())
-            System.out.println("Satisfiable...");
     }
     
     public boolean toDot(String arq) {

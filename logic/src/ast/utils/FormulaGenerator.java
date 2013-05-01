@@ -3,30 +3,30 @@ package ast.utils;
 
 public class FormulaGenerator {
     
-    StringBuffer f = new StringBuffer();
-    int numTerms, numConnectives, numPredicates;
-    int lastTermIndex, lastPredicateIndex;
-    String[] s = {"", "!"};
-    String[] c = {"v", "^", "->"};
+    private StringBuffer f = new StringBuffer();
+    private int terms, predicates;
+    private int lastTermIndex, lastPredicateIndex;
+    private String[] s = {"", "!"};
+    private String[] c = {"v", "^", "->", "<->"};
+    private int maxC = (c.length - 1); 
     int[] is, ic, ip;
     boolean hasFormula = true;
     
     public FormulaGenerator(int terms, int predicates) {
-        this.numPredicates = predicates;
-        this.numTerms = terms;
+        this.terms = terms;
+        this.predicates = predicates;
         this.lastTermIndex = terms - 1;
         this.lastPredicateIndex = predicates - 1;
-        this.numConnectives = numTerms - 1;
-        this.is = new int[numTerms];
-        this.ic = new int[numConnectives];
-        this.ip = new int[numTerms];
-        for (int i = 0; i < numTerms; i++) {
+        this.is = new int[terms];
+        this.ic = new int[lastTermIndex];
+        this.ip = new int[terms];
+        for (int i = 0; i < terms; i++) {
             is[i] = 0;
         }
-        for (int i = 0; i < numConnectives; i++) {
+        for (int i = 0; i < lastTermIndex; i++) {
             ic[i] = 0;
         }
-        for (int i = 0; i < numTerms; i++) {
+        for (int i = 0; i < terms; i++) {
             ip[i] = 0;
         }
     }
@@ -37,7 +37,7 @@ public class FormulaGenerator {
             if (is[n] == 1) {
                 is[n] = 0;
                 if (n < lastTermIndex) {
-                    if (ic[n] == 2) {
+                    if (ic[n] == maxC) {
                         ic[n] = 0;
                         if (n == 0) 
                             hasFormula = false;
@@ -59,6 +59,10 @@ public class FormulaGenerator {
     
     public boolean hasFormula() {
         return hasFormula;
+    }
+    
+    public double getNumFormulas() {
+        return ((predicates*2)^terms)*4^(terms-1);
     }
     
     public StringBuffer nextFormula() {

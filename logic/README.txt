@@ -28,3 +28,13 @@ POC - Software de prova de fórmulas em sistema de lógica clássica
      Por isso, recomenda-se a instalação do GRAPHVIZ 
      (http://www.graphviz.org/Download.php) 
 
+2) Uso:
+
+2.1) O programa de prova lê a fórmula em arquivo texto "teste.txt" no diretório
+     'test'. Nesse diretório são arquivadas as saídas do programa.
+     
+2.2) O programa de teste recebe os parâmetros da linha de comando e gera um 
+     arquivo 'proofTeste.txt" com os dados do teste no diretório 'test'.
+     
+2.3) Para maiores detalhes, ver o projeto do Eclipse ou os programas '.bat'. 
+  
