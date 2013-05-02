@@ -1,0 +1,565 @@
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 5
+Número de proposições = 1
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 1000ms
+Saída de dados        = test\proofTesteR-15-1.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 4823
+  Erros   = 0
+  Falhas  = 0
+  Total   = 4823
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 3209
+  Tempo gasto = 62379020ns
+  Tempo médio = 19438ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 1511
+  Tempo gasto = 119764167ns
+  Tempo médio = 79261ns
+CONTRADICTION:
+  Ocorrências = 103
+  Tempo gasto = 7938020ns
+  Tempo médio = 77068ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 37553345ns
+  Tempo médio = 7786ns
+Tableau Smullyan:
+  Tempo gasto = 44168320ns
+  Tempo médio = 9157ns
+Tableau com Lema:
+  Tempo gasto = 44777058ns
+  Tempo médio = 9284ns
+TableauKE:
+  Tempo gasto = 63582484ns
+  Tempo médio = 13183ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 1021490250ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 15
+Número de proposições = 1
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 4304919
+  Erros   = 0
+  Falhas  = 0
+  Total   = 4304919
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 3920247
+  Tempo gasto = 93324315787ns
+  Tempo médio = 23805ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 378834
+  Tempo gasto = 38380422204ns
+  Tempo médio = 101311ns
+CONTRADICTION:
+  Ocorrências = 5838
+  Tempo gasto = 717596344ns
+  Tempo médio = 122918ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 11344719078ns
+  Tempo médio = 2635ns
+Tableau Smullyan:
+  Tempo gasto = 40609773312ns
+  Tempo médio = 9433ns
+Tableau com Lema:
+  Tempo gasto = 35888000808ns
+  Tempo médio = 8336ns
+TableauKE:
+  Tempo gasto = 44579841137ns
+  Tempo médio = 10355ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 385ns
+  Unidade de tempo máxima = 1537ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600403297330ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 30
+Número de proposições = 1
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR2.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 2789399
+  Erros   = 0
+  Falhas  = 0
+  Total   = 2789399
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 2712751
+  Tempo gasto = 111090096645ns
+  Tempo médio = 40951ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 76555
+  Tempo gasto = 17872416100ns
+  Tempo médio = 233458ns
+CONTRADICTION:
+  Ocorrências = 93
+  Tempo gasto = 30101111ns
+  Tempo médio = 323667ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 9714008901ns
+  Tempo médio = 3482ns
+Tableau Smullyan:
+  Tempo gasto = 42378851938ns
+  Tempo médio = 15192ns
+Tableau com Lema:
+  Tempo gasto = 33654704302ns
+  Tempo médio = 12065ns
+TableauKE:
+  Tempo gasto = 43245048715ns
+  Tempo médio = 15503ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 768ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600408534808ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 20
+Número de proposições = 2
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR3.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 3282575
+  Erros   = 0
+  Falhas  = 0
+  Total   = 3282575
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 2972815
+  Tempo gasto = 106855139622ns
+  Tempo médio = 35944ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 309295
+  Tempo gasto = 57550633554ns
+  Tempo médio = 186070ns
+CONTRADICTION:
+  Ocorrências = 465
+  Tempo gasto = 122743952ns
+  Tempo médio = 263965ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 13390859372ns
+  Tempo médio = 4079ns
+Tableau Smullyan:
+  Tempo gasto = 48269010091ns
+  Tempo médio = 14704ns
+Tableau com Lema:
+  Tempo gasto = 41968814275ns
+  Tempo médio = 12785ns
+TableauKE:
+  Tempo gasto = 60899833390ns
+  Tempo médio = 18552ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 1153ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600411491498ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 20
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR4.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 1011125
+  Erros   = 0
+  Falhas  = 0
+  Total   = 1011125
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 577006
+  Tempo gasto = 129130567825ns
+  Tempo médio = 223794ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 434106
+  Tempo gasto = 331838293999ns
+  Tempo médio = 764417ns
+CONTRADICTION:
+  Ocorrências = 13
+  Tempo gasto = 10148530ns
+  Tempo médio = 780656ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 183653047983ns
+  Tempo médio = 181632ns
+Tableau Smullyan:
+  Tempo gasto = 52456329263ns
+  Tempo médio = 51879ns
+Tableau com Lema:
+  Tempo gasto = 48320232316ns
+  Tempo médio = 47788ns
+TableauKE:
+  Tempo gasto = 176549400792ns
+  Tempo médio = 174606ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 386ns
+  Unidade de tempo máxima = 1920ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600486734065ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 20
+Número de proposições = 20
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR5.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 130414
+  Erros   = 0
+  Falhas  = 0
+  Total   = 130414
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 48263
+  Tempo gasto = 154136578079ns
+  Tempo médio = 3193680ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 82151
+  Tempo gasto = 424697057742ns
+  Tempo médio = 5169712ns
+CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 495918342818ns
+  Tempo médio = 3802646ns
+Tableau Smullyan:
+  Tempo gasto = 12025218986ns
+  Tempo médio = 92208ns
+Tableau com Lema:
+  Tempo gasto = 11219732838ns
+  Tempo médio = 86031ns
+TableauKE:
+  Tempo gasto = 59670341179ns
+  Tempo médio = 457545ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600495420183ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 20
+Número de proposições = 100
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR6.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 4769
+  Erros   = 0
+  Falhas  = 0
+  Total   = 4769
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 456
+  Tempo gasto = 33423801010ns
+  Tempo médio = 73297809ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 4313
+  Tempo gasto = 565435951499ns
+  Tempo médio = 131100382ns
+CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 588743141638ns
+  Tempo médio = 123452116ns
+Tableau Smullyan:
+  Tempo gasto = 1006620019ns
+  Tempo médio = 211075ns
+Tableau com Lema:
+  Tempo gasto = 992298929ns
+  Tempo médio = 208072ns
+TableauKE:
+  Tempo gasto = 8117691923ns
+  Tempo médio = 1702179ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 387ns
+  Unidade de tempo máxima = 3072ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600523149093ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 100
+Número de proposições = 2
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR7.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 1107881
+  Erros   = 0
+  Falhas  = 0
+  Total   = 1107881
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 1107599
+  Tempo gasto = 130467522994ns
+  Tempo médio = 117793ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 282
+  Tempo gasto = 514151901ns
+  Tempo médio = 1823233ns
+CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 14698073885ns
+  Tempo médio = 13266ns
+Tableau Smullyan:
+  Tempo gasto = 43138233001ns
+  Tempo médio = 38937ns
+Tableau com Lema:
+  Tempo gasto = 31414951057ns
+  Tempo médio = 28355ns
+TableauKE:
+  Tempo gasto = 41730416952ns
+  Tempo médio = 37666ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 434ns
+  Unidade de tempo máxima = 43012ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600289284830ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 100
+Número de proposições = 5
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 906250
+  Erros   = 0
+  Falhas  = 0
+  Total   = 906250
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 905865
+  Tempo gasto = 209447867763ns
+  Tempo médio = 231213ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 385
+  Tempo gasto = 1227489642ns
+  Tempo médio = 3188284ns
+CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 73999814848ns
+  Tempo médio = 81654ns
+Tableau Smullyan:
+  Tempo gasto = 51311186769ns
+  Tempo médio = 56619ns
+Tableau com Lema:
+  Tempo gasto = 36116816848ns
+  Tempo médio = 39853ns
+TableauKE:
+  Tempo gasto = 49247538940ns
+  Tempo médio = 54342ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 410ns
+  Unidade de tempo máxima = 17666ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600020582006ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 100
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR11.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 192462
+  Erros   = 0
+  Falhas  = 0
+  Total   = 192462
+--------------------------------------
+Estatísticas básicas:
+UNKNOWN:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+TAUTOLOGY:
+  Ocorrências = 192192
+  Tempo gasto = 506494166650ns
+  Tempo médio = 2635355ns
+NOT_TAUTOLOGY:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+SATISFIABLE:
+  Ocorrências = 270
+  Tempo gasto = 3359220029ns
+  Tempo médio = 12441555ns
+CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+NOT_CONTRADICTION:
+  Ocorrências = 0
+  Tempo gasto = 0ns
+Tabela verdade:
+  Tempo gasto = 467219643348ns
+  Tempo médio = 2427594ns
+Tableau Smullyan:
+  Tempo gasto = 15393462261ns
+  Tempo médio = 79981ns
+Tableau com Lema:
+  Tempo gasto = 10816342169ns
+  Tempo médio = 56199ns
+TableauKE:
+  Tempo gasto = 16423938901ns
+  Tempo médio = 85336ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 768ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 599998101711ns
+

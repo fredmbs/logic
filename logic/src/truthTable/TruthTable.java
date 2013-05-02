@@ -21,6 +21,7 @@ public class TruthTable extends LogicalReasoning {
     private ArrayList<Integer> colSize; 
     private ArrayList<Predicate> predicate; 
     private int lineSize;
+    private long trueCount, falseCount;
     
     public TruthTable(LogicalSystem lsys) throws Exception {
         super(lsys);
@@ -110,7 +111,7 @@ public class TruthTable extends LogicalReasoning {
         return false;
     }
 
-    private void setResult(boolean tautology, int trueCount) {
+    private void setResult(boolean tautology, long trueCount) {
         //if (tautology)
         //    System.out.println("A fórmula representa uma tautologia.");
         if (tautology)
@@ -121,9 +122,18 @@ public class TruthTable extends LogicalReasoning {
             setResult(TruthType.CONTRADICTION);
     }
     
+    public long getTrueCount() {
+        return trueCount;
+    }
+
+    public long getFalseCount() {
+        return falseCount;
+    }
+
     public long print() {
         long start = System.nanoTime();
-        int trueCount = 0;
+        trueCount = 0;
+        falseCount = 0;
         init();
         initPredicates();
         printTitle();
@@ -133,10 +143,11 @@ public class TruthTable extends LogicalReasoning {
             if (formula.fullEvaluate()) {
                 trueCount++;
             } else {
-                tautology =  false;
+                falseCount++;
             }
             printLine();
         } while (hasNextInterpretation());
+        tautology =  (falseCount == 0);
         printSeparator('\\', '-', '/');
         setResult(tautology, trueCount);
         return System.nanoTime() - start;
@@ -145,7 +156,8 @@ public class TruthTable extends LogicalReasoning {
     @Override
     public long solve() {
         long start = System.nanoTime();
-        int trueCount = 0;
+        trueCount = 0;
+        falseCount = 0;
         init();
         initPredicates();
         boolean tautology = true;
@@ -153,16 +165,18 @@ public class TruthTable extends LogicalReasoning {
             if (formula.evaluate()) {
                 trueCount++;
             } else {
-                tautology =  false;
+                falseCount++;
             }
         } while (hasNextInterpretation());
+        tautology =  (falseCount == 0);
         setResult(tautology, trueCount);
         return System.nanoTime() - start;
     }
 
     public long solve2() {
         long start = System.nanoTime();
-        int trueCount = 0;
+        trueCount = 0;
+        falseCount = 0;
         init();
         initPredicates();
         boolean tautology = true;
@@ -170,9 +184,10 @@ public class TruthTable extends LogicalReasoning {
             if (formula.fullEvaluate()) {
                 trueCount++;
             } else {
-                tautology =  false;
+                falseCount++;
             }
         } while (hasNextInterpretation());
+        tautology =  (falseCount == 0);
         setResult(tautology, trueCount);
         return System.nanoTime() - start;
     }

@@ -1,0 +1,918 @@
+######################################
+Configurações:
+Gerador de fórmulas   = Combinatory
+Número de termos      = 4
+Número de proposições = 4
+Número de fórmulas    = 262144
+Número de testes      = 0
+Timeout               = 0ms
+Saída de dados        = test\proofTeste44.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 262144
+  Erros   = 0
+  Falhas  = 0
+  Total   = 262144
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 28424
+  Total de nós   = 755320
+  Total de ramos = 107408
+  Total de tempo = 414944450ns
+  Média de nós   = 26
+  Média de ramos = 3
+  Médio de tempo = 14598ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 228344
+  Total de nós   = 10959352
+  Total de ramos = 2059708
+  Total de tempo = 15336420502ns
+  Média de nós   = 47
+  Média de ramos = 9
+  Médio de tempo = 67163ns
+CONTRADICTION:
+  Ocorrências  = 5376
+  Total de nós   = 221048
+  Total de ramos = 56560
+  Total de tempo = 291542243ns
+  Média de nós   = 41
+  Média de ramos = 10
+  Médio de tempo = 54230ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 794305910ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 3030ns
+Tableau Smullyan:
+  Tempo gasto    = 3288196987ns
+  Total de nós   = 3537920
+  Total de ramos = 777808
+  Média de nós   = 13
+  Média de ramos = 2
+  Tempo médio    = 12543ns
+Tableau com Lema:
+  Tempo gasto    = 3324056197ns
+  Total de nós   = 3907736
+  Total de ramos = 778384
+  Média de nós   = 14
+  Média de ramos = 2
+  Tempo médio    = 12680ns
+TableauKE:
+  Tempo gasto    = 8636348101ns
+  Total de nós   = 4490064
+  Total de ramos = 667484
+  Média de nós   = 17
+  Média de ramos = 2
+  Tempo médio    = 32945ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 33552160297ns
+  Tempo médio por fórmula = 127991ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Combinatory
+Número de termos      = 5
+Número de proposições = 3
+Número de fórmulas    = 1990656
+Número de testes      = 0
+Timeout               = 0ms
+Saída de dados        = test\proofTeste53.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 1990656
+  Erros   = 0
+  Falhas  = 0
+  Total   = 1990656
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 273012
+  Total de nós   = 8689377
+  Total de ramos = 1167414
+  Total de tempo = 5015145841ns
+  Média de nós   = 31
+  Média de ramos = 4
+  Médio de tempo = 18369ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 1671198
+  Total de nós   = 106362438
+  Total de ramos = 19283952
+  Total de tempo = 159327863959ns
+  Média de nós   = 63
+  Média de ramos = 11
+  Médio de tempo = 95337ns
+CONTRADICTION:
+  Ocorrências  = 46446
+  Total de nós   = 2699244
+  Total de ramos = 605502
+  Total de tempo = 3790544612ns
+  Média de nós   = 58
+  Média de ramos = 13
+  Médio de tempo = 81611ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 6217324219ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 3123ns
+Tableau Smullyan:
+  Tempo gasto    = 33433562119ns
+  Total de nós   = 34512162
+  Total de ramos = 7487076
+  Média de nós   = 17
+  Média de ramos = 3
+  Tempo médio    = 16795ns
+Tableau com Lema:
+  Tempo gasto    = 34816910662ns
+  Total de nós   = 38803455
+  Total de ramos = 7502880
+  Média de nós   = 19
+  Média de ramos = 3
+  Tempo médio    = 17490ns
+TableauKE:
+  Tempo gasto    = 93665757412ns
+  Total de nós   = 44435442
+  Total de ramos = 6066912
+  Média de nós   = 22
+  Média de ramos = 3
+  Tempo médio    = 47052ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 323826095606ns
+  Tempo médio por fórmula = 162673ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 30
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 600000ms
+Saída de dados        = test\proofTesteR-30-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 596317
+  Erros   = 0
+  Falhas  = 0
+  Total   = 596317
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 453623
+  Total de nós   = 37883989
+  Total de ramos = 2206398
+  Total de tempo = 237833269309ns
+  Média de nós   = 83
+  Média de ramos = 4
+  Médio de tempo = 524297ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 142694
+  Total de nós   = 46175366
+  Total de ramos = 8901452
+  Total de tempo = 253855505797ns
+  Média de nós   = 323
+  Média de ramos = 62
+  Médio de tempo = 1779020ns
+CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 268802982589ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 450771ns
+Tableau Smullyan:
+  Tempo gasto    = 41501597387ns
+  Total de nós   = 29375380
+  Total de ramos = 4832880
+  Média de nós   = 49
+  Média de ramos = 8
+  Tempo médio    = 69596ns
+Tableau com Lema:
+  Tempo gasto    = 34098903029ns
+  Total de nós   = 29946791
+  Total de ramos = 3769806
+  Média de nós   = 50
+  Média de ramos = 6
+  Tempo médio    = 57182ns
+TableauKE:
+  Tempo gasto    = 147285292101ns
+  Total de nós   = 24737184
+  Total de ramos = 2505164
+  Média de nós   = 41
+  Média de ramos = 4
+  Tempo médio    = 246991ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 394ns
+  Unidade de tempo máxima = 7296ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 600144286413ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 10
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-10-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 254424
+  Erros   = 0
+  Falhas  = 0
+  Total   = 254424
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 75735
+  Total de nós   = 3185947
+  Total de ramos = 263381
+  Total de tempo = 3199271366ns
+  Média de nós   = 42
+  Média de ramos = 3
+  Médio de tempo = 42242ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 178651
+  Total de nós   = 14111094
+  Total de ramos = 2562384
+  Total de tempo = 30244449046ns
+  Média de nós   = 78
+  Média de ramos = 14
+  Médio de tempo = 169293ns
+CONTRADICTION:
+  Ocorrências  = 38
+  Total de nós   = 5126
+  Total de ramos = 1493
+  Total de tempo = 6377687ns
+  Média de nós   = 134
+  Média de ramos = 39
+  Médio de tempo = 167833ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 5770901247ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 22682ns
+Tableau Smullyan:
+  Tempo gasto    = 5943131428ns
+  Total de nós   = 5463849
+  Total de ramos = 1027137
+  Média de nós   = 21
+  Média de ramos = 4
+  Tempo médio    = 23359ns
+Tableau com Lema:
+  Tempo gasto    = 6318572713ns
+  Total de nós   = 6150608
+  Total de ramos = 992487
+  Média de nós   = 24
+  Média de ramos = 3
+  Tempo médio    = 24834ns
+TableauKE:
+  Tempo gasto    = 15417492711ns
+  Total de nós   = 5687710
+  Total de ramos = 807634
+  Média de nós   = 22
+  Média de ramos = 3
+  Tempo médio    = 60597ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 391ns
+  Unidade de tempo máxima = 6144ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60039091371ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 10
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-10-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 250485
+  Erros   = 0
+  Falhas  = 0
+  Total   = 250485
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 74322
+  Total de nós   = 3131492
+  Total de ramos = 258748
+  Total de tempo = 3133789112ns
+  Média de nós   = 42
+  Média de ramos = 3
+  Médio de tempo = 42165ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 176127
+  Total de nós   = 13876573
+  Total de ramos = 2513379
+  Total de tempo = 29596554508ns
+  Média de nós   = 78
+  Média de ramos = 14
+  Médio de tempo = 168040ns
+CONTRADICTION:
+  Ocorrências  = 36
+  Total de nós   = 4378
+  Total de ramos = 1298
+  Total de tempo = 5469430ns
+  Média de nós   = 121
+  Média de ramos = 36
+  Médio de tempo = 151928ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 5495037925ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 21937ns
+Tableau Smullyan:
+  Tempo gasto    = 5894180605ns
+  Total de nós   = 5375030
+  Total de ramos = 1008256
+  Média de nós   = 21
+  Média de ramos = 4
+  Tempo médio    = 23531ns
+Tableau com Lema:
+  Tempo gasto    = 6235274696ns
+  Total de nós   = 6047109
+  Total de ramos = 974041
+  Média de nós   = 24
+  Média de ramos = 3
+  Tempo médio    = 24892ns
+TableauKE:
+  Tempo gasto    = 15111319824ns
+  Total de nós   = 5590304
+  Total de ramos = 791128
+  Média de nós   = 22
+  Média de ramos = 3
+  Tempo médio    = 60328ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60018015496ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 11
+Número de proposições = 10
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-11-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 224465
+  Erros   = 0
+  Falhas  = 0
+  Total   = 224465
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 73641
+  Total de nós   = 3295501
+  Total de ramos = 263282
+  Total de tempo = 3805423213ns
+  Média de nós   = 44
+  Média de ramos = 3
+  Médio de tempo = 51675ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 150793
+  Total de nós   = 13425548
+  Total de ramos = 2429530
+  Total de tempo = 30683982379ns
+  Média de nós   = 89
+  Média de ramos = 16
+  Médio de tempo = 203484ns
+CONTRADICTION:
+  Ocorrências  = 31
+  Total de nós   = 4093
+  Total de ramos = 1160
+  Total de tempo = 6110769ns
+  Média de nós   = 132
+  Média de ramos = 37
+  Médio de tempo = 197121ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 6770178317ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 30161ns
+Tableau Smullyan:
+  Tempo gasto    = 5942430045ns
+  Total de nós   = 5296877
+  Total de ramos = 986929
+  Média de nós   = 23
+  Média de ramos = 4
+  Tempo médio    = 26473ns
+Tableau com Lema:
+  Tempo gasto    = 6061834220ns
+  Total de nós   = 5945722
+  Total de ramos = 944476
+  Média de nós   = 26
+  Média de ramos = 4
+  Tempo médio    = 27005ns
+TableauKE:
+  Tempo gasto    = 15721073779ns
+  Total de nós   = 5482543
+  Total de ramos = 762567
+  Média de nós   = 24
+  Média de ramos = 3
+  Tempo médio    = 70037ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60034158050ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 13
+Número de proposições = 13
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-11-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 144252
+  Erros   = 0
+  Falhas  = 0
+  Total   = 144252
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 46027
+  Total de nós   = 2329320
+  Total de ramos = 169294
+  Total de tempo = 5068193804ns
+  Média de nós   = 50
+  Média de ramos = 3
+  Médio de tempo = 110113ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 98214
+  Total de nós   = 11978779
+  Total de ramos = 2187816
+  Total de tempo = 36395260596ns
+  Média de nós   = 121
+  Média de ramos = 22
+  Médio de tempo = 370571ns
+CONTRADICTION:
+  Ocorrências  = 11
+  Total de nós   = 2108
+  Total de ramos = 570
+  Total de tempo = 3439807ns
+  Média de nós   = 191
+  Média de ramos = 51
+  Médio de tempo = 312709ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 13838111138ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 95930ns
+Tableau Smullyan:
+  Tempo gasto    = 5221666693ns
+  Total de nós   = 4476999
+  Total de ramos = 859727
+  Média de nós   = 31
+  Média de ramos = 5
+  Tempo médio    = 36198ns
+Tableau com Lema:
+  Tempo gasto    = 5359589578ns
+  Total de nós   = 5029898
+  Total de ramos = 809837
+  Média de nós   = 34
+  Média de ramos = 5
+  Tempo médio    = 37154ns
+TableauKE:
+  Tempo gasto    = 17047526798ns
+  Total de nós   = 4803310
+  Total de ramos = 688116
+  Média de nós   = 33
+  Média de ramos = 4
+  Tempo médio    = 118178ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 385ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60038586749ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 16
+Número de proposições = 16
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-11-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 64208
+  Erros   = 0
+  Falhas  = 0
+  Total   = 64208
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 21794
+  Total de nós   = 1289011
+  Total de ramos = 85343
+  Total de tempo = 9228934746ns
+  Média de nós   = 59
+  Média de ramos = 3
+  Médio de tempo = 423462ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 42413
+  Total de nós   = 7771611
+  Total de ramos = 1449068
+  Total de tempo = 41136615682ns
+  Média de nós   = 183
+  Média de ramos = 34
+  Médio de tempo = 969905ns
+CONTRADICTION:
+  Ocorrências  = 1
+  Total de nós   = 403
+  Total de ramos = 107
+  Total de tempo = 857553ns
+  Média de nós   = 403
+  Média de ramos = 107
+  Médio de tempo = 857553ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 29661987345ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 461967ns
+Tableau Smullyan:
+  Tempo gasto    = 3512692996ns
+  Total de nós   = 2814284
+  Total de ramos = 561631
+  Média de nós   = 43
+  Média de ramos = 8
+  Tempo médio    = 54708ns
+Tableau com Lema:
+  Tempo gasto    = 3439021164ns
+  Total de nós   = 3139320
+  Total de ramos = 515106
+  Média de nós   = 48
+  Média de ramos = 8
+  Tempo médio    = 53560ns
+TableauKE:
+  Tempo gasto    = 13752706476ns
+  Total de nós   = 3107421
+  Total de ramos = 457781
+  Média de nós   = 48
+  Média de ramos = 7
+  Tempo médio    = 214189ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 400ns
+  Unidade de tempo máxima = 13057ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60015228166ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 15
+Número de proposições = 15
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-11-10.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 87376
+  Erros   = 0
+  Falhas  = 0
+  Total   = 87376
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 29126
+  Total de nós   = 1638216
+  Total de ramos = 111334
+  Total de tempo = 7581152239ns
+  Média de nós   = 56
+  Média de ramos = 3
+  Médio de tempo = 260288ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 58247
+  Total de nós   = 9390024
+  Total de ramos = 1739907
+  Total de tempo = 40135020268ns
+  Média de nós   = 161
+  Média de ramos = 29
+  Médio de tempo = 689048ns
+CONTRADICTION:
+  Ocorrências  = 3
+  Total de nós   = 1213
+  Total de ramos = 387
+  Total de tempo = 1716255ns
+  Média de nós   = 404
+  Média de ramos = 129
+  Médio de tempo = 572085ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 23370355101ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 267468ns
+Tableau Smullyan:
+  Tempo gasto    = 4301929460ns
+  Total de nós   = 3433902
+  Total de ramos = 677315
+  Média de nós   = 39
+  Média de ramos = 7
+  Tempo médio    = 49234ns
+Tableau com Lema:
+  Tempo gasto    = 4307117626ns
+  Total de nós   = 3838082
+  Total de ramos = 625698
+  Média de nós   = 43
+  Média de ramos = 7
+  Tempo médio    = 49294ns
+TableauKE:
+  Tempo gasto    = 15738486575ns
+  Total de nós   = 3757469
+  Total de ramos = 548615
+  Média de nós   = 43
+  Média de ramos = 6
+  Tempo médio    = 180123ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 434ns
+  Unidade de tempo máxima = 24194ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60021841259ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 14
+Número de proposições = 14
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 60000ms
+Saída de dados        = test\proofTesteR-14-14.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 114996
+  Erros   = 0
+  Falhas  = 0
+  Total   = 114996
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 37751
+  Total de nós   = 2013314
+  Total de ramos = 140343
+  Total de tempo = 6238217269ns
+  Média de nós   = 53
+  Média de ramos = 3
+  Médio de tempo = 165246ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 77242
+  Total de nós   = 10835396
+  Total de ramos = 1991631
+  Total de tempo = 38731603125ns
+  Média de nós   = 140
+  Média de ramos = 25
+  Médio de tempo = 501431ns
+CONTRADICTION:
+  Ocorrências  = 3
+  Total de nós   = 617
+  Total de ramos = 135
+  Total de tempo = 885203ns
+  Média de nós   = 205
+  Média de ramos = 45
+  Médio de tempo = 295067ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 18174005815ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 158040ns
+Tableau Smullyan:
+  Tempo gasto    = 4898154699ns
+  Total de nós   = 4007833
+  Total de ramos = 778263
+  Média de nós   = 34
+  Média de ramos = 6
+  Tempo médio    = 42594ns
+Tableau com Lema:
+  Tempo gasto    = 5018485366ns
+  Total de nós   = 4497204
+  Total de ramos = 727023
+  Média de nós   = 39
+  Média de ramos = 6
+  Tempo médio    = 43640ns
+TableauKE:
+  Tempo gasto    = 16880059717ns
+  Total de nós   = 4344290
+  Total de ramos = 626823
+  Média de nós   = 37
+  Média de ramos = 5
+  Tempo médio    = 146788ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 768ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 60033320084ns

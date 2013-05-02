@@ -12,6 +12,7 @@ import proof.LogicalReasoning;
 import proof.LogicalReasoning.TruthType;
 import proof.patterns.FormulaGeneratorFactory;
 import proof.test.CombinatoryFormulaGeneratorFactory;
+import proof.test.RandomFormulaGenerator;
 import proof.test.RandomFormulaGeneratorFactory;
 import proof.utils.LogicalSystemException;
 
@@ -45,14 +46,22 @@ public class ProofTest {
     private StringBuffer line = new StringBuffer();
     private long countResults[];
     private long countTimes[];
+    private long countNodes[];
+    private long countBrances[];
     private long countTimesBySolver[] = new long[4];
+    private long countNodesBySolver[] = new long[4];
+    private long countBrancesBySolver[] = new long[4];
+    private boolean dispersion = false;
     
     public ProofTest() {
         super();
         this.numTermos = 4;
         this.numProposicoes = 2;
-        countResults = new long[TruthType.values().length];
-        countTimes = new long[TruthType.values().length];
+        int n = TruthType.values().length;
+        countResults = new long[n];
+        countTimes = new long[n];
+        countNodes = new long[n];
+        countBrances = new long[n];
     }
 
     public long getCount() {
@@ -93,16 +102,21 @@ public class ProofTest {
         long spentTime;
         t.setCheckContradiction(checkContradicition);
         spentTime = t.solve();
-        line.append(";" + t.getResultName()); //6,14,22
-        line.append(";" + t.getOpenBranchesCount());//7,15,23
-        line.append(";" + t.getClosedBranchesCount());//8,16,24
-        line.append(";" + t.getAbandonedBranches());//9,17,25
-        line.append(";" + t.getBranchesCount());//10,18,26
-        line.append(";" + t.getNodesCount());//11,19,27
-        line.append(";" + spentTime);//12,20,28
-        countTimes[t.getResult().ordinal()] += spentTime;
+        line.append(";" + t.getResultName()); 
+        line.append(";" + t.getOpenBranchesCount());
+        line.append(";" + t.getClosedBranchesCount());
+        line.append(";" + t.getAbandonedBranches());
+        line.append(";" + t.getBranchesCount());
+        line.append(";" + t.getNodesCount());
+        line.append(";" + spentTime);
+        int n = t.getResult().ordinal();
+        countTimes[n] += spentTime;
+        countNodes[n] += t.getNodesCount();
+        countBrances[n] += t.getBranchesCount();
+        countNodesBySolver[solver] += t.getNodesCount();
+        countBrancesBySolver[solver] += t.getBranchesCount();
         countTimesBySolver[solver] += spentTime;
-        if (t.compareResult(baseResult)) {//13,21,29
+        if (t.compareResult(baseResult)) {
             line.append(";PASS");
             return true;
         } else {
@@ -128,12 +142,14 @@ public class ProofTest {
             TruthTable ttt;
             try {
                 ttt = new TruthTable(logicalSystem);
-                line.append(";" + ttt.getFormula()); //2
-                line.append(";" + time);  //3
+                line.append(";" + ttt.getFormula()); 
+                line.append(";" + time);  
                 long spentTime = ttt.solve2();
                 baseResult = ttt.getResult();
-                line.append(";" + ttt.getResultName()); //4
-                line.append(";" + spentTime);  //5
+                line.append(";" + ttt.getResultName()); 
+                line.append(";" + ttt.getTrueCount()); 
+                line.append(";" + ttt.getFalseCount()); 
+                line.append(";" + spentTime);  
                 countResults[ttt.getResult().ordinal()]++;
                 countTimes[ttt.getResult().ordinal()] += spentTime;
                 countTimesBySolver[0] += spentTime;
@@ -233,20 +249,31 @@ public class ProofTest {
         System.err.println("  Falhas  = " + falhas);
         System.err.println("  Total   = " + total);
         System.err.println("--------------------------------------");
-        System.err.println("Estatísticas básicas:");
+        System.err.println("Estatísticas básicas por solução:");
         for (int i = 0; i < TruthType.values().length; i++) {
             System.err.println(LogicalReasoning.getResultName(i) + ":");
-            System.err.println("  Ocorrências = " + countResults[i]);
-            System.err.println("  Tempo gasto = " + countTimes[i] + "ns");
-            if (countResults[i] != 0)
-                System.err.println("  Tempo médio = " + (countTimes[i])/countResults[i] + "ns");
+            System.err.println("  Ocorrências  = " + countResults[i]);
+            System.err.println("  Total de nós   = " + countNodes[i]);
+            System.err.println("  Total de ramos = " + countBrances[i]);
+            System.err.println("  Total de tempo = " + countTimes[i] + "ns");
+            if (countResults[i] != 0) {
+                System.err.println("  Média de nós   = " + countNodes[i]/countResults[i]);
+                System.err.println("  Média de ramos = " + countBrances[i]/countResults[i]);
+                System.err.println("  Médio de tempo = " + (countTimes[i])/countResults[i] + "ns");
+            }
         }
+        System.err.println("Estatísticas básicas por métodos:");
         final String[] solver = {"Tabela verdade", "Tableau Smullyan", "Tableau com Lema", "TableauKE"};
         for (int i = 0; i < 4; i++) {
             System.err.println(solver[i] + ":");
-            System.err.println("  Tempo gasto = " + countTimesBySolver[i] + "ns");
-            if (total != 0)
-                System.err.println("  Tempo médio = " + (countTimesBySolver[i])/total + "ns");
+            System.err.println("  Tempo gasto    = " + countTimesBySolver[i] + "ns");
+            System.err.println("  Total de nós   = " + countNodesBySolver[i]);
+            System.err.println("  Total de ramos = " + countBrancesBySolver[i]);
+            if (total != 0) {
+                System.err.println("  Média de nós   = " + countNodesBySolver[i]/total);
+                System.err.println("  Média de ramos = " + countBrancesBySolver[i]/total);
+                System.err.println("  Tempo médio    = " + (countTimesBySolver[i])/total + "ns");
+            }
         }
         System.err.println("--------------------------------------");
         System.err.println("Amostra do relógio do sistema:");
@@ -268,7 +295,17 @@ public class ProofTest {
         System.err.println("  Unidade de tempo mínima = " + minTime + "ns");
     }
     
-    public void execute() {
+    private void generateRandomFormula() {
+        formulaGenerator = new RandomFormulaGenerator(numTermos, numProposicoes);
+        formulaGenerator.setMaxTests(this.maxTests);
+        formulaGenerator.setTimeOut(this.timeOut);
+        showConfig();
+        while (formulaGenerator.hasFormula()) {
+            System.out.println(formulaGenerator.nextFormula().toString());
+        }
+    }
+    
+    private void test() {
         formulaGenerator = formulaGeneratorFactory.newFormulaGenerator(numTermos, numProposicoes);
         formulaGenerator.setMaxTests(this.maxTests);
         formulaGenerator.setTimeOut(this.timeOut);
@@ -279,10 +316,17 @@ public class ProofTest {
         showStatistics();
     }
     
+    public void execute() {
+        if (dispersion)
+            generateRandomFormula();
+        else
+            test();
+    }
+    
     private void processCommands(String argv[]) {
         
         // tratador das opções da linha de comando
-        Getopt getOpt = new Getopt("tester", argv, ":t:p:m:l:nrcsfh");
+        Getopt getOpt = new Getopt("tester", argv, ":t:p:m:l:nrdcsfh");
         getOpt.setOpterr(false);
         int c;
         // verifica as opções
@@ -306,7 +350,7 @@ public class ProofTest {
                 checkContradicition = false;
                 break;
             case 'f':
-                showAcertos = false;
+                showAcertos = false; 
                 break;
             case 's':
                 showLineNumber = false;
@@ -316,6 +360,9 @@ public class ProofTest {
                 break;
             case 'r':
                 formulaGeneratorFactory = new RandomFormulaGeneratorFactory();
+                break;
+            case 'd':
+                dispersion = true; 
                 break;
             case 'h':
                 System.out.println("ProofTest");
@@ -328,6 +375,11 @@ public class ProofTest {
                 System.out.println("  -c  = teste combinatório (exponencial)");
                 System.out.println("  -r  = teste aleatório");
                 System.out.println("  -n  = não faz verificação de contradição");
+                System.out.println("  -m  = número máximo de testes");
+                System.out.println("  -l  = timeout (mínimo)");
+                System.out.println("  -f  = apresenta apenas as falhas");
+                System.out.println("  -s  = não apresnta os número das linhas");
+                System.out.println("  -d  = gera dados para análise de dispersão");
                 System.out.println("  -h  = Help");
                 System.exit(0);
                 break;
