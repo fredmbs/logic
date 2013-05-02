@@ -26,6 +26,7 @@ public class LemmaTableauInference implements Inference, FormulaVisitor {
     protected LemmaTableauInference(BranchEngine engine) {
         this.engine = engine;
         this.treeEngine = engine.getTreeEngine();
+        engine.setEnforceRegularity(false);
     }
     
     protected LemmaTableauInference(BranchEngine engine, BranchEngine from) {

@@ -8,12 +8,12 @@ import ast.LogicalSystem;
 import proof.LogicalReasoning;
 import proof.explanation.ExplanationSelf;
 import proof.patterns.InferenceFactory;
-import proof.patterns.NodeClassifierFactory;
-import proof.patterns.NodeSelectorFactory;
 import proof.utils.DotTreeGenerator;
-import tableau.patterns.PriorityNodeSelectorFactory;
-import tableau.patterns.TableauNodeClassifierFactory;
+import tableau.patterns.NodeClassifierFactory;
+import tableau.patterns.NodeSelectorFactory;
+import tableau.simple.PriorityNodeSelectorFactory;
 import tableau.simple.SimpleTableauInferenceFactory;
+import tableau.simple.TableauNodeClassifierFactory;
 
 
 /**

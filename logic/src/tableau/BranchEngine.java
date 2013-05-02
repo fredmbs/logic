@@ -7,8 +7,8 @@ import proof.Inference;
 import proof.explanation.Explanation;
 import proof.explanation.ExplanationDual;
 import proof.explanation.ExplanationSelf;
-import proof.patterns.NodeClassifier;
-import proof.patterns.NodeSelector;
+import tableau.patterns.NodeClassifier;
+import tableau.patterns.NodeSelector;
 import ast.Formula;
 
 /**
@@ -23,6 +23,8 @@ public class BranchEngine {
     private NodeClassifier nodeClassifier;
     private boolean closureOnAllNodes = true;
     private NodeSelector nodeSelector;
+    private boolean enforceRegularity = true;
+    private boolean selectAllNodes = false;
     
     public BranchEngine(TreeEngine engine) {
         this.treeEngine = engine;
@@ -111,20 +113,39 @@ public class BranchEngine {
 
     
     
+    public boolean isEnforceRegularity() {
+        return enforceRegularity;
+    }
+
+    public void setEnforceRegularity(boolean enforceRegularity) {
+        this.enforceRegularity = enforceRegularity;
+    }
+
     public void add(Node node) {
         // --INICIO otimização de regularidade: não inserir nó duplicado
-        Node searchNode = Tree.searchFormula(branch.getLeaf(), node.getFormula());
-        if (searchNode != null && searchNode.isSignT() == node.isSignT())
-            return;
+        if (enforceRegularity) {
+            Node searchNode = Tree.searchFormula(branch.getLeaf(), node.getFormula());
+            if (searchNode != null && searchNode.isSignT() == node.isSignT())
+                return;
+        }
         // -- FIM Otimização */
         this.branch.add(node);
         newNode(node);
         return;
     }
 
+    public boolean isSelectAllNodes() {
+        return selectAllNodes;
+    }
+
+    public void setSelectAllNodes(boolean selectAllNodes) {
+        this.selectAllNodes = selectAllNodes;
+    }
+
     private void newNode(Node node) {
-        if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) 
+        if (selectAllNodes || node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) { 
             nodeSelector.add(node);
+        };
         if (node.getType() == Node.Type.ATOMIC || closureOnAllNodes) 
             verifyClosure(node);
     }

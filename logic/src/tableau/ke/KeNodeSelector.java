@@ -6,7 +6,7 @@ package tableau.ke;
 import java.util.ArrayList;
 import tableau.BranchEngine;
 import tableau.Node;
-import tableau.patterns.PriorityNodeSelector;
+import tableau.simple.PriorityNodeSelector;
 
 /**
  * @author dev

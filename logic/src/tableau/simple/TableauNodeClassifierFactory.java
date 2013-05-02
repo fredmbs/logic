@@ -1,7 +1,8 @@
-package tableau.patterns;
+package tableau.simple;
 
-import proof.patterns.NodeClassifier;
-import proof.patterns.NodeClassifierFactory;
+import tableau.patterns.NodeClassifier;
+import tableau.patterns.NodeClassifierFactory;
+
 
 public class TableauNodeClassifierFactory implements NodeClassifierFactory {
 

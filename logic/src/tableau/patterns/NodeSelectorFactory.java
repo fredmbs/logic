@@ -1,7 +1,7 @@
 /**
  * 
  */
-package proof.patterns;
+package tableau.patterns;
 
 
 /**

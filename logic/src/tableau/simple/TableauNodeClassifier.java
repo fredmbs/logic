@@ -1,10 +1,10 @@
 /**
  * 
  */
-package tableau.patterns;
+package tableau.simple;
 
-import proof.patterns.NodeClassifier;
 import tableau.Node;
+import tableau.patterns.NodeClassifier;
 import ast.*;
 import ast.patterns.FormulaVisitor;
 

@@ -1,4 +1,4 @@
-package proof.patterns;
+package tableau.patterns;
 
 import tableau.Node;
 

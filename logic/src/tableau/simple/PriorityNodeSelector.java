@@ -1,12 +1,12 @@
 /**
  * 
  */
-package tableau.patterns;
+package tableau.simple;
 
 import java.util.PriorityQueue;
-import proof.patterns.NodeSelector;
 import tableau.BranchEngine;
 import tableau.Node;
+import tableau.patterns.NodeSelector;
 
 /**
  * @author dev

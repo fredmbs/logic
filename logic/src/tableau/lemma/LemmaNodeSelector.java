@@ -4,9 +4,9 @@
 package tableau.lemma;
 
 import java.util.PriorityQueue;
-import proof.patterns.NodeSelector;
 import tableau.BranchEngine;
 import tableau.Node;
+import tableau.patterns.NodeSelector;
 
 /**
  * @author dev
@@ -41,22 +41,30 @@ public class LemmaNodeSelector implements NodeSelector {
     @Override
     public Node select() {
         Node node;
-        Node[] fulfill = new Node[2];
+        Node fulfill;
+        int blocks;
         // Otimização de regularidade: não expande nós realizado (fulfilled)
         do {
             node = unexpandedNodes.poll();
+            blocks = 2;
             if (node == null)
                 return null;
-            fulfill = engine.getBranch().searchtFulfillNodes(node);
-            if (fulfill[0] != null) {
-                if (fulfill[0].getExplanation().toString().equals("{lemma}"))
-                    return node;
+            fulfill = engine.getBranch().searchFulfilledRight(node);
+            if (fulfill == null) {
+                blocks--;
+            } else {
+                if (fulfill.getExplanation().toString().equals("{lemma}"))
+                    blocks--;
             }
-            if (fulfill[1] != null) {
-                if (fulfill[1].getExplanation().toString().equals("{lemma}"))
-                    return node;
+            fulfill = engine.getBranch().searchFulfilledLeft(node);
+            if (fulfill == null) {
+                blocks--;
+            } else {
+                if (fulfill.getExplanation().toString().equals("{lemma}"))
+                    blocks--;
             }
-        } while (true);
+        } while (blocks > 0);
+        return node;
     }
 
     @Override

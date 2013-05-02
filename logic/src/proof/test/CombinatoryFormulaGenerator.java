@@ -1,22 +1,15 @@
-package ast.utils;
+package proof.test;
+
+import proof.FormulaGenerator;
 
 
-public class FormulaGenerator {
+public class CombinatoryFormulaGenerator extends FormulaGenerator {
     
-    private StringBuffer f = new StringBuffer();
-    private int terms, predicates;
-    private int lastTermIndex, lastPredicateIndex;
-    private String[] s = {"", "!"};
-    private String[] c = {"v", "^", "->", "<->"};
-    private int maxC = (c.length - 1); 
-    int[] is, ic, ip;
-    boolean hasFormula = true;
+    private int[] is, ic, ip;
+    private boolean hasFormula = true;
     
-    public FormulaGenerator(int terms, int predicates) {
-        this.terms = terms;
-        this.predicates = predicates;
-        this.lastTermIndex = terms - 1;
-        this.lastPredicateIndex = predicates - 1;
+    public CombinatoryFormulaGenerator(int terms, int predicates) {
+        super(terms, predicates);
         this.is = new int[terms];
         this.ic = new int[lastTermIndex];
         this.ip = new int[terms];
@@ -57,29 +50,37 @@ public class FormulaGenerator {
         }
     }
     
+    @Override
     public boolean hasFormula() {
-        return hasFormula;
+        return hasFormula && super.hasFormula();
     }
     
-    public long getNumFormulas() {
-        return  (long)(Math.pow((predicates*2),terms)* Math.pow(4,(terms-1)));
+    @Override
+    public long getFormulas() {
+        return  (long)
+                (Math.pow((this.getPredicates()*2),this.getTerms()) *
+                        Math.pow(4,(this.getTerms()-1)));
     }
     
+    @Override
     public StringBuffer nextFormula() {
-        f = new StringBuffer();
-        int p;
+        StringBuffer f = new StringBuffer();
         for (int n = 0; n < lastTermIndex; n++) {
-            p = (65+ip[n]);
             f.append(s[is[n]]);
-            f.append((char)p);
+            f.append(p[ip[n]]);
             f.append(c[ic[n]]);
         }
-        p = (65+ip[lastTermIndex]);
         f.append(s[is[lastTermIndex]]);
-        f.append((char)p);
+        f.append(p[ip[lastTermIndex]]);
         newFormula(lastTermIndex);
+        super.addCount();
         return f;
     }
-    
+
+    @Override
+    public String getName() {
+        return "Combinatory";
+    }
+
 }
 

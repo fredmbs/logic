@@ -7,20 +7,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+import proof.FormulaGenerator;
+import proof.LogicalReasoning;
 import proof.LogicalReasoning.TruthType;
+import proof.patterns.FormulaGeneratorFactory;
+import proof.test.CombinatoryFormulaGeneratorFactory;
+import proof.test.RandomFormulaGeneratorFactory;
 import proof.utils.LogicalSystemException;
 
 import tableau.Tableau;
 import tableau.ke.KeNodeSelectorFactory;
 import tableau.ke.KeTableauInferenceFactory;
 import tableau.ke.KeTableauNodeClassifierFactory;
+import tableau.lemma.LemmaNodeSelectorFactory;
 import tableau.lemma.LemmaTableauInferenceFactory;
-import tableau.patterns.PriorityNodeSelectorFactory;
-import tableau.patterns.TableauNodeClassifierFactory;
+import tableau.simple.TableauNodeClassifierFactory;
 import truthTable.TruthTable;
 
 import ast.LogicalSystem;
-import ast.utils.FormulaGenerator;
 
 public class ProofTest {
     
@@ -28,36 +32,38 @@ public class ProofTest {
     private FormulaCompiler compiler = new FormulaCompiler();
     private LogicalSystem logicalSystem = null;
     private byte[] bytes;
-    private int count = 0, acertos = 0, erros = 0, falhas = 0;
+    private long count = 0, acertos = 0, erros = 0, falhas = 0;
     private String filename = "stdout";
-    private FormulaGenerator amostragem;
+    private FormulaGeneratorFactory formulaGeneratorFactory;
+    private FormulaGenerator formulaGenerator;
     private int numTermos, numProposicoes;
-    private boolean notCheckContradicition = false;
+    private boolean checkContradicition = true;
+    private boolean showAcertos = true;
+    private boolean showLineNumber = true;
     private PrintStream printer = null, originalPrinter = null;
-    
+    private long maxTests = 0, timeOut = 0;
+    private StringBuffer line = new StringBuffer();
+    private long countResults[];
+    private long countTimes[];
+    private long countTimesBySolver[] = new long[4];
     
     public ProofTest() {
         super();
         this.numTermos = 4;
         this.numProposicoes = 2;
+        countResults = new long[TruthType.values().length];
+        countTimes = new long[TruthType.values().length];
     }
 
-    public ProofTest(int numTermos, int numProposicoes) {
-        super();
-        this.numTermos = numTermos;
-        this.numProposicoes = numProposicoes;
-        this.amostragem = new FormulaGenerator(numTermos, numProposicoes);
-    }
-
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
-    public int getAcertos() {
+    public long getAcertos() {
         return acertos;
     }
 
-    public int getErros() {
+    public long getErros() {
         return erros;
     }
 
@@ -83,23 +89,24 @@ public class ProofTest {
             printer.close();
     }
     
-    private boolean doSolveAndLog(Tableau t, TruthType baseResult) {
+    private boolean doSolveAndLog(Tableau t, TruthType baseResult, int solver) {
         long spentTime;
-        if (notCheckContradicition)
-            t.setCheckContradiction(false);
+        t.setCheckContradiction(checkContradicition);
         spentTime = t.solve();
-        System.out.print(";" + t.getResultName()); //6,14,22
-        System.out.print(";" + t.getOpenBranchesCount());//7,15,23
-        System.out.print(";" + t.getClosedBranchesCount());//8,16,24
-        System.out.print(";" + t.getAbandonedBranches());//9,17,25
-        System.out.print(";" + t.getBranchesCount());//10,18,26
-        System.out.print(";" + t.getNodesCount());//11,19,27
-        System.out.print(";" + spentTime);//12,20,28
+        line.append(";" + t.getResultName()); //6,14,22
+        line.append(";" + t.getOpenBranchesCount());//7,15,23
+        line.append(";" + t.getClosedBranchesCount());//8,16,24
+        line.append(";" + t.getAbandonedBranches());//9,17,25
+        line.append(";" + t.getBranchesCount());//10,18,26
+        line.append(";" + t.getNodesCount());//11,19,27
+        line.append(";" + spentTime);//12,20,28
+        countTimes[t.getResult().ordinal()] += spentTime;
+        countTimesBySolver[solver] += spentTime;
         if (t.compareResult(baseResult)) {//13,21,29
-            System.out.print(";PASS");
+            line.append(";PASS");
             return true;
         } else {
-            System.out.print(";FAIL");
+            line.append(";FAIL");
             return false;
         }
     }
@@ -110,7 +117,9 @@ public class ProofTest {
         long time = System.nanoTime();
         logicalSystem = compiler.compile(new ByteArrayInputStream(bytes));
         time = System.nanoTime() - time;
-        System.out.print(++count);  //1
+        line.setLength(0);
+        if (showLineNumber)
+            line.append(++count);  //1
         if (logicalSystem == null) {
             System.err.println("Falha na compilação da fórmula " + formula);
             falha = true;
@@ -119,12 +128,15 @@ public class ProofTest {
             TruthTable ttt;
             try {
                 ttt = new TruthTable(logicalSystem);
-                System.out.print(";" + ttt.getFormula()); //2
-                System.out.print(";" + time);  //3
+                line.append(";" + ttt.getFormula()); //2
+                line.append(";" + time);  //3
                 long spentTime = ttt.solve2();
                 baseResult = ttt.getResult();
-                System.out.print(";" + ttt.getResultName()); //4
-                System.out.print(";" + spentTime);  //5
+                line.append(";" + ttt.getResultName()); //4
+                line.append(";" + spentTime);  //5
+                countResults[ttt.getResult().ordinal()]++;
+                countTimes[ttt.getResult().ordinal()] += spentTime;
+                countTimesBySolver[0] += spentTime;
             } catch (LogicalSystemException e1) {
                 System.err.println(e1.getMessage());
                 System.err.println("EERO Tabela Verdade em "+ count + " = " + formula);
@@ -136,7 +148,7 @@ public class ProofTest {
             }
             if (!falha) {
                 try {
-                    ok = ok & doSolveAndLog(new Tableau(logicalSystem), baseResult);
+                    ok = ok & doSolveAndLog(new Tableau(logicalSystem), baseResult, 1);
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                     System.err.println("EERO Tableau Smullyan em "+ count + " = " + formula);
@@ -151,8 +163,8 @@ public class ProofTest {
                     ok = ok & doSolveAndLog(new Tableau(logicalSystem, 
                             new LemmaTableauInferenceFactory(),
                             new TableauNodeClassifierFactory(),
-                            new PriorityNodeSelectorFactory()),
-                            baseResult);
+                            new LemmaNodeSelectorFactory()),
+                            baseResult, 2);
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                     System.err.println("EERO Tableau com lema em "+ count + " = " + formula);
@@ -168,7 +180,7 @@ public class ProofTest {
                             new KeTableauInferenceFactory(),
                             new KeTableauNodeClassifierFactory(),
                             new KeNodeSelectorFactory()),
-                            baseResult);
+                            baseResult, 3);
                 } catch (LogicalSystemException e1) {
                     System.err.println(e1.getMessage());
                     System.err.println("EERO Tableau KE em "+ count + " = " + formula);
@@ -182,35 +194,60 @@ public class ProofTest {
         }
         if (falha) {
             falhas++;
-            System.out.print("EXCEPTION("+formula+")");
+            line.append("EXCEPTION("+formula+")");
+            System.out.println(line);
             return false;
         } else {
             if (ok) {
                 acertos++;
+                if (this.showAcertos)
+                    System.out.println(line);
             } else {
                 erros++;
+                System.out.println(line);
             }
         }
-        System.out.println();
         return ok;
     }
     
     public void showConfig() {
+        for (int i = 0; i < TruthType.values().length; i++)
+            countResults[i] = 0;
         System.err.println("######################################");
         System.err.println("Configurações:");
+        System.err.println("Gerador de fórmulas   = " + this.formulaGenerator.getName());
         System.err.println("Número de termos      = " + numTermos);
         System.err.println("Número de proposições = " + numProposicoes);
-        System.err.println("Número de fórmulas    = " + this.amostragem.getNumFormulas());
+        System.err.println("Número de fórmulas    = " + this.formulaGenerator.getFormulas());
+        System.err.println("Número de testes      = " + this.formulaGenerator.getMaxTests());
+        System.err.println("Timeout               = " + this.formulaGenerator.getTimeOut() + "ms");
         System.err.println("Saída de dados        = " + filename);
     }
     
     public void showStatistics() {
+        long total = this.formulaGenerator.getCount();
         System.err.println("--------------------------------------");
         System.err.println("Fórmulas:");
-        System.err.println("Acertos = " + acertos);
-        System.err.println("Erros   = " + erros);
-        System.err.println("Falhas  = " + falhas);
-        System.err.println("Total   = " + count);
+        System.err.println("  Acertos = " + acertos);
+        System.err.println("  Erros   = " + erros);
+        System.err.println("  Falhas  = " + falhas);
+        System.err.println("  Total   = " + total);
+        System.err.println("--------------------------------------");
+        System.err.println("Estatísticas básicas:");
+        for (int i = 0; i < TruthType.values().length; i++) {
+            System.err.println(LogicalReasoning.getResultName(i) + ":");
+            System.err.println("  Ocorrências = " + countResults[i]);
+            System.err.println("  Tempo gasto = " + countTimes[i] + "ns");
+            if (countResults[i] != 0)
+                System.err.println("  Tempo médio = " + (countTimes[i])/countResults[i] + "ns");
+        }
+        final String[] solver = {"Tabela verdade", "Tableau Smullyan", "Tableau com Lema", "TableauKE"};
+        for (int i = 0; i < 4; i++) {
+            System.err.println(solver[i] + ":");
+            System.err.println("  Tempo gasto = " + countTimesBySolver[i] + "ns");
+            if (total != 0)
+                System.err.println("  Tempo médio = " + (countTimesBySolver[i])/total + "ns");
+        }
         System.err.println("--------------------------------------");
         System.err.println("Amostra do relógio do sistema:");
         long time, sumTime = 0, loops = 1000, efectiveLoops = 0, maxTime = -1, minTime = 1000000;
@@ -226,16 +263,18 @@ public class ProofTest {
                     minTime = time;
             }
         }
-        System.err.println("Unidade de tempo média  = " + (sumTime/efectiveLoops) + " ns");
-        System.err.println("Unidade de tempo máxima = " + maxTime + " ns");
-        System.err.println("Unidade de tempo mínima = " + minTime + " ns");
+        System.err.println("  Unidade de tempo média  = " + (sumTime/efectiveLoops) + "ns");
+        System.err.println("  Unidade de tempo máxima = " + maxTime + "ns");
+        System.err.println("  Unidade de tempo mínima = " + minTime + "ns");
     }
     
     public void execute() {
-        amostragem = new FormulaGenerator(numTermos, numProposicoes);
+        formulaGenerator = formulaGeneratorFactory.newFormulaGenerator(numTermos, numProposicoes);
+        formulaGenerator.setMaxTests(this.maxTests);
+        formulaGenerator.setTimeOut(this.timeOut);
         showConfig();
-        while (amostragem.hasFormula()) {
-            verify(amostragem.nextFormula().toString());
+        while (formulaGenerator.hasFormula()) {
+            verify(formulaGenerator.nextFormula().toString());
         }
         showStatistics();
     }
@@ -243,7 +282,7 @@ public class ProofTest {
     private void processCommands(String argv[]) {
         
         // tratador das opções da linha de comando
-        Getopt getOpt = new Getopt("tester", argv, ":t:p:nh");
+        Getopt getOpt = new Getopt("tester", argv, ":t:p:m:l:nrcsfh");
         getOpt.setOpterr(false);
         int c;
         // verifica as opções
@@ -257,6 +296,27 @@ public class ProofTest {
             case 'p':
                 this.numProposicoes  = Integer.parseInt(getOpt.getOptarg());
                 break;
+            case 'm':
+                this.maxTests  = Long.parseLong(getOpt.getOptarg());
+                break;
+            case 'l':
+                this.timeOut  = Long.parseLong(getOpt.getOptarg());
+                break;
+            case 'n':
+                checkContradicition = false;
+                break;
+            case 'f':
+                showAcertos = false;
+                break;
+            case 's':
+                showLineNumber = false;
+                break;
+            case 'c':
+                formulaGeneratorFactory = new CombinatoryFormulaGeneratorFactory();
+                break;
+            case 'r':
+                formulaGeneratorFactory = new RandomFormulaGeneratorFactory();
+                break;
             case 'h':
                 System.out.println("ProofTest");
                 System.out.println("");
@@ -265,6 +325,8 @@ public class ProofTest {
                 System.out.println("Opções da linha de comando:");
                 System.out.println("  -t  = número de termos da fórmula");
                 System.out.println("  -p  = número de variáveis (proposições)");
+                System.out.println("  -c  = teste combinatório (exponencial)");
+                System.out.println("  -r  = teste aleatório");
                 System.out.println("  -n  = não faz verificação de contradição");
                 System.out.println("  -h  = Help");
                 System.exit(0);
@@ -286,6 +348,9 @@ public class ProofTest {
         int defaultOpt = getOpt.getOptind();
         if (defaultOpt < argv.length)
             redirectToFile(argv[defaultOpt]); 
+        
+        if (formulaGeneratorFactory == null)
+            formulaGeneratorFactory = new RandomFormulaGeneratorFactory();
     }
     
     public static void main(String argv[]) {
@@ -295,8 +360,9 @@ public class ProofTest {
         test.execute();
         test.close();
         time = (System.nanoTime() - time);
-        System.err.println("Tempo de teste          = " + time + " ns");
-        System.err.println("Tempo médio por fórmula = " + (time/test.getCount()) + " ns");
+        System.err.println("  Tempo de teste          = " + time + "ns");
+        if (test.getCount() != 0) 
+            System.err.println("  Tempo médio por fórmula = " + (time/test.getCount()) + "ns");
     }
     
 }

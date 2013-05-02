@@ -41,7 +41,12 @@ public abstract class LogicalReasoning {
             return symbolTable;
         }
         
-        public String getResultName() {
+        static public String getResultName(int t) {
+            TruthType tt = TruthType.values()[t];
+            return LogicalReasoning.getResultName(tt);
+        }
+        
+        static public String getResultName(TruthType result) {
             switch(result) {
             case UNKNOWN:
                 return "UNKNOWN";
@@ -57,6 +62,10 @@ public abstract class LogicalReasoning {
                 return "NOT_CONTRADICTION";
             }
             return "";
+        }
+        
+        public String getResultName() {
+            return LogicalReasoning.getResultName(result);
         }
         
         public boolean compareResult(TruthType with) {

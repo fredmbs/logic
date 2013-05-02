@@ -3,9 +3,9 @@
  */
 package tableau.ke;
 
-import proof.patterns.NodeSelector;
-import proof.patterns.NodeSelectorFactory;
 import tableau.BranchEngine;
+import tableau.patterns.NodeSelector;
+import tableau.patterns.NodeSelectorFactory;
 
 /**
  * @author dev

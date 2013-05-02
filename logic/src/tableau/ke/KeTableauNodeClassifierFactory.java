@@ -1,7 +1,7 @@
 package tableau.ke;
 
-import proof.patterns.NodeClassifier;
-import proof.patterns.NodeClassifierFactory;
+import tableau.patterns.NodeClassifier;
+import tableau.patterns.NodeClassifierFactory;
 
 public class KeTableauNodeClassifierFactory implements NodeClassifierFactory {
 

@@ -21,6 +21,7 @@ public class KeTableauInference implements Inference, FormulaVisitor {
         this.engine = engine;
         this.treeEngine = engine.getTreeEngine();
         engine.setClosureOnNonAtomicNodes(true);
+        engine.setSelectAllNodes(true);
     }
     
     @Override

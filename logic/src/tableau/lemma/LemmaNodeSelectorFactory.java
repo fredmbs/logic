@@ -3,9 +3,9 @@
  */
 package tableau.lemma;
 
-import proof.patterns.NodeSelector;
-import proof.patterns.NodeSelectorFactory;
 import tableau.BranchEngine;
+import tableau.patterns.NodeSelector;
+import tableau.patterns.NodeSelectorFactory;
 
 
 /**
@@ -28,8 +28,9 @@ implements NodeSelectorFactory<BranchEngine>
 
     @Override
     public NodeSelector newNodeSelector(BranchEngine engine, NodeSelector from){
-        if (from instanceof LemmaNodeSelector)
+        if (from instanceof LemmaNodeSelector) {
             return new LemmaNodeSelector(engine, (LemmaNodeSelector)from);
+        }
         return null;
     }
 

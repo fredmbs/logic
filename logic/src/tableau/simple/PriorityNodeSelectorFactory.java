@@ -1,11 +1,11 @@
 /**
  * 
  */
-package tableau.patterns;
+package tableau.simple;
 
-import proof.patterns.NodeSelector;
-import proof.patterns.NodeSelectorFactory;
 import tableau.BranchEngine;
+import tableau.patterns.NodeSelector;
+import tableau.patterns.NodeSelectorFactory;
 
 
 /**

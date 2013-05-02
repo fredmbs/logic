@@ -1,1 +1,1 @@
-((((AvA)vA)vA)<->((AvA)->(~(A)v~(A)))) |-
+(~(U)->((BP^CD)->(((CI^~(FH))vEE)->(EE->(((BM^BK)vFM)->(AP->((EWvCL)->(APvFN))))))))
