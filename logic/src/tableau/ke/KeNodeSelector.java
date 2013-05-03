@@ -6,7 +6,7 @@ package tableau.ke;
 import java.util.ArrayList;
 import tableau.BranchEngine;
 import tableau.Node;
-import tableau.simple.PriorityNodeSelector;
+import tableau.patterns.PriorityNodeSelector;
 
 /**
  * @author dev
@@ -15,30 +15,28 @@ import tableau.simple.PriorityNodeSelector;
 public class KeNodeSelector extends PriorityNodeSelector {
     
     private ArrayList<Node> openBetas;
-    private BranchEngine engine;
+    KePbSelector selector;
     
     public KeNodeSelector(BranchEngine engine) {
         super(engine);
-        this.engine = engine;
-        this.openBetas = new ArrayList<Node>(); 
+        this.openBetas = new ArrayList<Node>();
+        selector = new KePbSelector(engine);
     }
     
     public KeNodeSelector(BranchEngine engine, KeNodeSelector from) {
         super(engine, (PriorityNodeSelector)from);
-        this.engine = engine;
         this.openBetas = new ArrayList<Node>(from.openBetas); 
+        selector = new KePbSelector(engine);
     }
     
     public void regressOpenBetas() {
         // retorna os nós beta abertos
         int numOpenBetas = openBetas.size();
-        //System.err.println("Regressando nós betas abertos:" + numOpenBetas);
         if (numOpenBetas > 0) {
             Node returned;
             for (int i = 0; i < numOpenBetas; i++) {
                 returned = openBetas.get(i);
                 if (returned != null) {
-                    //System.err.println("Regressando nó betas abertos:" + returned);
                     super.add(returned);
                 }
             }
@@ -48,38 +46,25 @@ public class KeNodeSelector extends PriorityNodeSelector {
     
     @Override
     public void add(Node node) {
-        //System.err.println("Adicionando nó:" + node);
         regressOpenBetas();
-        // adiciona o nó na fila de prioridade
         super.add(node);
     }
     
     @Override
     public Node select() {
-        //System.err.println("--- Selecionando nó");
         Node node = super.select();
         if (node == null) {
             if (!openBetas.isEmpty()) {
-                //System.err.println("Tentando um PB entre os BETA aberto");
-                KePbSelector selector = new KePbSelector(openBetas, engine);
-                if (selector.select()) {
-                    node = selector.getSelectedPB();
-                    //System.err.println("Encontrou PB:" + node);
-                    if (node != null) 
+                node = selector.select(openBetas);
+                if (node != null) 
                         regressOpenBetas();
-                }
             } 
-            else { 
-                //System.err.println("Não existem nós BETA abertos...");
-            }
         }
-        //System.err.println("--- Nó selecionado = "  + node);
         return node;
     }
     
     @Override
     public void regress(Node node) {
-        //System.err.println("--- Regressando o nó " + node);
         Node.Type type = node.getType();
         if (type == Node.Type.BETA) {
             openBetas.add(node);

@@ -6,70 +6,44 @@ package tableau.lemma;
 import java.util.PriorityQueue;
 import tableau.BranchEngine;
 import tableau.Node;
-import tableau.patterns.NodeSelector;
+import tableau.patterns.PriorityNodeSelector;
 
 /**
  * @author dev
  *
  */
-public class LemmaNodeSelector implements NodeSelector {
+public class LemmaNodeSelector extends PriorityNodeSelector {
 
-    private PriorityQueue<Node> unexpandedNodes;
-    private BranchEngine engine;
-    
     public LemmaNodeSelector(BranchEngine engine) {
-        this.engine = engine;
-        this.unexpandedNodes = new PriorityQueue<Node>();
+        super(engine);
     }
 
     public LemmaNodeSelector(BranchEngine engine, LemmaNodeSelector from) {
-        this.engine = engine;
-        this.unexpandedNodes = new PriorityQueue<Node>(from.unexpandedNodes);
+        super(engine, from);
     }
 
-    @Override
-    public void add(Node node) {
-        if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal())
-            unexpandedNodes.add(node);
-    }
-
-/*    @Override
-    public Node select() {
-        return unexpandedNodes.poll();
-    }
-*/
     @Override
     public Node select() {
         Node node;
-        Node fulfill;
+        Node[] fulfill;
         int blocks;
         // Otimização de regularidade: não expande nós realizado (fulfilled)
+        // contudo os nós lema não devem impedir a expanção
         do {
             node = unexpandedNodes.poll();
-            blocks = 2;
             if (node == null)
                 return null;
-            fulfill = engine.getBranch().searchFulfilledRight(node);
-            if (fulfill == null) {
-                blocks--;
-            } else {
-                if (fulfill.getExplanation().toString().equals("{lemma}"))
+            fulfill = engine.getBranch().fulfilledBy(node);
+            blocks = 2;
+            for (int i = 0; i < 2; i++) 
+                if (fulfill[i] == null) {
                     blocks--;
-            }
-            fulfill = engine.getBranch().searchFulfilledLeft(node);
-            if (fulfill == null) {
-                blocks--;
-            } else {
-                if (fulfill.getExplanation().toString().equals("{lemma}"))
-                    blocks--;
-            }
+                } else {
+                    if (fulfill[i].getExplanation().toString().equals("{lemma}"))
+                        blocks--;
+                }
         } while (blocks > 0);
         return node;
-    }
-
-    @Override
-    public void regress(Node node) {
-        this.add(node);
     }
 
 }

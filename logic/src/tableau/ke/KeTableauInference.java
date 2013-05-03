@@ -37,7 +37,6 @@ public class KeTableauInference implements Inference, FormulaVisitor {
         // senão, tenta uma eliminação
         this.expanded = false;
         this.node = n;
-        //System.err.println("### Inferindo nó " + n);
         //
         this.node.getFormula().accept(this);
         //
@@ -53,7 +52,6 @@ public class KeTableauInference implements Inference, FormulaVisitor {
     
     private boolean betaCut(Formula formula, boolean signT, 
             Formula newFormula,  boolean newSignT, String explain) {
-        //System.err.println("???? Tentando Bcut na fórmula (" + signT + ")" + formula);
         Node nodeCut = searchFormula(formula, signT);
         if (nodeCut != null) {
             //System.err.println("!!!! Encontrado nó " + nodeCut);
@@ -61,7 +59,6 @@ public class KeTableauInference implements Inference, FormulaVisitor {
             .setExplanation(new ExplanationDual(node, nodeCut, explain));
             return true;
         }
-        //System.err.println(".... Não encontrado nó");
         return false;
     }
     

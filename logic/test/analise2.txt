@@ -916,3 +916,95 @@ Amostra do relógio do sistema:
   Unidade de tempo máxima = 768ns
   Unidade de tempo mínima = 384ns
   Tempo de teste          = 60033320084ns
+
+######################################
+Configurações:
+Gerador de fórmulas   = Random
+Número de termos      = 20
+Número de proposições = 20
+Número de fórmulas    = 9223372036854775807
+Número de testes      = 0
+Timeout               = 6000000ms
+Saída de dados        = test\proofTesteR-20.txt
+--------------------------------------
+Fórmulas:
+  Acertos = 1337237
+  Erros   = 0
+  Falhas  = 0
+  Total   = 1337237
+--------------------------------------
+Estatísticas básicas por solução:
+UNKNOWN:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+TAUTOLOGY:
+  Ocorrências  = 492440
+  Total de nós   = 34532997
+  Total de ramos = 2106791
+  Total de tempo = 1529037031948ns
+  Média de nós   = 70
+  Média de ramos = 4
+  Médio de tempo = 3105021ns
+NOT_TAUTOLOGY:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+SATISFIABLE:
+  Ocorrências  = 844790
+  Total de nós   = 263924652
+  Total de ramos = 50787367
+  Total de tempo = 4236632985828ns
+  Média de nós   = 312
+  Média de ramos = 60
+  Médio de tempo = 5015013ns
+CONTRADICTION:
+  Ocorrências  = 7
+  Total de nós   = 3644
+  Total de ramos = 971
+  Total de tempo = 18406266ns
+  Média de nós   = 520
+  Média de ramos = 138
+  Médio de tempo = 2629466ns
+NOT_CONTRADICTION:
+  Ocorrências  = 0
+  Total de nós   = 0
+  Total de ramos = 0
+  Total de tempo = 0ns
+Estatísticas básicas por métodos:
+Tabela verdade:
+  Tempo gasto    = 4977914440456ns
+  Total de nós   = 0
+  Total de ramos = 0
+  Média de nós   = 0
+  Média de ramos = 0
+  Tempo médio    = 3722537ns
+Tableau Smullyan:
+  Tempo gasto    = 107127986490ns
+  Total de nós   = 91729454
+  Total de ramos = 19428420
+  Média de nós   = 68
+  Média de ramos = 14
+  Tempo médio    = 80111ns
+Tableau com Lema:
+  Tempo gasto    = 113506610163ns
+  Total de nós   = 100621584
+  Total de ramos = 17113914
+  Média de nós   = 75
+  Média de ramos = 12
+  Tempo médio    = 84881ns
+TableauKE:
+  Tempo gasto    = 567139386933ns
+  Total de nós   = 106110255
+  Total de ramos = 16352795
+  Média de nós   = 79
+  Média de ramos = 12
+  Tempo médio    = 424112ns
+--------------------------------------
+Amostra do relógio do sistema:
+  Unidade de tempo média  = 384ns
+  Unidade de tempo máxima = 768ns
+  Unidade de tempo mínima = 384ns
+  Tempo de teste          = 6000144447782ns

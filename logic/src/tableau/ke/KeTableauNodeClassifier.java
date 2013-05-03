@@ -82,7 +82,6 @@ implements NodeClassifier,FormulaVisitor
 
     @Override
     public void visit(Predicate p) {
-        // TODO Auto-generated method stub
         node.setType(Node.Type.ATOMIC);
     }
 

@@ -1,11 +1,9 @@
 /**
  * 
  */
-package tableau.simple;
+package tableau.patterns;
 
 import tableau.BranchEngine;
-import tableau.patterns.NodeSelector;
-import tableau.patterns.NodeSelectorFactory;
 
 
 /**

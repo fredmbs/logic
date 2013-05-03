@@ -1,12 +1,11 @@
 /**
  * 
  */
-package tableau.simple;
+package tableau.patterns;
 
 import java.util.PriorityQueue;
 import tableau.BranchEngine;
 import tableau.Node;
-import tableau.patterns.NodeSelector;
 
 /**
  * @author dev
@@ -14,8 +13,8 @@ import tableau.patterns.NodeSelector;
  */
 public class PriorityNodeSelector implements NodeSelector {
 
-    private PriorityQueue<Node> unexpandedNodes;
-    private BranchEngine engine;
+    protected PriorityQueue<Node> unexpandedNodes;
+    protected BranchEngine engine;
     
     public PriorityNodeSelector(BranchEngine engine) {
         this.engine = engine;
@@ -33,11 +32,6 @@ public class PriorityNodeSelector implements NodeSelector {
             unexpandedNodes.add(node);
     }
 
-/*    @Override
-    public Node select() {
-        return unexpandedNodes.poll();
-    }
-*/
     @Override
     public Node select() {
         Node node;

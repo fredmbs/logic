@@ -85,84 +85,78 @@ public class Branch {
             return false;
         }
         Connective conective = (Connective)node.getFormula();
-        Node nodeSearchBl = Node.removeNot(conective.getLeft());
-        Node nodeSearchBr = Node.removeNot(conective.getRight());
-        Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
-        Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
-        boolean fulfilled = false, signT = node.isSignT(); 
+        boolean signT = node.isSignT(); 
         if (signT && conective instanceof Or) { 
+            Node nodeSearchBl = Node.removeNot(conective.getLeft());
+            Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
             if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
-                fulfilled = true;
+                return true;
             }
+            Node nodeSearchBr = Node.removeNot(conective.getRight());
+            Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
             if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                fulfilled = true;
+                return true;
             }
         } else if (!signT && conective instanceof And) {
+            Node nodeSearchBl = Node.removeNot(conective.getLeft());
+            Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
             if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                fulfilled = true;
+                return true;
             }
+            Node nodeSearchBr = Node.removeNot(conective.getRight());
+            Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
             if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
-                fulfilled = true;
+                return true;
             }
         } else if (signT && conective instanceof Implies) {
+            Node nodeSearchBl = Node.removeNot(conective.getLeft());
+            Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
             if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                fulfilled = true;
+                return true;
             }
+            Node nodeSearchBr = Node.removeNot(conective.getRight());
+            Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
             if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                fulfilled = true;
+                return true;
             }
         } 
-        return fulfilled;
+        return false;
     }
 
-    public Node searchFulfilledLeft(Node node) {
+    public Node[] fulfilledBy(Node node) {
+        Node[] nodes = new Node[2];
         if (!(node.getFormula() instanceof Connective)) {
-            return null;
+            return nodes;
         }
         Connective conective = (Connective)node.getFormula();
         Node nodeSearchBl = Node.removeNot(conective.getLeft());
         Node nodeBl = Tree.searchFormula(this.leaf, nodeSearchBl.getFormula());
-        Node fulfilled = null;
+        Node nodeSearchBr = Node.removeNot(conective.getRight());
+        Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
         boolean signT = node.isSignT(); 
         if (signT && conective instanceof Or) { 
             if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
-                fulfilled = nodeBl;
+                nodes[0] = nodeBl;
             }
-        } else if (!signT && conective instanceof And) {
-            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                fulfilled = nodeBl;
-            }
-        } else if (signT && conective instanceof Implies) {
-            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                fulfilled = nodeBl;
-            }
-        } 
-        return fulfilled;
-    }
-
-    public Node searchFulfilledRight(Node node) {
-        if (!(node.getFormula() instanceof Connective)) {
-            return null;
-        }
-        Connective conective = (Connective)node.getFormula();
-        Node nodeSearchBr = Node.removeNot(conective.getRight());
-        Node nodeBr = Tree.searchFormula(this.leaf, nodeSearchBr.getFormula());
-        Node fulfilled = null;
-        boolean signT = node.isSignT(); 
-        if (signT && conective instanceof Or) { 
             if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                fulfilled = nodeBr;
+                nodes[1] = nodeBr;
             }
         } else if (!signT && conective instanceof And) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                nodes[0] = nodeBl;
+            }
             if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
-                fulfilled = nodeBr;
+                nodes[1] = nodeBr;
             }
         } else if (signT && conective instanceof Implies) {
+            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
+                nodes[0] = nodeBl;
+            }
             if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                fulfilled = nodeBr;
+                nodes[1] = nodeBr;
             }
         } 
-        return fulfilled;
+        return nodes;
     }
 
 }

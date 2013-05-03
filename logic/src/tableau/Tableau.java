@@ -11,7 +11,7 @@ import proof.patterns.InferenceFactory;
 import proof.utils.DotTreeGenerator;
 import tableau.patterns.NodeClassifierFactory;
 import tableau.patterns.NodeSelectorFactory;
-import tableau.simple.PriorityNodeSelectorFactory;
+import tableau.patterns.PriorityNodeSelectorFactory;
 import tableau.simple.SimpleTableauInferenceFactory;
 import tableau.simple.TableauNodeClassifierFactory;
 
@@ -129,10 +129,6 @@ extends LogicalReasoning
                             this.nodeSelectorFactory);
                     t.setCheckContradiction(false);
                     time += t.solve();
-                    //System.out.println("###################################");
-                    //t.print();
-                    //System.out.println("Solução da verificação = " + t.getResultName());
-                    //System.out.println("###################################");
                     if (t.isTautology()) 
                         setResult(TruthType.CONTRADICTION);
                     else

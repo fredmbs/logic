@@ -28,39 +28,36 @@ public class BranchEngine {
     
     public BranchEngine(TreeEngine engine) {
         this.treeEngine = engine;
-        this.treeEngine.getTree();
+        this.branch = new Branch(this.treeEngine.getTree().getHead());
         Tableau tableau = this.treeEngine.getTableau();
         nodeClassifier = tableau.getNodeClassifierFactory().newNodeClassifier();
         nodeSelector = tableau.getNodeSelectorFactory().newNodeSelector(this);
         rules = tableau.getInferenceFactory().newInference(this);
-        this.branch = new Branch(this.treeEngine.getTree().getHead());
     }
 
     public BranchEngine(BranchEngine from, 
             Formula formula, boolean signT, Explanation explanation) {
         this.treeEngine = from.treeEngine;
-        this.treeEngine.getTree();
+        Node leaf = new Node(formula, signT);
+        leaf.setExplanation(explanation);
+        this.branch = new Branch(from.branch.getLeaf(), leaf);
         Tableau tableau = this.treeEngine.getTableau();
         nodeClassifier = tableau.getNodeClassifierFactory().newNodeClassifier();
+        nodeClassifier.classify(leaf);
         nodeSelector = tableau.getNodeSelectorFactory()
                 .newNodeSelector(this, from.nodeSelector);
         rules = tableau.getInferenceFactory().newInference(this, from);
-        Node leaf = new Node(formula, signT);
-        leaf.setExplanation(explanation);
-        nodeClassifier.classify(leaf);
-        this.branch = new Branch(from.branch.getLeaf(), leaf);
         this.newNode(leaf);
     }
     
     public BranchEngine(BranchEngine from, Node leaf) {
         this.treeEngine = from.treeEngine;
-        this.treeEngine.getTree();
+        this.branch = new Branch(from.branch.getLeaf(), leaf);
         Tableau tableau = this.treeEngine.getTableau();
         nodeClassifier = tableau.getNodeClassifierFactory().newNodeClassifier();
         nodeSelector = tableau.getNodeSelectorFactory()
                 .newNodeSelector(this, from.nodeSelector);
         rules = tableau.getInferenceFactory().newInference(this, from);
-        this.branch = new Branch(from.branch.getLeaf(), leaf);
         this.newNode(leaf);
     }
 
@@ -146,26 +143,16 @@ public class BranchEngine {
         if (selectAllNodes || node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) { 
             nodeSelector.add(node);
         };
-        if (node.getType() == Node.Type.ATOMIC || closureOnAllNodes) 
-            verifyClosure(node);
-    }
-    
-    //protected void fullVerification(Node node) {
-    //    if (node.getType().ordinal() > Node.Type.ATOMIC.ordinal()) {
-    //        nodeSelector.add(node);
-    //    };
-    //    verifyClosure(node);
-    //}
-
-    private void verifyClosure(Node node) {
-        Node searchNode = Tree.searchFormula(node);
-        if (searchNode != null) {
-            if (node.isSignT() != searchNode.isSignT()) {
-                this.branch.close()
-                    .setExplanation(new ExplanationDual(node, searchNode, "closure"));
+        // verifica fechamento (contramodelo)
+        if (closureOnAllNodes || node.getType() == Node.Type.ATOMIC) { 
+            Node searchNode = Tree.searchFormula(node);
+            if (searchNode != null) {
+                if (node.isSignT() != searchNode.isSignT()) {
+                    this.branch.close()
+                        .setExplanation(new ExplanationDual(node, searchNode, "closure"));
+                }
             }
         }
     }
     
-
 }

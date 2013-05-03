@@ -5,90 +5,44 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import proof.explanation.ExplanationSingle;
+import tableau.Branch;
 import tableau.BranchEngine;
 import tableau.Node;
-import tableau.Tree;
-import ast.And;
 import ast.Connective;
 import ast.Formula;
-import ast.Implies;
-import ast.Or;
 
 public class KePbSelector {
     
-    ArrayList<Node> openBetas;
+    Branch branch;
     HashSet<Formula> disconsider;
-    Tree tree;
-    Node leaf;
     HashMap<Formula, Integer> countMap;
-    int maxCount = 0;
-    Formula selectedFormula = null;
-    int selectedOpenBetaIndex = -1;
-    Node selectedPB = null;
-    int minFormulaSize = Integer.MAX_VALUE;
-    //int maxFormulaSize = Integer.MIN_VALUE;
+    int maxCount;
+    Formula selectedFormula;
+    int selectedOpenBetaIndex;
+    int minFormulaSize;
     
-    KePbSelector(ArrayList<Node> openBetas, BranchEngine engine) {
+    KePbSelector(BranchEngine engine) {
+        this.branch = engine.getBranch();
         this.disconsider = new HashSet<Formula>();
-        this.openBetas = openBetas; 
-        this.tree = engine.getTreeEngine().getTree();
-        this.leaf = engine.getBranch().getLeaf();
-        //System.err.println("###### ENGINE =" + engine);
-        //System.err.println("###### LEAF =" + this.leaf);
         this.countMap = new HashMap<Formula, Integer>();
-    }
-    
-    public Node getSelectedPB() {
-        return this.selectedPB;
     }
     
     private boolean isFulfilled(Node openBeta) {
         Connective formula = (Connective)openBeta.getFormula();
-        //System.err.println("... Considerando fórmula " + formula + " " + formula.hashCode());
+        // Verifica se deve desconsiderar fórmulas já consideradas
         if (disconsider.contains(formula.getLeft()) || 
                 disconsider.contains(formula.getRight())) { 
-            //System.err.println("... Fórmula desconsiderada " + formula + " " + formula.hashCode());
+            // Fórmula desconsiderada 
             return true;
         }
-        Node nodeSearchBl = Node.removeNot(formula.getLeft());
-        Node nodeSearchBr = Node.removeNot(formula.getRight());
-        Node nodeBl = Tree.searchFormula(leaf, nodeSearchBl.getFormula());
-        Node nodeBr = Tree.searchFormula(leaf, nodeSearchBr.getFormula());
-        //Node nodeB1 = tree.searchEqual(leaf, (formula.getLeft()));
-        //Node nodeB2 = tree.searchEqual(leaf, (formula.getRight()));
+        // Verifica se a fórmula é fulfilled
         boolean fulfilled = false;
-        if (openBeta.isSignT() && formula instanceof Or) { 
-            if ((nodeBl != null) && (nodeBl.isSignT() == nodeSearchBl.isSignT())) {
-                disconsider.add(formula.getLeft());
+        Node[] fulfill = this.branch.fulfilledBy(openBeta);
+        for (int i = 0; i < 2; i++) 
+            if (fulfill[i] != null) {
+                disconsider.add(fulfill[i].getFormula());
                 fulfilled = true;
             }
-            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                disconsider.add(formula.getRight());
-                fulfilled = true;
-            }
-        } else if (!openBeta.isSignT() && formula instanceof And) {
-            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                disconsider.add(formula.getLeft());
-                fulfilled = true;
-            }
-            if ((nodeBr != null) && (nodeBr.isSignT() != nodeSearchBr.isSignT())) {
-                disconsider.add(formula.getRight());
-                fulfilled = true;
-            }
-        } else if (openBeta.isSignT() && formula instanceof Implies) {
-            if ((nodeBl != null) && (nodeBl.isSignT() != nodeSearchBl.isSignT())) {
-                disconsider.add(formula.getLeft());
-                fulfilled = true;
-            }
-            if ((nodeBr != null) && (nodeBr.isSignT() == nodeSearchBr.isSignT())) {
-                disconsider.add(formula.getRight());
-                fulfilled = true;
-            }
-        } else {
-            System.err.println("Falha grave: Node não é do tipo tipo beta = " + openBeta);
-            new Exception().getStackTrace();
-            System.exit(1);
-        }
         return fulfilled;
     }
     
@@ -101,18 +55,14 @@ public class KePbSelector {
         }
         countMap.put(formula, count);
         int fSize = formula.getSize();//.toString().length();
+        // Verifica se é a fórmula mínima que ocorre mais vezes até o momento
         if (fSize < minFormulaSize) {
-            //if (fSize > maxFormulaSize) {
-            //System.err.println("... Fórmula mínima " + formula + " ocorre mais vezes até o momento"  + " " + formula.hashCode());
             minFormulaSize = fSize;
-            //maxFormulaSize = fSize;
             maxCount = count;
             selectedFormula = formula;
             selectedOpenBetaIndex = index;
         } else if (fSize == minFormulaSize ){
-            //} else if (fSize == maxFormulaSize ){
             if (count > maxCount) {
-                //System.err.println("... Fórmula mínima" + formula + " ocorre mais vezes até o momento"  + " " + formula.hashCode());
                 maxCount = count;
                 selectedFormula = formula;
                 selectedOpenBetaIndex = index;
@@ -120,9 +70,15 @@ public class KePbSelector {
         }
     }
     
-    boolean select() {
-        //if (leaf.getType() == Node.Type.PB) // && openBetas.isEmpty()) 
-        //    return false;
+    Node select(ArrayList<Node> openBetas) {
+        // inicialização
+        this.disconsider.clear();
+        this.countMap.clear();
+        selectedFormula = null;
+        maxCount = 0;
+        selectedOpenBetaIndex = -1;
+        minFormulaSize = Integer.MAX_VALUE;
+        // seleção
         int numOpenBetas = openBetas.size();
         Node openBeta;
         Connective connective;
@@ -137,12 +93,13 @@ public class KePbSelector {
             }
         }
         if (selectedFormula != null) {
+            Node selectedPB;
             selectedPB = new Node(selectedFormula);
             selectedPB.setType(Node.Type.UNCLASSIFIED);
             selectedPB.setExplanation(new ExplanationSingle(
                     openBetas.get(selectedOpenBetaIndex), "PB"));
-            return true;
+            return selectedPB;
         }
-        return false;
+        return null;
     }
 }
