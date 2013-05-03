@@ -3,7 +3,6 @@
  */
 package tableau.lemma;
 
-import java.util.PriorityQueue;
 import tableau.BranchEngine;
 import tableau.Node;
 import tableau.patterns.PriorityNodeSelector;
