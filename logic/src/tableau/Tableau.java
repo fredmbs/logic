@@ -121,8 +121,6 @@ extends LogicalReasoning
         else {
             setResult(TruthType.NOT_TAUTOLOGY);
             if (checkContradiction) {// && 
-                    //engine.getOpenBranchesCount() == engine.getBranchesCount()) {
-                
                 Tableau t; 
                 try {
                     t = new Tableau(this.getLogicalSystem().cloneInverted(), 
