@@ -28,7 +28,7 @@ import truthTable.TruthTable;
 import ast.LogicalSystem;
 
 public class ProofTest {
-    
+
     // compilador
     private FormulaCompiler compiler = new FormulaCompiler();
     private LogicalSystem logicalSystem = null;
@@ -48,9 +48,12 @@ public class ProofTest {
     private long countTimes[];
     private long countNodes[];
     private long countBrances[];
-    private long countTimesBySolver[] = new long[4];
-    private long countNodesBySolver[] = new long[4];
-    private long countBrancesBySolver[] = new long[4];
+    private long countTimesBySolver[];
+    private long countNodesBySolver[];
+    private long countBrancesBySolver[];
+    private long countTimesBySolverAndResult[][];
+    private long countNodesBySolverAndResult[][];
+    private long countBrancesBySolverAndResult[][];
     private boolean dispersion = false;
     
     public ProofTest() {
@@ -62,6 +65,12 @@ public class ProofTest {
         countTimes = new long[n];
         countNodes = new long[n];
         countBrances = new long[n];
+        countTimesBySolver = new long[4];
+        countNodesBySolver = new long[4];
+        countBrancesBySolver = new long[4];
+        countTimesBySolverAndResult = new long[4][n];
+        countNodesBySolverAndResult = new long[4][n];
+        countBrancesBySolverAndResult = new long[4][n];
     }
 
     public long getCount() {
@@ -116,6 +125,9 @@ public class ProofTest {
         countNodesBySolver[solver] += t.getNodesCount();
         countBrancesBySolver[solver] += t.getBranchesCount();
         countTimesBySolver[solver] += spentTime;
+        countNodesBySolverAndResult[solver][n] += t.getNodesCount();
+        countBrancesBySolverAndResult[solver][n] += t.getBranchesCount();
+        countTimesBySolverAndResult[solver][n] += spentTime;
         if (t.compareResult(baseResult)) {
             line.append(";PASS");
             return true;
@@ -273,6 +285,15 @@ public class ProofTest {
                 System.err.println("  Média de nós   = " + countNodesBySolver[i]/total);
                 System.err.println("  Média de ramos = " + countBrancesBySolver[i]/total);
                 System.err.println("  Tempo médio    = " + (countTimesBySolver[i])/total + "ns");
+            }
+            System.err.println("  Por solução:");
+            for (int j = 0; j < TruthType.values().length; j++) {
+                System.err.println("    " + LogicalReasoning.getResultName(j) + ":");
+                if (countResults[j] != 0) {
+                    System.err.println("      Média de nós   = " + countNodesBySolverAndResult[i][j]/countResults[j]);
+                    System.err.println("      Média de ramos = " + countBrancesBySolverAndResult[i][j]/countResults[j]);
+                    System.err.println("      Médio de tempo = " + (countTimesBySolverAndResult[i][j])/countResults[j] + "ns");
+                }
             }
         }
         System.err.println("--------------------------------------");

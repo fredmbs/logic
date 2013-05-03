@@ -9,11 +9,6 @@ public class RandomFormulaGenerator extends FormulaGenerator {
     }
 
     @Override
-    public long getFormulas() {
-        return Long.MAX_VALUE;
-    }
-
-    @Override
     public StringBuffer nextFormula() {
         StringBuffer f = new StringBuffer();
         for (int n = 0; n < lastTermIndex; n++) {
@@ -32,6 +27,11 @@ public class RandomFormulaGenerator extends FormulaGenerator {
         return "Random";
     }
 
-    
+    @Override
+    public long getFormulas() {
+        return  (long)
+                (Math.pow((this.getPredicates()*2),this.getTerms()) *
+                        Math.pow(4,(this.getTerms()-1)));
+    }
     
 }
