@@ -1,1 +1,1 @@
-AvAvAv!Av!A<->!A<->A
+(P|(Q&R))->((P|Q)&(P|R))
